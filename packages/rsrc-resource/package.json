@@ -2,7 +2,7 @@
   "name": "rsrc-resource",
   "author": "Signal Sciences",
   "description": "React resource library for declarative fetching",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "publishConfig": {
     "access": "public"
   },
@@ -65,8 +65,8 @@
   "dependencies": {
     "path-to-regexp": "^2.4.0",
     "query-string": "^6.1.0",
-    "rsrc-cache": "^0.0.0",
-    "rsrc-fetch": "^0.0.0",
+    "rsrc-cache": "^0.0.1",
+    "rsrc-fetch": "^0.0.1",
     "url-template": "^2.0.8"
   },
   "peerDependencies": {

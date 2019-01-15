@@ -2,7 +2,7 @@
   "name": "rsrc-cache",
   "author": "Signal Sciences",
   "description": "Cache provider for the react rsrc library",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "keywords": [
     "react",
     "resource",

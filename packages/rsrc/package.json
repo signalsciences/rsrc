@@ -2,7 +2,7 @@
   "name": "rsrc",
   "author": "Signal Sciences",
   "description": "React components for managing async fetch state",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "publishConfig": {
     "access": "public"
   },
@@ -56,9 +56,9 @@
     "preset": "jest-preset-signalsciences"
   },
   "dependencies": {
-    "rsrc-cache": "0.0.0",
-    "rsrc-fetch": "0.0.0",
-    "rsrc-resource": "0.0.0"
+    "rsrc-cache": "^0.0.1",
+    "rsrc-fetch": "^0.0.1",
+    "rsrc-resource": "^0.0.1"
   },
   "peerDependencies": {
     "react": ">=16.3"
