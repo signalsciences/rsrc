@@ -3,7 +3,7 @@
   "command": {
     "publish": {
       "conventionalCommits": true,
-      "message": "chore: release the cosmo"
+      "message": "chore: release"
     }
   },
   "npmClient": "yarn",
