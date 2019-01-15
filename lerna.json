@@ -1,0 +1,12 @@
+{
+  "lerna": "3.0.5",
+  "command": {
+    "publish": {
+      "conventionalCommits": true,
+      "message": "chore: release the cosmo"
+    }
+  },
+  "npmClient": "yarn",
+  "useWorkspaces": true,
+  "version": "independent"
+}
