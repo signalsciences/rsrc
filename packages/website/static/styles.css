@@ -1,0 +1,111 @@
+html {
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+  font-size: 100%;
+  color: #222;
+  -webkit-font-smoothing: antialiased;
+}
+body {
+  margin: 0;
+}
+a {
+  color: #222;
+}
+a:hover {
+  color: #999;
+}
+button {
+  border: 1px solid #ddd;
+  background: none;
+  margin: 0.5rem;
+  padding: .5rem 1.5rem;
+  font-size: 0.707rem;
+  text-transform: uppercase;
+  color: #777;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #eee;
+}
+p {
+  line-height: 1.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0;
+}
+ul,
+ol {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding: 0 20px;
+}
+ul li,
+ol li {
+  line-height: 1.5rem;
+}
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+blockquote {
+  border-left: 4px solid #ddd;
+  margin: 0;
+  padding: 1.5rem;
+  line-height: 1.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+blockquote p {
+  margin: 0;
+}
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 500;
+  margin-top: 1.5rem;
+  margin-bottom: 0;
+  line-height: 1.5rem;
+}
+h1 {
+  font-weight: 800;
+  font-size: 3.242rem;
+  line-height: 3.5rem;
+  margin-top: 2rem;
+}
+h2 {
+  font-size: 1.628rem;
+  line-height: 2rem;
+  margin-top: 2rem;
+}
+h3 {
+  font-size: 1.214rem;
+}
+h4 {
+  font-size: 0.707rem;
+}
+small {
+  color: #777;
+  font-size: 0.707rem;
+}
+pre,
+code,
+code[class*="language-"],
+pre[class*="language-"] {
+  font-family: Consolas, Menlo, Monaco, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", "Courier New", Courier, monospace;
+  font-size: .85rem;
+}
+pre,
+pre[class*="language-"] {
+  border: 1px solid #f3f3f3;
+  background-color: #fdfdfd;
+  line-height: 1.45;
+  padding: 1.25em;
+  overflow-x: scroll;
+  margin: 1rem 0;
+}
+pre code,
+pre[class*="language-"] code[class*="language-"] {
+  background-color: transparent;
+}

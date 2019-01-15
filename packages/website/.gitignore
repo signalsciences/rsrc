@@ -1,0 +1,16 @@
+# build output
+dist
+.next
+
+# dependencies
+node_modules
+test/node_modules
+
+# logs & pids
+*.log
+pids
+
+# coverage
+coverage
+
+.DS_Store

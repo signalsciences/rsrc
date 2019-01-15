@@ -1,0 +1,66 @@
+{
+  "name": "rsrc",
+  "author": "Signal Sciences",
+  "description": "React components for managing async fetch state",
+  "version": "0.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "react",
+    "resource",
+    "fetch",
+    "cache"
+  ],
+  "homepage": "https://github.com/signalsciences/rsrc",
+  "bugs": {
+    "url": "https://github.com/signalsciences/rsrc/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/signalsciences/rsrc.git"
+  },
+  "license": "MIT",
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md",
+    "src"
+  ],
+  "main": "dist/cjs.js",
+  "module": "dist/esm.js",
+  "scripts": {
+    "build": "yarn clean && rollup -c",
+    "clean": "rm -rf dist",
+    "dev": "yarn build --watch",
+    "lint": "eslint src",
+    "lint-staged": "lint-staged"
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "babel-preset-signalsciences"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "eslint-config-signalsciences"
+    ]
+  },
+  "jest": {
+    "preset": "jest-preset-signalsciences"
+  },
+  "dependencies": {
+    "rsrc-cache": "0.0.0",
+    "rsrc-fetch": "0.0.0",
+    "rsrc-resource": "0.0.0"
+  },
+  "peerDependencies": {
+    "react": ">=16.3"
+  }
+}

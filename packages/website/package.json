@@ -1,0 +1,25 @@
+{
+  "private": true,
+  "name": "website",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "yarn clean && next build",
+    "clean": "rm -rf .next out build",
+    "dev": "next",
+    "export": "yarn build && next export",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@mapbox/rehype-prism": "^0.3.0",
+    "isomorphic-unfetch": "^3.0.0",
+    "next": "^7.0.2",
+    "raw-loader": "^1.0.0",
+    "react": "^16.6.3",
+    "react-live": "^1.12.0",
+    "rsrc": "^0.0.0"
+  },
+  "devDependencies": {
+    "@mdx-js/mdx": "^0.16.6",
+    "@zeit/next-mdx": "^1.2.0"
+  }
+}
