@@ -3,10 +3,9 @@
   "name": "website",
   "version": "0.1.1",
   "scripts": {
-    "build": "yarn clean && next build",
     "clean": "rm -rf .next out build",
     "dev": "next",
-    "export": "yarn build && next export",
+    "export": "yarn clean && next build && next export",
     "start": "next start"
   },
   "dependencies": {
