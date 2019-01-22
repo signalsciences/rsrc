@@ -9,19 +9,20 @@ import { Cache, Resource } from 'rsrc'
 
 export default () => (
   <Cache cache={ new Map() }>
-    <h1>
-      Resource
-    </h1>
-    <small>
-      Modify the code below to try it out
-    </small>
-    <LiveProvider
-      noInline
-      mountStylesheet={ false }
-      scope={ {
-        Resource,
-      } }
-      code={ `const path = 'https://jsonplaceholder.typicode.com/todos/{id}'
+    <header>
+      <h2>
+        Resource
+      </h2>
+      <small>
+        Modify the code below to try it out
+      </small>
+    </header>
+    <div>
+      <LiveProvider
+        noInline
+        mountStylesheet={ false }
+        scope={ { Resource } }
+        code={ `const path = 'https://jsonplaceholder.typicode.com/todos/{id}'
 
 const Todos = ({ params, query, ...rest }) => (
   <Resource
@@ -30,12 +31,12 @@ const Todos = ({ params, query, ...rest }) => (
     query={ query }
     maxAge={ 60 }
     actions={ {
-      markCompleted: (id, completed) => ({
+      markCompleted: id => ({
         params: { id },
         invalidates: path,
         options: {
           method: 'PUT',
-          body: JSON.stringify({ completed })
+          body: JSON.stringify({ completed: true })
         }
       })
     } }
@@ -49,12 +50,11 @@ const TodoList = ({ resource }) => {
   let todos = state.value || []
 
   return (
-    <>
+    <div>
       {
-        todos.slice(0, 10).map(todo => {
+        todos.slice(0, 3).map(todo => {
           return (
             <p key={ todo.id }>
-              { \`#\${todo.id} - \${todo.title}\` }
               <button
                 onClick={
                   () => {
@@ -62,19 +62,17 @@ const TodoList = ({ resource }) => {
                       .then((fetchState) => {
                         alert(\`Todo #\${fetchState.value.id} - update succesful\`)
                       })
-                      .catch((error) => {
-                        alert('Oops, something went wrong')
-                      })
                   }
                 }
               >
-               Mark Complete
+               Done
               </button>
+              { \`#\${todo.id} - \${todo.title}\` }
             </p>
           )
         })
       }
-    </>
+    </div>
   )
 }
 
@@ -83,12 +81,13 @@ render(
     { resource => <TodoList resource={ resource } /> }
   </Todos>
 )` }
-    >
-      <LiveEditor />
-      <LiveError />
-      <section style={ { margin: '2rem 0', padding: '2rem', border: '1px solid #ddd' } }>
-        <LivePreview />
-      </section>
-    </LiveProvider>
+      >
+        <LiveEditor />
+        <LiveError />
+        <section style={ { margin: '2rem 0', padding: '0 1rem 1rem', border: '1px solid #ddd' } }>
+          <LivePreview />
+        </section>
+      </LiveProvider>
+    </div>
   </Cache>
 )
