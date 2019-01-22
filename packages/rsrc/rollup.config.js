@@ -1,10 +1,10 @@
-/* @flow */
 const config = require('rollup-config-signalsciences')
-const pkg = require('./package.json')
+const bundleSize = require('rollup-plugin-bundle-size')
 
-module.exports = {
+export default {
   ...config,
-  external: [
-    ...Object.keys(pkg.peerDependencies || {}),
-  ],
+  plugins: [
+    ...config.plugins,
+    bundleSize()
+  ]
 }

@@ -6,7 +6,7 @@ import {
   cleanup,
   wait,
 } from 'react-testing-library'
-import Fetch from '.'
+import { Fetch } from '.'
 
 afterEach(cleanup)
 

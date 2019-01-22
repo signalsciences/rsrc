@@ -4,14 +4,18 @@ import _checkStatus from './checkStatus'
 import _parseBody from './parseBody'
 import _parseError from './parseError'
 
-import type { FetchConfig, Fetcher } from './types'
+import type { FetcherConfig, Fetcher } from './types'
 
-export default function makeFetcher (config: ?FetchConfig = {}): Fetcher {
-  const mergedConfig = {
+export default function makeFetcher (config: FetcherConfig = {}): Fetcher {
+  const defaultConfig = {
     fetchFunction: fetch,
     checkStatus: _checkStatus,
     parseBody: _parseBody,
     parseError: _parseError,
+  }
+
+  const mergedConfig = {
+    ...defaultConfig,
     ...config,
   }
 

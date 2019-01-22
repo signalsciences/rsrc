@@ -5,7 +5,7 @@ import makeFetcher from './makeFetcher'
 import type {
   FetchProps,
   FetchState,
-  PromiseState,
+  FetcherState,
 } from './types'
 
 function requestToKey (request: Request) {
@@ -16,10 +16,10 @@ export default class Fetch extends React.Component<FetchProps, FetchState> {
   static displayName = 'Fetch'
 
   static defaultProps = {
-    options: {},
-    maxAge: 60 * 60,
+    maxAge: 60, // 1 minute
     autoFetch: true,
     cache: new Map<*, *>(),
+    fetcher: makeFetcher(),
   }
 
   state = {
@@ -37,10 +37,6 @@ export default class Fetch extends React.Component<FetchProps, FetchState> {
     refresh: this.refresh.bind(this),
     invalidate: this.invalidate.bind(this),
   }
-
-  /* eslint-disable react/destructuring-assignment */
-  fetcher = makeFetcher(this.props.config)
-  /* eslint-enable react/destructuring-assignment */
 
   promise = undefined
 
@@ -71,14 +67,14 @@ export default class Fetch extends React.Component<FetchProps, FetchState> {
     this.promise = undefined
   }
 
-  onResolved (fetchState: ?PromiseState, promise: ?Promise<PromiseState>, error: ?Error) {
+  onResolved (fetcherState: ?FetcherState, promise: ?Promise<FetcherState>, error: ?Error) {
     // Highlander rule applies: there can be only one promise that sets state
     // Only set state if still mounted and this.promise is known.
     // The reference is removed in componentWillUnmount so it won't attempt to setState.
     if (promise !== this.promise) return
 
     if (!error) {
-      this.setState(prevState => ({ ...prevState, ...fetchState }))
+      this.setState(prevState => ({ ...prevState, ...fetcherState }))
     } else {
       // Rethrow error to prevent swallowing
       throw error
@@ -90,14 +86,12 @@ export default class Fetch extends React.Component<FetchProps, FetchState> {
    *
    * @param {String} [url] - fetch url, falls back to props.url.
    * @param {Object} [options] - fetch options, falls back to props.options.
-   * @return {Promise<PromiseState>} fetch - the promise returned from fetch fn.
+   * @return {Promise<FetcherState>} fetch - the promise returned from fetch fn.
    * @api public
    */
-  fetch (init?: string | Request, opts?: RequestOptions): Promise<PromiseState> {
-    const { url, options } = this.props
-    const i = init || url
-    const o = opts || options
-    return this.fetcher(i, o)
+  fetch () {
+    const { fetcher, url, options } = this.props
+    return fetcher(url, options)
   }
 
   /**
@@ -176,8 +170,8 @@ export default class Fetch extends React.Component<FetchProps, FetchState> {
     }
 
     promise.then(
-      (fetchState) => {
-        this.onResolved(fetchState, promise, undefined)
+      (fetcherState) => {
+        this.onResolved(fetcherState, promise, undefined)
       },
       (error) => {
         this.onResolved(undefined, promise, error)

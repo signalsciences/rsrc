@@ -33,8 +33,11 @@
     "build": "yarn clean && rollup -c",
     "clean": "rm -rf dist",
     "dev": "yarn build --watch",
+    "flow": "flow",
     "lint": "eslint src",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "jest": "jest",
+    "test": "yarn flow && yarn lint && yarn jest"
   },
   "lint-staged": {
     "src/**/*.js": [
@@ -53,14 +56,30 @@
     ]
   },
   "jest": {
-    "preset": "jest-preset-signalsciences"
+    "preset": "jest-preset-signalsciences",
+    "setupFiles": [
+      "./setupJest.js"
+    ]
   },
   "dependencies": {
-    "rsrc-cache": "^0.0.1",
-    "rsrc-fetch": "^0.0.1",
-    "rsrc-resource": "^0.0.1"
+    "query-string": "^6.1.0",
+    "url-template": "^2.0.8"
   },
   "peerDependencies": {
-    "react": ">=16.3"
+    "react": "^16.3",
+    "react-dom": "^16.3"
+  },
+  "devDependencies": {
+    "babel-preset-signalsciences": "^0.0.1",
+    "eslint-config-signalsciences": "^0.0.1",
+    "flow-bin": "^0.88.0",
+    "flow-typed": "^2.5.1",
+    "jest-fetch-mock": "^2.1.0",
+    "jest-preset-signalsciences": "^0.0.2",
+    "react": "^16.3",
+    "react-dom": "^16.3",
+    "react-testing-library": "^5.4.4",
+    "rollup-config-signalsciences": "^0.0.1",
+    "rollup-plugin-bundle-size": "^1.0.3"
   }
 }

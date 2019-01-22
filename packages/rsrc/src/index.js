@@ -1,8 +1,10 @@
 /* @flow */
 
-import Cache from 'rsrc-cache'
-import Fetch from 'rsrc-fetch'
-import Resource from 'rsrc-resource'
+import Cache from './Cache'
+import Fetch from './Fetch'
+import Resource from './Resource'
+
+export * from './types'
 
 export {
   Cache,

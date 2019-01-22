@@ -6,8 +6,7 @@ import {
   wait,
 } from 'react-testing-library'
 
-import Cache from 'rsrc-cache'
-import Resource from '.'
+import { Cache, Resource } from '.'
 
 // afterEach(cleanup)
 

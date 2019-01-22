@@ -2,9 +2,10 @@
 
 import * as React from 'react'
 
-import Cache from 'rsrc-cache'
-import Fetch from 'rsrc-fetch'
+import Cache from './Cache'
+import Fetch from './Fetch'
 
+import makeFetcher from './makeFetcher'
 import isPlainObject from './isPlainObject'
 import buildUrl from './buildUrl'
 
@@ -20,8 +21,11 @@ class Resource extends React.Component<ResourceProps> {
     params: {},
     query: {},
     options: {},
-    maxAge: 60 * 60, // 1 hour
+    maxAge: 60, // 1 minute
     actions: {},
+
+    cache: new Map<*, *>(),
+    fetcher: makeFetcher(),
   }
 
   render () {
@@ -34,7 +38,7 @@ class Resource extends React.Component<ResourceProps> {
 
       options,
       maxAge,
-      config,
+      fetcher,
     } = this.props
 
     const url = buildUrl(path, params, query)
@@ -56,10 +60,11 @@ class Resource extends React.Component<ResourceProps> {
             return (
               <Fetch
                 maxAge={ maxAge }
-                cache={ cache }
                 url={ url }
                 options={ options }
-                fetch={ config }
+
+                fetcher={ fetcher }
+                cache={ cache }
               >
                 {
                   (fetchState) => {
@@ -107,8 +112,7 @@ class Resource extends React.Component<ResourceProps> {
                             }
                             const actionUrl = buildUrl(merged.path, merged.params, merged.query)
                             const { invalidates } = merged
-                            // $FlowFixMe need to resolve
-                            const promise = fetchState.fetch(actionUrl, merged.options)
+                            const promise = fetcher(actionUrl, merged.options)
                               .then((promiseState) => {
                                 if (promiseState.rejected) {
                                   throw promiseState
@@ -116,7 +120,7 @@ class Resource extends React.Component<ResourceProps> {
                                 return promiseState
                               })
                             if (invalidates) {
-                              // this will only trigger on successful fetches
+                              // only invalidate on successful fetches
                               return promise.then((promiseState) => {
                                 invalidate(invalidates)
                                 return promiseState
@@ -127,6 +131,7 @@ class Resource extends React.Component<ResourceProps> {
                         }
                       })
                     }
+
                     const childProps = {
                       // ResourceProps
                       meta: this.props,
