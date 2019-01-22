@@ -7,13 +7,13 @@
   },
   "scripts": {
     "build": "lerna run build",
-    "prebuild": "lerna run build",
+    "prebuild": "yarn test",
     "dev": "lerna run dev --parallel --stream",
     "lint": "lerna run lint",
     "jest": "lerna run jest",
     "publish": "lerna publish",
     "publish:dev": "lerna publish --npm-tag next",
-    "prepublishOnly": "yarn test && yarn build",
+    "prepublishOnly": "yarn build",
     "test": "lerna run test",
     "up": "yarn upgrade-interactive --latest"
   },
