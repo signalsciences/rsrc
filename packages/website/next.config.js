@@ -1,5 +1,3 @@
-/* @flow */
-
 const rehypePrism = require('@mapbox/rehype-prism')
 
 const withMDX = require('@zeit/next-mdx')({
@@ -11,13 +9,8 @@ const withMDX = require('@zeit/next-mdx')({
 
 module.exports = withMDX({
   pageExtensions: ['js', 'md'],
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/rsrc' : '',
   webpack: (config) => {
-    // config.module.rules.push(
-    //   {
-    //     test: /\.md$/,
-    //     use: 'raw-loader',
-    //   }
-    // )
     config.module.rules.push(
       {
         test: /\.js/,
@@ -25,5 +18,5 @@ module.exports = withMDX({
       }
     )
     return config
-  },
+  }
 })

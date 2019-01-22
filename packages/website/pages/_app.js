@@ -4,6 +4,8 @@ import Head from 'next/head'
 import Link from 'next/link'
 import fetch from 'isomorphic-unfetch'
 
+const basePath = process.env.NODE_ENV === 'production' ? '/rsrc' : '/'
+
 export default class MyApp extends App {
   render () {
     const { Component } = this.props
@@ -19,7 +21,7 @@ export default class MyApp extends App {
           <nav>
             <ul style={ { flex: 3, justifyContent: 'flex-start' } }>
               <li className='logo'>
-                <Link href='/'>
+                <Link href={ basePath }>
                   <a>
                     <code>
                       rsrc
@@ -48,21 +50,21 @@ export default class MyApp extends App {
           <nav>
             <ul>
               <li>
-                <Link href='/guides'>
+                <Link href={ `${basePath}/guides` }>
                   <a>
                     Getting Started
                   </a>
                 </Link>
               </li>
               <li>
-                <Link href='/api'>
+                <Link href={ `${basePath}/api` }>
                   <a>
                     API Reference
                   </a>
                 </Link>
               </li>
               <li>
-                <Link href='/demos'>
+                <Link href={ `${basePath}/demos` }>
                   <a>
                     Demos &amp; Playground
                   </a>
