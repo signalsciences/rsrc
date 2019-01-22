@@ -4,7 +4,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import fetch from 'isomorphic-unfetch'
 
-const basePath = process.env.NODE_ENV === 'production' ? '/rsrc' : '/'
+const basePath = process.env.NODE_ENV === 'production' ? '/rsrc' : ''
 
 export default class MyApp extends App {
   render () {
@@ -15,7 +15,7 @@ export default class MyApp extends App {
         <Head>
           <title>rsrc - simply fetching</title>
           <meta name='viewport' content='initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width' />
-          <link rel='stylesheet' href='/static/styles.css' />
+          <link rel='stylesheet' href={ `${basePath}/static/styles.css` } />
         </Head>
         <header>
           <nav>
@@ -40,7 +40,7 @@ export default class MyApp extends App {
                     <img
                       alt='Github'
                       width={ 18 }
-                      src='/static/github.svg'
+                      src={ `${basePath}/static/github.svg` }
                     />
                   </a>
                 </Link>
@@ -86,7 +86,7 @@ export default class MyApp extends App {
                 <img
                   alt='Signal Sciences'
                   width={ 120 }
-                  src='/static/signalsciences.svg'
+                  src={ `${basePath}/static/signalsciences.svg` }
                 />
               </a>
             </div>
