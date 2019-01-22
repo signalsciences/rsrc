@@ -76,6 +76,7 @@
     "flow-typed": "^2.5.1",
     "jest-fetch-mock": "^2.1.0",
     "jest-preset-signalsciences": "^0.0.2",
+    "lint-staged": "^8.1.0",
     "react": "^16.3",
     "react-dom": "^16.3",
     "react-testing-library": "^5.4.4",
