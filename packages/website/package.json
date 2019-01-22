@@ -4,8 +4,8 @@
   "version": "0.1.2",
   "scripts": {
     "clean": "rm -rf .next out build",
+    "build": "yarn clean && NODE_ENV=production next build && NODE_ENV=production next export",
     "dev": "next",
-    "export": "yarn clean && next build && next export",
     "start": "next start"
   },
   "dependencies": {

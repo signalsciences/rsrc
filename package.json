@@ -13,6 +13,7 @@
     "jest": "lerna run jest",
     "publish": "lerna publish",
     "publish:dev": "lerna publish --npm-tag next",
+    "publish:docs": "lerna run export && git subtree push --prefix packages/website/out origin gh-pages",
     "prepublishOnly": "yarn build",
     "test": "lerna run test",
     "up": "yarn upgrade-interactive --latest"
