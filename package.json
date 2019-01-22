@@ -11,9 +11,9 @@
     "dev": "lerna run dev --parallel --stream",
     "lint": "lerna run lint",
     "jest": "lerna run jest",
-    "release": "lerna version",
     "publish": "yarn build && lerna publish",
     "publish:dev": "yarn build && lerna publish --npm-tag next",
+    "prepublishOnly": "yarn test && yarn build",
     "test": "lerna run test",
     "up": "yarn upgrade-interactive --latest"
   },
