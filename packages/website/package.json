@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "website",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "scripts": {
     "clean": "rm -rf .next out build",
     "dev": "next",
@@ -16,7 +16,7 @@
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-live": "^1.12.0",
-    "rsrc": "^0.0.1"
+    "rsrc": "^0.0.2"
   },
   "devDependencies": {
     "@mdx-js/mdx": "^0.16.6",
