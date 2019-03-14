@@ -52,7 +52,7 @@ export default (props) => {
 ## Define a resource
 
 A resource can be thought of as a front-end interface for a back-end endpoint.
-That is, it should mirror the interface provided the endpoint itself.
+That is, it should mirror the interface provided by the endpoint itself.
 
 In the example below, we have an endpoint at `/users/{userId}/todos`. While a
 `GET` request to this endpoint might return a collection of todos for a given
