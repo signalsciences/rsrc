@@ -63,9 +63,9 @@ export type Fetcher = (url: string | Request, options?: RequestOptions) => Promi
  */
 
 export type FetchState = FetcherState & {
-  read: () => void,
   invalidate: () => void,
-  refresh: () => void,
+  read: () => Promise<FetcherState>,
+  refresh: () => Promise<FetcherState>,
 
   // TODO: remove this
   // convenience helper for Resource

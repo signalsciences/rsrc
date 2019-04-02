@@ -69,33 +69,27 @@ class Resource extends React.Component<ResourceProps> {
                 {
                   (fetchState) => {
                     const invalidate = (invalidates: string | string[]) => {
-                      let keys = invalidates
-
-                      if (typeof invalidates === 'string') {
-                        keys = [invalidates]
-                      }
+                      const keys = [].concat(invalidates)
 
                       const cacheKeys = cache
                         ? [...cache.keys()]
                         : []
 
-                      if (keys && typeof keys.forEach === 'function') {
-                        keys.forEach((template) => {
-                          const pathPattern = template.replace(/\//g, '\\/')
-                            .replace(/{([^}]*)}/g, '.+?')
+                      keys.forEach((template) => {
+                        const pathPattern = template.replace(/\//g, '\\/')
+                          .replace(/{([^}]*)}/g, '.+?')
 
-                          // /foo/bar/{id}
-                          // \/foo\/bar\/{id}
-                          // \/foo\/bar\/.+?
+                        // /foo/bar/{id}
+                        // \/foo\/bar\/{id}
+                        // \/foo\/bar\/.+?
 
-                          const matcher = new RegExp(pathPattern)
-                          const matches = cacheKeys.filter(key => matcher.test(key.split(/[?#]/)[0]))
+                        const matcher = new RegExp(pathPattern)
+                        const matches = cacheKeys.filter(key => matcher.test(key.split(/[?#]/)[0]))
 
-                          matches.forEach((match) => {
-                            if (cache) { cache.delete(match) }
-                          })
+                        matches.forEach((match) => {
+                          if (cache) { cache.delete(match) }
                         })
-                      }
+                      })
                     }
 
                     const mappedActions = {}

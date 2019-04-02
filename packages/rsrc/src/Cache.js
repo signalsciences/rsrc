@@ -64,14 +64,6 @@ class Cache extends React.Component<CacheProps, CacheState> {
   // Actions that modify entries also trigger setState
   // in order to communicate context updates to consumers.
 
-  /**
-   * Set an item in the cache.
-   *
-   * @param {String} key - the key to remove.
-   * @param {*} value - the value to cache for the key.
-   * @return {Map} cache - the updated map.
-   * @api public
-   */
   set (key: *, value: *): Map<*, *> {
     const { map } = this.props
     const result = map.set(key, value)
@@ -79,13 +71,6 @@ class Cache extends React.Component<CacheProps, CacheState> {
     return result
   }
 
-  /**
-   * Delete an item from the cache.
-   *
-   * @param {String} key - the key to remove.
-   * @return {boolean}
-   * @api public
-   */
   delete (key: *): boolean {
     const { map } = this.props
     const result = map.delete(key)
@@ -96,23 +81,12 @@ class Cache extends React.Component<CacheProps, CacheState> {
     return result
   }
 
-  /**
-   * Clear all items from the cache.
-   *
-   * @api public
-   */
   clear (): void {
     const { map } = this.props
     map.clear()
     this.touchState()
   }
 
-  /**
-   * Reach out and touch state
-   *
-   * @api private
-   * @returns personal jesus
-   */
   touchState (): void {
     this.setState(prevState => prevState)
   }

@@ -81,30 +81,12 @@ export default class Fetch extends React.Component<FetchProps, FetchState> {
     }
   }
 
-  /**
-   * Fetch a resource
-   *
-   * @param {String} [url] - fetch url, falls back to props.url.
-   * @param {Object} [options] - fetch options, falls back to props.options.
-   * @return {Promise<FetcherState>} fetch - the promise returned from fetch fn.
-   * @api public
-   */
-  fetch () {
+  fetch (): Promise<FetcherState> {
     const { fetcher, url, options } = this.props
     return fetcher(url, options)
   }
 
-  /**
-   *
-   * Read or fetch a resource
-   *
-   * @param {String} url - fetch url
-   * @param {Object} options - fetch options
-   * @param {Number} [maxAge] - number of seconds allowed since last resolve
-   * @return {Promise<PromiseState>} - promise from cache or fetch
-   *
-   */
-  read () {
+  read (): Promise<FetcherState> {
     this.setState(prevState => ({
       ...prevState,
       pending: true,
@@ -195,7 +177,7 @@ export default class Fetch extends React.Component<FetchProps, FetchState> {
     cache.delete(key)
   }
 
-  refresh () {
+  refresh (): Promise<FetcherState> {
     this.invalidate()
     return this.read()
   }
