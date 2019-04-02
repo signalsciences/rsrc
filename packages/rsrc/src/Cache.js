@@ -40,19 +40,19 @@ class Cache extends React.Component<CacheProps, CacheState> {
     return map.has(key)
   }
 
-  entries (): Iterator<*> {
+  entries (): Array<*> {
     const { map } = this.props
-    return map.entries()
+    return [...map.entries()]
   }
 
-  values (): Iterator<*> {
+  values (): Array<*> {
     const { map } = this.props
-    return map.values()
+    return [...map.values()]
   }
 
-  keys (): Iterator<*> {
+  keys (): Array<*> {
     const { map } = this.props
-    return map.keys()
+    return [...map.keys()]
   }
 
   forEach (callbackFn: () => void, thisArg: any): void {
