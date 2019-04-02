@@ -5,20 +5,21 @@
   "scripts": {
     "clean": "rm -rf .next out build",
     "build": "yarn clean && NODE_ENV=production next build && NODE_ENV=production next export && touch out/.nojekyll",
-    "dev": "next",
+    "dev": "next -p 3001",
     "start": "next start"
   },
   "dependencies": {
-    "@mapbox/rehype-prism": "^0.3.0",
+    "@mapbox/rehype-prism": "^0.3.1",
     "isomorphic-unfetch": "^3.0.0",
-    "next": "^7.0.2",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3",
+    "next": "^7.0.3",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
     "react-live": "^1.12.0",
     "rsrc": "^0.0.2"
   },
   "devDependencies": {
-    "@mdx-js/mdx": "^0.16.6",
+    "@babel/core": "^7.0.0-0",
+    "@mdx-js/mdx": "^0.15.0",
     "@zeit/next-mdx": "^1.2.0"
   }
 }

@@ -10,11 +10,13 @@ const withMDX = require('@zeit/next-mdx')({
 module.exports = withMDX({
   pageExtensions: ['js', 'md'],
   assetPrefix: process.env.NODE_ENV === 'production' ? '/rsrc' : '',
-  webpack: (config) => {
+  webpack: (config, options) => {
     config.module.rules.push(
       {
         test: /\.js/,
-        use: 'babel-loader',
+        use: [
+          options.defaultLoaders.babel
+        ]
       }
     )
     return config
