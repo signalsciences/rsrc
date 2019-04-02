@@ -26,9 +26,9 @@ test('<Fetch /> Fulfilled', async () => {
       },
     ]
   )
-  const renderProps = {}
+  let renderProps = {}
   const children = (arg) => {
-    Object.assign(renderProps, arg)
+    renderProps = { ...renderProps, ...arg }
     return null
   }
   const { rerender } = render(
@@ -67,9 +67,9 @@ test('<Fetch /> Rejected', async () => {
     ]
   )
 
-  const renderProps = {}
+  let renderProps = {}
   const children = (arg) => {
-    Object.assign(renderProps, arg)
+    renderProps = { ...renderProps, ...arg }
     return null
   }
   const { rerender } = await render(

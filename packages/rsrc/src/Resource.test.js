@@ -42,9 +42,9 @@ test('<Resource />', async () => {
       },
     ]
   )
-  const renderProps = {}
+  let renderProps = {}
   const children = (arg) => {
-    Object.assign(renderProps, arg)
+    renderProps = { ...renderProps, ...arg }
     return null
   }
   render(

@@ -7,9 +7,9 @@ import { Cache } from '.'
 afterEach(cleanup)
 
 function setup (increment) {
-  const props = {}
+  let renderProps = {}
   const children = (arg) => {
-    Object.assign(props, arg)
+    renderProps = { ...renderProps, ...arg }
     increment()
     return null
   }
@@ -21,7 +21,7 @@ function setup (increment) {
     </Cache>
   )
   return {
-    props,
+    renderProps,
   }
 }
 
@@ -33,43 +33,43 @@ test('cache provider only updates on mutations', async () => {
   const increment = () => {
     counter += 1
   }
-  const { props } = setup(increment)
+  const { renderProps } = setup(increment)
 
-  expect([...props.entries()]).toEqual([])
+  expect([...renderProps.entries()]).toEqual([])
   expect(counter).toBe(1)
 
-  expect(props.set('foo', 'bar')).toEqual(new Map([['foo', 'bar']]))
+  expect(renderProps.set('foo', 'bar')).toEqual(new Map([['foo', 'bar']]))
   expect(counter).toBe(2)
 
-  expect(props.get('foo')).toEqual('bar')
+  expect(renderProps.get('foo')).toEqual('bar')
   expect(counter).toBe(2)
 
-  expect(props.has('foo')).toEqual(true)
+  expect(renderProps.has('foo')).toEqual(true)
   expect(counter).toBe(2)
 
-  expect([...props.entries()]).toEqual([['foo', 'bar']])
+  expect([...renderProps.entries()]).toEqual([['foo', 'bar']])
   expect(counter).toBe(2)
 
-  expect([...props.values()]).toEqual(['bar'])
+  expect([...renderProps.values()]).toEqual(['bar'])
   expect(counter).toBe(2)
 
-  expect([...props.keys()]).toEqual(['foo'])
+  expect([...renderProps.keys()]).toEqual(['foo'])
   expect(counter).toBe(2)
 
-  props.forEach(mockCallback)
+  renderProps.forEach(mockCallback)
   expect(mockCallback.mock.calls.length).toBe(1)
   expect(counter).toBe(2)
 
-  expect(props.set('baz', 'qux')).toEqual(new Map([['foo', 'bar'], ['baz', 'qux']]))
+  expect(renderProps.set('baz', 'qux')).toEqual(new Map([['foo', 'bar'], ['baz', 'qux']]))
   expect(counter).toEqual(3)
 
-  expect(props.delete('foo')).toBe(true)
+  expect(renderProps.delete('foo')).toBe(true)
   expect(counter).toEqual(4)
 
-  expect(props.delete('foo')).toBe(false)
+  expect(renderProps.delete('foo')).toBe(false)
   expect(counter).toEqual(4)
 
-  props.clear()
-  expect([...props.entries()]).toEqual([])
+  renderProps.clear()
+  expect([...renderProps.entries()]).toEqual([])
   expect(counter).toEqual(5)
 })
