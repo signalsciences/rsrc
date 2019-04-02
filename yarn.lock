@@ -5843,10 +5843,10 @@ flatten@^1.0.2:
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
   integrity sha1-2uRqnXj74lKSJYzB54CkHZXAN4I=
 
-flow-bin@^0.95.1:
-  version "0.95.1"
-  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.95.1.tgz#633113831ccff4b7ee70a2730f63fc43b69ba85f"
-  integrity sha512-06IOC/pqPMNRYtC6AMZEWYR9Fi6UdBC7gImGinPuNUpPZFnP5E9/0cBCl3DWrH4zz/gSM2HdDilU7vPGpYIr2w==
+flow-bin@^0.96.0:
+  version "0.96.0"
+  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.96.0.tgz#3b0379d97304dc1879ae6db627cd2d6819998661"
+  integrity sha512-OSxERs0EdhVxEVCst/HmlT/RcnXsQQIRqcfK9J9wC8/93JQj+xQz4RtlsmYe1PSRYaozuDLyPS5pIA81Zwzaww==
 
 flow-typed@^2.5.1:
   version "2.5.1"
@@ -11918,10 +11918,10 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
-rollup-config-signalsciences@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/rollup-config-signalsciences/-/rollup-config-signalsciences-0.0.6.tgz#423c62042580ad0ce76e988dd4c667c01c704a94"
-  integrity sha512-pPR7ZRAy9LvMDa6aov/XU1ztqg1A9sm5RtRMAYOmJW+XfefWulZCBROBRv2IzSGuGKSgpZgIXV2z3dZdggc0sA==
+rollup-config-signalsciences@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/rollup-config-signalsciences/-/rollup-config-signalsciences-0.0.7.tgz#c534acba570feff67ac15730cb5e86879d30c990"
+  integrity sha512-Q52agObnuU2YTvDCQHF03Q/NSxAhPFnk3ioSTtrN8Pmfh9Om/BuwtkfaQW6ik2O7inIagBSuikJRvDZi3VM7Wg==
   dependencies:
     caniuse-lite "1.0.30000948"
     postcss-bem-linter "3.2.0"
@@ -11954,7 +11954,7 @@ rollup-plugin-babel@4.3.2:
     "@babel/helper-module-imports" "^7.0.0"
     rollup-pluginutils "^2.3.0"
 
-rollup-plugin-bundle-size@1.0.3, rollup-plugin-bundle-size@^1.0.3:
+rollup-plugin-bundle-size@1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/rollup-plugin-bundle-size/-/rollup-plugin-bundle-size-1.0.3.tgz#d245cd988486b4040279f9fd33f357f61673e90f"
   integrity sha512-aWj0Pvzq90fqbI5vN1IvUrlf4utOqy+AERYxwWjegH1G8PzheMnrRIgQ5tkwKVtQMDP0bHZEACW/zLDF+XgfXQ==
