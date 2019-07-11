@@ -60,15 +60,11 @@
     "settings": {
       "polyfills": [
         "fetch",
-        "Promise",
-        "Promise.reject",
-        "Promise.resolve",
-        "Request",
-        "Response"
+        "Promise"
       ]
     },
     "rules": {
-      "react/jsx-filename-extension": "off"
+      "react/jsx-filename-extension": [1, { "extensions": [".js"] }]
     }
   },
   "jest": {
@@ -78,7 +74,7 @@
     ]
   },
   "dependencies": {
-    "query-string": "^6.4.2",
+    "query-string": "^6.8.1",
     "url-template": "^2.0.8"
   },
   "peerDependencies": {
@@ -86,27 +82,27 @@
     "react-dom": "^16.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.0",
-    "@babel/polyfill": "^7.0.0",
+    "@babel/core": "^7.5.4",
+    "@testing-library/react": "^8.0.4",
     "babel-preset-signalsciences": "^0.0.5",
     "browserslist-config-signalsciences": "^0.0.1",
+    "core-js": "^3.1.4",
     "eslint": "^5.16.0",
-    "eslint-config-signalsciences": "^0.0.6",
-    "eslint-plugin-compat": "^3.1.0",
-    "eslint-plugin-flowtype": "^3.4.2",
-    "eslint-plugin-import": "^2.16.0",
-    "eslint-plugin-jest": "^22.4.1",
-    "eslint-plugin-jsx-a11y": "^6.2.1",
-    "eslint-plugin-react": "^7.12.4",
-    "flow-bin": "^0.96.0",
-    "flow-typed": "^2.5.1",
-    "jest": "^24.6.0",
-    "jest-fetch-mock": "^2.1.1",
-    "jest-preset-signalsciences": "^0.0.7",
-    "lint-staged": "^8.1.5",
+    "eslint-config-signalsciences": "^0.0.7",
+    "eslint-plugin-compat": "^3.2.0",
+    "eslint-plugin-flowtype": "3.10.4",
+    "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-jest": "^22.7.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.2",
+    "flow-bin": "^0.102.0",
+    "jest": "^24.8.0",
+    "jest-fetch-mock": "^2.1.2",
+    "jest-preset-signalsciences": "^1.0.0",
+    "lint-staged": "^9.2.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-testing-library": "^6.0.4",
-    "rollup-config-signalsciences": "^0.0.7"
+    "regenerator-runtime": "^0.13.2",
+    "rollup-config-signalsciences": "^0.0.8"
   }
 }

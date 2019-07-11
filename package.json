@@ -31,15 +31,15 @@
     ]
   },
   "devDependencies": {
-    "@commitlint/cli": "^7.5.2",
-    "@commitlint/config-conventional": "^7.5.0",
-    "@commitlint/config-lerna-scopes": "^7.5.1",
-    "husky": "^1.2.0",
-    "lerna": "^3.13.1",
+    "@commitlint/cli": "^8.0.0",
+    "@commitlint/config-conventional": "^8.0.0",
+    "@commitlint/config-lerna-scopes": "^8.0.0",
+    "husky": "^3.0.0",
+    "lerna": "^3.15.0",
     "lerna-changelog": "^0.8.2",
-    "pre-commit": "1.2.2",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "pre-commit": "^1.2.2",
+    "react": "^16.3",
+    "react-dom": "^16.3"
   },
   "workspaces": {
     "packages": [

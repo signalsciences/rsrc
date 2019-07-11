@@ -18,8 +18,9 @@
     "rsrc": "^0.0.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0-0",
+    "@babel/core": "^7.5.4",
     "@mdx-js/mdx": "^0.15.0",
-    "@zeit/next-mdx": "^1.2.0"
+    "@zeit/next-mdx": "^1.2.0",
+    "flow-bin": "^0.102.0"
   }
 }
