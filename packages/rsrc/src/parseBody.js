@@ -1,8 +1,6 @@
 /* @flow */
 
-// TODO: formData / blob?
-
-export default function parseBody (response: Response): Promise<any> {
+export default function parseBody(response: Response): Promise<any> {
   const contentType = response.headers.get('Content-Type')
 
   // Response methods return promises. To simulate for empty responses,
@@ -13,19 +11,23 @@ export default function parseBody (response: Response): Promise<any> {
 
   const mimeType = contentType.split(';')[0].trim()
 
-  if (mimeType === 'application/json'
-    || mimeType === 'text/json'
-    || /\+json$/.test(mimeType)
+  if (
+    mimeType === 'application/json' ||
+    mimeType === 'text/json' ||
+    /\+json$/.test(mimeType)
   ) {
     return response.json()
   }
-  if (mimeType === 'text/plain'
-    || mimeType === 'text/html'
-    || mimeType === 'application/xml'
-    || mimeType === 'text/xml'
-    || /\+xml$/.test(mimeType)
+
+  if (
+    mimeType === 'text/plain' ||
+    mimeType === 'text/html' ||
+    mimeType === 'application/xml' ||
+    mimeType === 'text/xml' ||
+    /\+xml$/.test(mimeType)
   ) {
     return response.text()
   }
+
   return response.arrayBuffer()
 }

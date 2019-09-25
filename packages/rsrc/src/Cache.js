@@ -4,58 +4,61 @@ import * as React from 'react'
 
 import type { CacheProps, CacheState } from './types'
 
-const CacheContext = React.createContext<*>(undefined)
+const CacheContext = React.createContext<*>(null)
 
 class Cache extends React.Component<CacheProps, CacheState> {
-  static defaultProps = {
-    map: new Map<*, *>(),
-  }
-
   static Consumer = CacheContext.Consumer
+
+  static defaultProps = {
+    map: new Map<*, *>()
+  }
 
   static displayName = 'Cache'
 
-  /* eslint-disable react/no-unused-state */
-  state = {
-    get: this.get.bind(this),
-    has: this.has.bind(this),
-    entries: this.entries.bind(this),
-    values: this.values.bind(this),
-    keys: this.keys.bind(this),
-    forEach: this.forEach.bind(this),
-    // NOTE: these methods will trigger setState
-    set: this.set.bind(this),
-    delete: this.delete.bind(this),
-    clear: this.clear.bind(this),
-  }
-  /* eslint-enable react/no-unused-state */
+  constructor(props: CacheProps) {
+    super(props)
+    /* eslint-disable react/no-unused-state */
+    this.state = {
+      has: this.has.bind(this),
+      entries: this.entries.bind(this),
+      values: this.values.bind(this),
+      keys: this.keys.bind(this),
+      forEach: this.forEach.bind(this),
+      get: this.get.bind(this),
 
-  get (key: string): * {
+      // NOTE: these methods trigger setState
+      set: this.set.bind(this),
+      delete: this.delete.bind(this),
+      clear: this.clear.bind(this)
+    }
+  }
+
+  get(key: string): * {
     const { map } = this.props
     return map.get(key)
   }
 
-  has (key: string): boolean {
+  has(key: string): boolean {
     const { map } = this.props
     return map.has(key)
   }
 
-  entries (): Array<*> {
+  entries(): Array<*> {
     const { map } = this.props
     return [...map.entries()]
   }
 
-  values (): Array<*> {
+  values(): Array<*> {
     const { map } = this.props
     return [...map.values()]
   }
 
-  keys (): Array<*> {
+  keys(): Array<*> {
     const { map } = this.props
     return [...map.keys()]
   }
 
-  forEach (callbackFn: () => void, thisArg: any): void {
+  forEach(callbackFn: () => void, thisArg: any): void {
     const { map } = this.props
     return map.forEach(callbackFn, thisArg)
   }
@@ -64,14 +67,14 @@ class Cache extends React.Component<CacheProps, CacheState> {
   // Actions that modify entries also trigger setState
   // in order to communicate context updates to consumers.
 
-  set (key: *, value: *): Map<*, *> {
+  set(key: *, value: *): Map<*, *> {
     const { map } = this.props
     const result = map.set(key, value)
     this.touchState()
     return result
   }
 
-  delete (key: *): boolean {
+  delete(key: *): boolean {
     const { map } = this.props
     const result = map.delete(key)
     // Only update state if the key being removed exists
@@ -81,22 +84,22 @@ class Cache extends React.Component<CacheProps, CacheState> {
     return result
   }
 
-  clear (): void {
+  clear(): void {
     const { map } = this.props
     map.clear()
     this.touchState()
   }
 
-  touchState (): void {
+  touchState(): void {
     this.setState(prevState => prevState)
   }
 
-  render () {
+  render() {
     const { children } = this.props
 
     return (
-      <CacheContext.Provider value={ this.state }>
-        { children }
+      <CacheContext.Provider value={this.state}>
+        {children}
       </CacheContext.Provider>
     )
   }

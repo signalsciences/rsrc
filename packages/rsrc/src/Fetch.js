@@ -1,117 +1,103 @@
 /* @flow */
 
 import * as React from 'react'
-import makeFetcher from './makeFetcher'
-import type {
-  FetchProps,
-  FetchState,
-  FetcherState,
-} from './types'
+import createFetcher from './createFetcher'
+import type { FetchProps, FetchState, FetcherState } from './types'
 
-function requestToKey (request: Request) {
-  return `${request.method} ${request.url}`
-}
+class Fetch extends React.Component<FetchProps, FetchState> {
+  static defaultProps = {
+    url: '',
+    options: {},
+    maxAge: 60, // 1 minute
+    cache: new Map<*, *>(),
+    fetcher: createFetcher()
+  }
 
-export default class Fetch extends React.Component<FetchProps, FetchState> {
   static displayName = 'Fetch'
 
-  static defaultProps = {
-    maxAge: 60, // 1 minute
-    autoFetch: true,
-    cache: new Map<*, *>(),
-    fetcher: makeFetcher(),
+  promise: ?Promise<FetcherState>
+
+  constructor(props: FetchProps) {
+    super(props)
+    this.state = {
+      // promiseState
+      pending: false,
+      rejected: false,
+      fulfilled: false,
+      request: null,
+      response: null,
+      value: null,
+      reason: null,
+      // actions
+      read: this.read.bind(this),
+      refresh: this.refresh.bind(this),
+      invalidate: this.invalidate.bind(this)
+    }
+    this.promise = undefined
   }
 
-  state = {
-    // promiseState
-    pending: false,
-    rejected: false,
-    fulfilled: false,
-    request: null,
-    response: null,
-    value: null,
-    reason: null,
-    // actions
-    fetch: this.fetch.bind(this),
-    read: this.read.bind(this),
-    refresh: this.refresh.bind(this),
-    invalidate: this.invalidate.bind(this),
+  componentDidMount() {
+    this.read()
   }
 
-  promise = undefined
-
-  componentDidMount () {
-    const { autoFetch } = this.props
-    if (autoFetch) { this.read() }
-  }
-
-  componentDidUpdate (prevProps: FetchProps) {
+  componentDidUpdate(prevProps: FetchProps) {
     const {
-      autoFetch,
       url,
       options,
-      maxAge,
+      maxAge
+      // cache,
     } = this.props
+
     if (
-      url !== prevProps.url
-      || options !== prevProps.options
-      || maxAge !== prevProps.maxAge
+      url !== prevProps.url ||
+      options !== prevProps.options ||
+      maxAge !== prevProps.maxAge
+      // does this effectively turn invalidate into refresh?
+      // || !cache.get(url)
     ) {
-      if (autoFetch) { this.read() }
+      this.read()
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     // We clear the promise to prevent setState() from being called by
     // lingering promises after the component has unmounted
     this.promise = undefined
   }
 
-  onResolved (fetcherState: ?FetcherState, promise: ?Promise<FetcherState>, error: ?Error) {
+  onResolved(fetcherState: ?FetcherState, promise: ?Promise<FetcherState>) {
     // Highlander rule applies: there can be only one promise that sets state
     // Only set state if still mounted and this.promise is known.
     // The reference is removed in componentWillUnmount so it won't attempt to setState.
-    if (promise !== this.promise) return
-
-    if (!error) {
+    if (promise === this.promise) {
       this.setState(prevState => ({ ...prevState, ...fetcherState }))
-    } else {
-      // Rethrow error to prevent swallowing
-      throw error
     }
   }
 
-  fetch (): Promise<FetcherState> {
-    const { fetcher, url, options } = this.props
-    return fetcher(url, options)
-  }
-
-  read (): Promise<FetcherState> {
+  read() {
     this.setState(prevState => ({
       ...prevState,
-      pending: true,
+      pending: true
     }))
 
-    const {
-      cache, url, options, maxAge,
-    } = this.props
+    const { url, options, maxAge, fetcher, cache } = this.props
 
-    const request = new Request(url, options)
-    const key = requestToKey(request)
+    const isCacheable =
+      !options.method || options.method.toLowerCase() === 'get'
 
-    const isCacheable = !request.method || request.method.toLowerCase() === 'get'
     let isStale = false
     let cached
 
     if (isCacheable) {
-      cached = cache.get(key)
+      cached = cache.get(url)
     }
 
     /* Discard result if stale */
     if (cached) {
-      isStale = cached.lastResolved
-        && maxAge
-        && (cached.lastResolved + (maxAge * 1000)) < +(new Date())
+      isStale =
+        cached.lastResolved &&
+        maxAge &&
+        cached.lastResolved + maxAge * 1000 < +new Date()
       if (isStale) {
         cached = undefined
       }
@@ -124,26 +110,27 @@ export default class Fetch extends React.Component<FetchProps, FetchState> {
       promise = cached.value
     } else {
       /* CACHE MISS */
-      promise = this.fetch()
-      cache.set(key, {
-        value: promise,
+      promise = fetcher(url, options)
+
+      cache.set(url, {
+        value: promise
       })
       promise.then(
         () => {
-          const r = cache.get(key)
+          const r = cache.get(url)
           if (r && r.value === promise) {
-            cache.set(key, {
+            cache.set(url, {
               ...r,
-              lastResolved: +(new Date()),
+              lastResolved: +new Date()
             })
           }
         },
-        (error) => {
-          const r = cache.get(key)
+        error => {
+          const r = cache.get(url)
           if (r && r.value === promise) {
-            cache.set(key, {
+            cache.set(url, {
               ...r,
-              lastResolved: +(new Date()),
+              lastResolved: +new Date()
             })
           }
           throw error
@@ -151,48 +138,35 @@ export default class Fetch extends React.Component<FetchProps, FetchState> {
       )
     }
 
-    promise.then(
-      (fetcherState) => {
-        this.onResolved(fetcherState, promise, undefined)
-      },
-      (error) => {
-        this.onResolved(undefined, promise, error)
-      }
-    )
-
     this.promise = promise
 
-    /*
-     * Return the promise for comparison in onResolve to ensure updates are only
-     * applied from the most recent read.
-     */
-    return promise
+    promise.then(
+      fetcherState => {
+        this.onResolved(fetcherState, promise)
+      },
+      fetcherState => {
+        this.onResolved(fetcherState, promise)
+      }
+    )
   }
 
-  invalidate () {
-    const { cache, url, options } = this.props
-    const request = new Request(url, options)
-    const key = requestToKey(request)
-    this.promise = undefined
-    cache.delete(key)
+  invalidate() {
+    const { cache, url } = this.props
+    cache.delete(url)
   }
 
-  refresh (): Promise<FetcherState> {
+  refresh() {
     this.invalidate()
-    return this.read()
+    this.read()
   }
 
-  render () {
+  render() {
     const { children } = this.props
 
     return (
-      <React.Fragment>
-        {
-          typeof children === 'function'
-            ? children(this.state)
-            : children
-        }
-      </React.Fragment>
+      <>{typeof children === 'function' ? children(this.state) : children}</>
     )
   }
 }
+
+export default Fetch

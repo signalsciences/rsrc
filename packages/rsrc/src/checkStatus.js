@@ -1,8 +1,8 @@
 /* @flow */
 
-export default function checkStatus (response: Response): Promise<any> {
-  // if (!response.ok) {
-  //   return Promise.reject(new Error(response.statusText))
-  // }
+export default function checkStatus(response: Response): Promise<Response> {
+  if (!response.ok) {
+    return Promise.reject(response)
+  }
   return Promise.resolve(response)
 }

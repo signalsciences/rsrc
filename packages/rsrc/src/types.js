@@ -1,5 +1,7 @@
 /* @flow */
 
+/* eslint-disable no-use-before-define */
+
 import * as React from 'react'
 
 /*
@@ -14,24 +16,25 @@ export type CacheState = {
   keys: () => Array<*>,
   set: (key: *, value: *) => Map<*, *>,
   delete: (key: *) => any,
-  clear: () => void,
+  clear: () => void
 }
 
 export type CacheProps = {
-  map: Map<*, *> | {
-    get: (key: *) => *,
-    has: (key: *) => boolean,
-    entries: () => Iterator<*> | Array<*>,
-    values: () => Iterator<*> | Array<*>,
-    keys: () => Iterator<*> | Array<*>,
-    forEach: (Function, any) => void,
-    set: (key: *, value: *) => any,
-    delete: (key: *) => any,
-    clear: () => void,
-  },
-  children: React.Node,
+  map:
+    | Map<*, *>
+    | {
+        get: (key: *) => *,
+        has: (key: *) => boolean,
+        entries: () => Iterator<*> | Array<*>,
+        values: () => Iterator<*> | Array<*>,
+        keys: () => Iterator<*> | Array<*>,
+        forEach: (Function, any) => void,
+        set: (key: *, value: *) => any,
+        delete: (key: *) => any,
+        clear: () => void
+      },
+  children: React.Node
 }
-
 
 /*
  * Fetcher
@@ -41,21 +44,21 @@ export type FetcherState = {
   pending: boolean,
   rejected: boolean,
   fulfilled: boolean,
-  request: ?Request,
-  response: ?Response,
   value: ?any,
-  reason: ?Error,
+  reason: ?Error
 }
 
 export type FetcherConfig = {
   fetch?: typeof fetch,
   checkStatus?: (response: Response) => Promise<Response>,
-  parseBody?: (response: Response) => any,
-  parseError?: (response: Response, value: any) => Error,
+  parseBody?: (response: Response) => Promise<any>,
+  parseError?: (response: Response, value: any) => Promise<Error>
 }
 
-export type Fetcher = (url: string | Request, options?: RequestOptions) => Promise<FetcherState>
-
+export type Fetcher = (
+  url: string | Request,
+  options?: RequestOptions
+) => Promise<FetcherState>
 
 /*
  * Fetch
@@ -63,57 +66,49 @@ export type Fetcher = (url: string | Request, options?: RequestOptions) => Promi
 
 export type FetchState = FetcherState & {
   invalidate: () => void,
-  read: () => Promise<FetcherState>,
-  refresh: () => Promise<FetcherState>,
-
-  // TODO: remove this
-  // convenience helper for Resource
-  fetch: Fetcher,
+  read: () => void,
+  refresh: () => void
 }
 
 export type FetchProps = {
-  url: string | Request,
-  options?: RequestOptions,
+  url: string,
+  options: RequestOptions,
   maxAge: number,
 
-  autoFetch: boolean,
-
-  children: (FetchState) => React.Node,
+  children: FetchState => React.Node,
 
   /* Optional configuration overrides */
   cache: Map<*, *> | CacheState,
-  fetcher: Fetcher,
+  fetcher: Fetcher
 }
-
 
 /*
  * Resource
  */
 
-type ResourceDefinition = {
-  path?: string,
-  params?: { [key: string]: string },
-  query?: { [key: string]: string },
-  options?: RequestOptions,
-  maxAge?: number,
-}
-
 export type ResourceState = {
   state: FetchState,
   actions: {
-    [key: string]: (*) => Promise<FetcherState>,
+    [key: string]: (*) => Promise<FetcherState>
   },
-  meta: ResourceDefinition,
+  meta: ResourceProps
 }
 
-export type ResourceProps = ResourceDefinition & {
+export type ResourceProps = {
+  url: string,
+  options: RequestOptions,
+  maxAge: number,
   actions: {
-    [key: string]: (*) => ResourceDefinition & { invalidates?: string | string[] }
+    [key: string]: (
+      *
+    ) => {
+      url?: string,
+      options?: RequestOptions,
+      maxAge?: number,
+      invalidates?: Array<string | RegExp>
+    }
   },
 
-  children: (ResourceState) => React.Node,
-
-  /* Optional configuration overrides */
-  cache: Map<*, *> | CacheState,
-  fetcher: Fetcher,
+  children: ResourceState => React.Node,
+  fetcher: Fetcher
 }

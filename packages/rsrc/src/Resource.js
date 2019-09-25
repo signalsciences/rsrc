@@ -5,156 +5,126 @@ import * as React from 'react'
 import Cache from './Cache'
 import Fetch from './Fetch'
 
-import makeFetcher from './makeFetcher'
-import isPlainObject from './isPlainObject'
-import buildUrl from './buildUrl'
+import createFetcher from './createFetcher'
 
 import type { ResourceProps } from './types'
 
-const defaultCache = new Map()
+function mapFetchersToActions(props: ResourceProps, invalidate: Function) {
+  const mappedActions = {}
 
-class Resource extends React.Component<ResourceProps> {
-  static displayName = 'Resource'
+  const { actions, fetcher } = props
 
-  static defaultProps = {
-    path: '',
-    params: {},
-    query: {},
-    options: {},
-    maxAge: 60, // 1 minute
-    actions: {},
+  Object.keys(actions).forEach(key => {
+    const action = key ? actions[key] : null
 
-    cache: new Map<*, *>(),
-    fetcher: makeFetcher(),
-  }
+    if (action && typeof action === 'function') {
+      mappedActions[key] = (...args) => {
+        const actionProps = action(...args)
 
-  render () {
-    const {
-      children,
-      actions,
-      path,
-      params,
-      query,
+        const url =
+          actionProps.url && typeof actionProps.url === 'string'
+            ? actionProps.url
+            : props.url
+        const options = actionProps.options || props.options
+        const invalidates = actionProps.invalidates || []
 
-      options,
-      maxAge,
-      fetcher,
-    } = this.props
-
-    const url = buildUrl(path, params, query)
-
-    return (
-      <Cache.Consumer>
-        {
-          (ctx) => {
-            // If no Cache provider is found, the default `undefined` will be returned
-            // Warn user on dev, this may be desired in some cases
-            if (ctx === undefined) {
-              /* eslint-disable no-console */
-              console.warn('rsrc : <Resource /> - Persistent cache provider not found. Falling back to instance cache.')
-              /* eslint-enable no-console */
+        const promise = fetcher(url, options)
+          .then(fulfilledState => {
+            if (invalidates && invalidate.length > 0) {
+              invalidate(invalidates)
             }
+            return fulfilledState
+          })
+          .catch(rejectedState => {
+            throw rejectedState
+          })
 
-            const cache = ctx || defaultCache
+        return promise
+      }
+    }
+  })
 
-            return (
-              <Fetch
-                maxAge={ maxAge }
-                url={ url }
-                options={ options }
+  return mappedActions
+}
 
-                fetcher={ fetcher }
-                cache={ cache }
-              >
-                {
-                  (fetchState) => {
-                    const invalidate = (invalidates: string | string[]) => {
-                      const keys = [].concat(invalidates)
+const Resource = (props: ResourceProps): React.Node => {
+  const {
+    url,
+    options,
+    maxAge,
 
-                      const cacheKeys = cache
-                        ? [...cache.keys()]
-                        : []
+    children,
+    fetcher
+  } = props
 
-                      keys.forEach((template) => {
-                        const pathPattern = template.replace(/\//g, '\\/')
-                          .replace(/{([^}]*)}/g, '.+?')
+  const defaultCache = new Map<*, *>()
 
-                        // /foo/bar/{id}
-                        // \/foo\/bar\/{id}
-                        // \/foo\/bar\/.+?
-
-                        const matcher = new RegExp(pathPattern)
-                        const matches = cacheKeys.filter(key => matcher.test(key.split(/[?#]/)[0]))
-
-                        matches.forEach((match) => {
-                          if (cache) { cache.delete(match) }
-                        })
-                      })
-                    }
-
-                    const mappedActions = {}
-
-                    if (actions && isPlainObject(actions)) {
-                      Object.keys(actions).forEach((key) => {
-                        const action = key ? actions[key] : null
-                        if (action && typeof action === 'function') {
-                          mappedActions[key] = (...args) => {
-                            const actionProps = action(...args)
-                            const merged = {
-                              ...this.props,
-                              ...actionProps,
-                            }
-                            const actionUrl = buildUrl(merged.path, merged.params, merged.query)
-                            const { invalidates } = merged
-                            const promise = fetcher(actionUrl, merged.options)
-                              .then((promiseState) => {
-                                if (promiseState.rejected) {
-                                  throw promiseState
-                                }
-                                return promiseState
-                              })
-                            if (invalidates) {
-                              // only invalidate on successful fetches
-                              return promise.then((promiseState) => {
-                                invalidate(invalidates)
-                                return promiseState
-                              })
-                            }
-                            return promise
-                          }
-                        }
-                      })
-                    }
-
-                    const childProps = {
-                      // ResourceProps
-                      meta: this.props,
-
-                      // ResourceMappedActions
-                      actions: mappedActions,
-
-                      // FetchState
-                      state: fetchState,
-                    }
-
-                    return (
-                      <React.Fragment>
-                        {
-                          typeof children === 'function'
-                            ? children(childProps)
-                            : children
-                        }
-                      </React.Fragment>
-                    )
-                  }
-                }
-              </Fetch>
-            )
-          }
+  return (
+    <Cache.Consumer>
+      {context => {
+        // If no Cache provider is found, the default `undefined` will be returned
+        // Warn user on dev, this may be desired in some cases
+        if (context === undefined) {
+          /* eslint-disable no-console */
+          console.warn(
+            'rsrc : <Resource /> - Persistent cache provider not found. Falling back to instance cache.'
+          )
+          /* eslint-enable no-console */
         }
-      </Cache.Consumer>
-    )
-  }
+
+        const cache = context || defaultCache
+
+        const invalidate = matchers => {
+          const cacheKeys = [...cache.keys()]
+          const keysToInvalidate = []
+          matchers.forEach(matcher => {
+            keysToInvalidate.push(
+              ...cacheKeys.filter(cacheKey => !!cacheKey.match(matcher))
+            )
+          })
+          keysToInvalidate.forEach(keyToInvalidate => {
+            cache.delete(keyToInvalidate)
+          })
+        }
+
+        const actions = mapFetchersToActions(props, invalidate)
+
+        return (
+          <Fetch
+            url={url}
+            options={options}
+            maxAge={maxAge}
+            fetcher={fetcher}
+            cache={cache}
+          >
+            {state => {
+              const childProps = {
+                meta: props,
+                actions,
+                state
+              }
+
+              return (
+                <>
+                  {typeof children === 'function'
+                    ? children(childProps)
+                    : children}
+                </>
+              )
+            }}
+          </Fetch>
+        )
+      }}
+    </Cache.Consumer>
+  )
+}
+
+Resource.defaultProps = {
+  url: '',
+  options: {},
+  maxAge: 60, // 1 minute
+  actions: {},
+  fetcher: createFetcher()
 }
 
 export default Resource
