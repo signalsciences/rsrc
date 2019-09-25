@@ -1,10 +1,9 @@
 /* @flow */
 
-import {
-  cleanup,
-  wait,
-} from 'react-testing-library'
-import checkStatus from './checkStatus'
+/* eslint-disable compat/compat */
+
+import { cleanup, wait } from '@testing-library/react'
+import checkStatus from '../src/checkStatus'
 
 afterEach(cleanup)
 
@@ -13,7 +12,7 @@ test('#checkStatus ok', async () => {
   const init = {
     ok: true,
     status: 200,
-    statusText: 'OK',
+    statusText: 'OK'
   }
   const res = new Response(body, init)
   await wait(() => expect(checkStatus(res)).resolves.toEqual(res))
