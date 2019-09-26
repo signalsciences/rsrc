@@ -27,26 +27,31 @@
   "files": [
     "dist",
     "LICENSE",
-    "README.md",
-    "src"
+    "README.md"
   ],
   "main": "dist/cjs.js",
   "module": "dist/esm.js",
+  "browser": "dist/rsrc.min.js",
   "scripts": {
     "build": "yarn clean && rollup -c",
     "clean": "rm -rf dist",
     "dev": "yarn build --watch",
     "flow": "flow",
-    "lint": "eslint src",
+    "format": "prettier --write 'src/**/*' 'test/**/*' 'README.md' '/docs/**/*.md'",
+    "lint": "eslint src test",
     "lint-staged": "lint-staged",
     "jest": "jest",
     "test": "yarn flow && yarn lint && yarn jest"
   },
   "lint-staged": {
     "src/**/*.js": [
-      "eslint --fix",
+      "prettier --write 'src/**/*' 'test/**/*' 'README.md' '/docs/**/*.md'",
       "git add"
     ]
+  },
+  "prettier": {
+    "singleQuote": true,
+    "semi": false
   },
   "babel": {
     "presets": [
@@ -57,52 +62,55 @@
     "extends": [
       "eslint-config-signalsciences"
     ],
+    "rules": {
+      "react/static-property-placement": "off"
+    },
     "settings": {
       "polyfills": [
         "fetch",
         "Promise"
       ]
-    },
-    "rules": {
-      "react/jsx-filename-extension": [1, { "extensions": [".js"] }]
     }
   },
   "jest": {
     "preset": "jest-preset-signalsciences",
     "setupFiles": [
-      "./setupJest.js"
+      "./test/setupJest.js"
     ]
-  },
-  "dependencies": {
-    "query-string": "^6.8.1",
-    "url-template": "^2.0.8"
   },
   "peerDependencies": {
     "react": "^16.3",
     "react-dom": "^16.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.4",
-    "@testing-library/react": "^8.0.4",
-    "babel-preset-signalsciences": "^0.0.5",
-    "browserslist-config-signalsciences": "^0.0.1",
+    "@babel/core": "^7.6.2",
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
+    "@commitlint/config-lerna-scopes": "^8.2.0",
+    "@testing-library/react": "^9.1.4",
+    "babel-preset-signalsciences": "^1.0.1",
+    "browserslist-config-signalsciences": "^1.0.1",
     "core-js": "^3.1.4",
-    "eslint": "^5.16.0",
-    "eslint-config-signalsciences": "^0.0.7",
-    "eslint-plugin-compat": "^3.2.0",
-    "eslint-plugin-flowtype": "3.10.4",
-    "eslint-plugin-import": "^2.18.0",
-    "eslint-plugin-jest": "^22.7.2",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.14.2",
-    "flow-bin": "^0.102.0",
+    "eslint": "^6.4.0",
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-config-signalsciences": "^1.0.1",
+    "eslint-plugin-compat": "^3.3.0",
+    "eslint-plugin-flowtype": "^4.2.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react-hooks": "^2.0.1",
+    "flow-bin": "^0.108.0",
     "jest": "^24.8.0",
     "jest-fetch-mock": "^2.1.2",
-    "jest-preset-signalsciences": "^1.0.0",
-    "lint-staged": "^9.2.0",
+    "jest-preset-signalsciences": "^2.0.1",
+    "lint-staged": "^9.3.0",
+    "prettier": "1.18.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "regenerator-runtime": "^0.13.2",
-    "rollup-config-signalsciences": "^0.0.8"
+    "rollup": "^1.21.4",
+    "rollup-config-signalsciences": "^1.0.1"
   }
 }
