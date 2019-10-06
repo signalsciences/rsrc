@@ -1,71 +1,71 @@
 /* @flow */
 
-import React from 'react'
-import { render, cleanup, wait } from '@testing-library/react'
-import fetch from 'jest-fetch-mock'
-import { Fetch } from '../src'
+import React from "react";
+import { render, cleanup, wait } from "@testing-library/react";
+import fetch from "jest-fetch-mock";
+import { Fetch } from "../src";
 
-afterEach(cleanup)
+afterEach(cleanup);
 
 // beforeEach(() => {
 //   fetch.resetMocks()
 // })
 
-test('<Fetch /> Fulfilled', async () => {
+test("<Fetch /> Fulfilled", async () => {
   fetch.mockResponses([
-    JSON.stringify({ data: 'ok' }),
+    JSON.stringify({ data: "ok" }),
     {
       status: 200,
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       }
     }
-  ])
-  let renderProps = {}
+  ]);
+  let renderProps = {};
   const children = arg => {
-    renderProps = { ...renderProps, ...arg }
-    return null
-  }
-  const { rerender } = render(<Fetch url="foo">{children}</Fetch>)
+    renderProps = { ...renderProps, ...arg };
+    return null;
+  };
+  const { rerender } = render(<Fetch url="foo">{children}</Fetch>);
 
-  expect(fetch).toHaveBeenCalledTimes(1)
+  expect(fetch).toHaveBeenCalledTimes(1);
 
-  renderProps.read()
-  expect(fetch).toHaveBeenCalledTimes(1)
+  renderProps.read();
+  expect(fetch).toHaveBeenCalledTimes(1);
 
-  renderProps.invalidate()
-  renderProps.read()
-  expect(fetch).toHaveBeenCalledTimes(2)
+  renderProps.invalidate();
+  renderProps.read();
+  expect(fetch).toHaveBeenCalledTimes(2);
 
-  renderProps.refresh()
-  expect(fetch).toHaveBeenCalledTimes(3)
+  renderProps.refresh();
+  expect(fetch).toHaveBeenCalledTimes(3);
 
-  rerender(<Fetch url="bar">{children}</Fetch>)
+  rerender(<Fetch url="bar">{children}</Fetch>);
 
-  expect(fetch).toHaveBeenCalledTimes(4)
-})
+  expect(fetch).toHaveBeenCalledTimes(4);
+});
 
-test('<Fetch /> Rejected', async () => {
+test("<Fetch /> Rejected", async () => {
   fetch.mockResponses([
-    JSON.stringify({ message: 'Whoops' }),
+    JSON.stringify({ message: "Whoops" }),
     {
       status: 500,
       headers: {
-        'Content-Type': 'text/plain'
+        "Content-Type": "text/plain"
       }
     }
-  ])
+  ]);
 
-  let renderProps = {}
+  let renderProps = {};
   const children = arg => {
-    renderProps = { ...renderProps, ...arg }
-    return null
-  }
-  const { rerender } = await render(<Fetch url="baz">{children}</Fetch>)
+    renderProps = { ...renderProps, ...arg };
+    return null;
+  };
+  const { rerender } = await render(<Fetch url="baz">{children}</Fetch>);
 
-  await wait(expect(renderProps.pending).toBe(true))
+  await wait(expect(renderProps.pending).toBe(true));
 
-  rerender(<Fetch url="bar">{children}</Fetch>)
+  rerender(<Fetch url="bar">{children}</Fetch>);
 
-  expect(fetch).toHaveBeenCalledTimes(5)
-})
+  expect(fetch).toHaveBeenCalledTimes(5);
+});

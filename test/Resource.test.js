@@ -1,29 +1,29 @@
 /* @flow */
 
-import React from 'react'
-import { render, wait } from '@testing-library/react'
-import fetch from 'jest-fetch-mock'
-import { Cache, Resource } from '../src'
+import React from "react";
+import { render, wait } from "@testing-library/react";
+import fetch from "jest-fetch-mock";
+import { Cache, Resource } from "../src";
 
 // afterEach(cleanup)
 
-test('<Resource />', async () => {
+test("<Resource />", async () => {
   fetch.mockResponses([
-    JSON.stringify({ data: 'ok' }),
+    JSON.stringify({ data: "ok" }),
     {
       status: 200,
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       }
     }
-  ])
-  let renderProps = {}
+  ]);
+  let renderProps = {};
   const children = arg => {
-    renderProps = { ...renderProps, ...arg }
-    return null
-  }
+    renderProps = { ...renderProps, ...arg };
+    return null;
+  };
 
-  const url = 'https://foo.bar.com/baz/quux'
+  const url = "https://foo.bar.com/baz/quux";
 
   render(
     <Cache>
@@ -34,7 +34,7 @@ test('<Resource />', async () => {
           create: data => ({
             options: {
               body: JSON.stringify(data),
-              method: 'POST'
+              method: "POST"
             },
             invalidates: [url]
           })
@@ -43,24 +43,24 @@ test('<Resource />', async () => {
         {children}
       </Resource>
     </Cache>
-  )
+  );
 
-  expect(fetch).toHaveBeenCalledTimes(1)
+  expect(fetch).toHaveBeenCalledTimes(1);
 
-  renderProps.state.read()
-  expect(fetch).toHaveBeenCalledTimes(1)
+  renderProps.state.read();
+  expect(fetch).toHaveBeenCalledTimes(1);
 
-  renderProps.state.invalidate()
-  renderProps.state.read()
-  expect(fetch).toHaveBeenCalledTimes(2)
+  renderProps.state.invalidate();
+  renderProps.state.read();
+  expect(fetch).toHaveBeenCalledTimes(2);
 
-  renderProps.state.refresh()
-  expect(fetch).toHaveBeenCalledTimes(3)
+  renderProps.state.refresh();
+  expect(fetch).toHaveBeenCalledTimes(3);
 
-  renderProps.actions.create({ foo: 'bar' })
+  renderProps.actions.create({ foo: "bar" });
 
-  await wait(expect(fetch).toHaveBeenCalledTimes(4))
+  await wait(expect(fetch).toHaveBeenCalledTimes(4));
 
-  renderProps.state.read()
-  expect(fetch).toHaveBeenCalledTimes(5)
-})
+  renderProps.state.read();
+  expect(fetch).toHaveBeenCalledTimes(5);
+});

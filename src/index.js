@@ -1,11 +1,11 @@
 /* @flow */
 
-import Cache from './Cache'
-import Fetch from './Fetch'
-import Resource from './Resource'
+import Cache from "./Cache";
+import Fetch from "./Fetch";
+import Resource from "./Resource";
 
-import createFetcher from './createFetcher'
+import createFetcher from "./createFetcher";
 
-export * from './types'
+export * from "./types";
 
-export { Cache, Fetch, Resource, createFetcher }
+export { Cache, Fetch, Resource, createFetcher };

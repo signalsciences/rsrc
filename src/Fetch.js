@@ -1,24 +1,24 @@
 /* @flow */
 
-import * as React from 'react'
-import createFetcher from './createFetcher'
-import type { FetchProps, FetchState, FetcherState } from './types'
+import * as React from "react";
+import createFetcher from "./createFetcher";
+import type { FetchProps, FetchState, FetcherState } from "./types";
 
 class Fetch extends React.Component<FetchProps, FetchState> {
   static defaultProps = {
-    url: '',
+    url: "",
     options: {},
     maxAge: 60, // 1 minute
     cache: new Map<*, *>(),
     fetcher: createFetcher()
-  }
+  };
 
-  static displayName = 'Fetch'
+  static displayName = "Fetch";
 
-  promise: ?Promise<FetcherState>
+  promise: ?Promise<FetcherState>;
 
   constructor(props: FetchProps) {
-    super(props)
+    super(props);
     this.state = {
       // promiseState
       pending: false,
@@ -32,12 +32,12 @@ class Fetch extends React.Component<FetchProps, FetchState> {
       read: this.read.bind(this),
       refresh: this.refresh.bind(this),
       invalidate: this.invalidate.bind(this)
-    }
-    this.promise = undefined
+    };
+    this.promise = undefined;
   }
 
   componentDidMount() {
-    this.read()
+    this.read();
   }
 
   componentDidUpdate(prevProps: FetchProps) {
@@ -46,7 +46,7 @@ class Fetch extends React.Component<FetchProps, FetchState> {
       options,
       maxAge
       // cache,
-    } = this.props
+    } = this.props;
 
     if (
       url !== prevProps.url ||
@@ -55,14 +55,14 @@ class Fetch extends React.Component<FetchProps, FetchState> {
       // does this effectively turn invalidate into refresh?
       // || !cache.get(url)
     ) {
-      this.read()
+      this.read();
     }
   }
 
   componentWillUnmount() {
     // We clear the promise to prevent setState() from being called by
     // lingering promises after the component has unmounted
-    this.promise = undefined
+    this.promise = undefined;
   }
 
   onResolved(fetcherState: ?FetcherState, promise: ?Promise<FetcherState>) {
@@ -70,7 +70,7 @@ class Fetch extends React.Component<FetchProps, FetchState> {
     // Only set state if still mounted and this.promise is known.
     // The reference is removed in componentWillUnmount so it won't attempt to setState.
     if (promise === this.promise) {
-      this.setState(prevState => ({ ...prevState, ...fetcherState }))
+      this.setState(prevState => ({ ...prevState, ...fetcherState }));
     }
   }
 
@@ -78,18 +78,18 @@ class Fetch extends React.Component<FetchProps, FetchState> {
     this.setState(prevState => ({
       ...prevState,
       pending: true
-    }))
+    }));
 
-    const { url, options, maxAge, fetcher, cache } = this.props
+    const { url, options, maxAge, fetcher, cache } = this.props;
 
     const isCacheable =
-      !options.method || options.method.toLowerCase() === 'get'
+      !options.method || options.method.toLowerCase() === "get";
 
-    let isStale = false
-    let cached
+    let isStale = false;
+    let cached;
 
     if (isCacheable) {
-      cached = cache.get(url)
+      cached = cache.get(url);
     }
 
     /* Discard result if stale */
@@ -97,76 +97,76 @@ class Fetch extends React.Component<FetchProps, FetchState> {
       isStale =
         cached.lastResolved &&
         maxAge &&
-        cached.lastResolved + maxAge * 1000 < +new Date()
+        cached.lastResolved + maxAge * 1000 < +new Date();
       if (isStale) {
-        cached = undefined
+        cached = undefined;
       }
     }
 
-    let promise
+    let promise;
 
     if (cached) {
       /* CACHE HIT */
-      promise = cached.value
+      promise = cached.value;
     } else {
       /* CACHE MISS */
-      promise = fetcher(url, options)
+      promise = fetcher(url, options);
 
       cache.set(url, {
         value: promise
-      })
+      });
       promise.then(
         () => {
-          const r = cache.get(url)
+          const r = cache.get(url);
           if (r && r.value === promise) {
             cache.set(url, {
               ...r,
               lastResolved: +new Date()
-            })
+            });
           }
         },
         error => {
-          const r = cache.get(url)
+          const r = cache.get(url);
           if (r && r.value === promise) {
             cache.set(url, {
               ...r,
               lastResolved: +new Date()
-            })
+            });
           }
-          throw error
+          throw error;
         }
-      )
+      );
     }
 
-    this.promise = promise
+    this.promise = promise;
 
     promise.then(
       fetcherState => {
-        this.onResolved(fetcherState, promise)
+        this.onResolved(fetcherState, promise);
       },
       fetcherState => {
-        this.onResolved(fetcherState, promise)
+        this.onResolved(fetcherState, promise);
       }
-    )
+    );
   }
 
   invalidate() {
-    const { cache, url } = this.props
-    cache.delete(url)
+    const { cache, url } = this.props;
+    cache.delete(url);
   }
 
   refresh() {
-    this.invalidate()
-    this.read()
+    this.invalidate();
+    this.read();
   }
 
   render() {
-    const { children } = this.props
+    const { children } = this.props;
 
     return (
-      <>{typeof children === 'function' ? children(this.state) : children}</>
-    )
+      <>{typeof children === "function" ? children(this.state) : children}</>
+    );
   }
 }
 
-export default Fetch
+export default Fetch;

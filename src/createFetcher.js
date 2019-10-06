@@ -1,10 +1,10 @@
 /* @flow */
 
-import _checkStatus from './checkStatus'
-import _parseBody from './parseBody'
-import _parseError from './parseError'
+import _checkStatus from "./checkStatus";
+import _parseBody from "./parseBody";
+import _parseError from "./parseError";
 
-import type { FetcherConfig, Fetcher } from './types'
+import type { FetcherConfig, Fetcher } from "./types";
 
 export default function createFetcher(overrides: FetcherConfig = {}): Fetcher {
   const defaultConfig = {
@@ -12,14 +12,14 @@ export default function createFetcher(overrides: FetcherConfig = {}): Fetcher {
     checkStatus: _checkStatus,
     parseBody: _parseBody,
     parseError: _parseError
-  }
+  };
 
   const config = {
     ...defaultConfig,
     ...overrides
-  }
+  };
 
-  const { fetchFunction } = config
+  const { fetchFunction } = config;
 
   return (url, options) =>
     fetchFunction(url, options)
@@ -27,11 +27,11 @@ export default function createFetcher(overrides: FetcherConfig = {}): Fetcher {
       // based on the function's criteria. The default is to only resolve when
       // `response.ok` is true (status in the range 200-299).
       .then(response => {
-        const { checkStatus } = config
-        return checkStatus(response)
+        const { checkStatus } = config;
+        return checkStatus(response);
       })
       .then(response => {
-        const { parseBody } = config
+        const { parseBody } = config;
         return parseBody(response).then(value =>
           Promise.resolve({
             pending: false,
@@ -40,7 +40,7 @@ export default function createFetcher(overrides: FetcherConfig = {}): Fetcher {
             value,
             reason: null
           })
-        )
+        );
       })
       .catch(error => {
         if (error instanceof Error) {
@@ -50,10 +50,10 @@ export default function createFetcher(overrides: FetcherConfig = {}): Fetcher {
             rejected: true,
             value: null,
             reason: error
-          })
+          });
         }
 
-        const { parseError } = config
+        const { parseError } = config;
 
         return parseError(error).then(reason =>
           Promise.resolve({
@@ -63,6 +63,6 @@ export default function createFetcher(overrides: FetcherConfig = {}): Fetcher {
             value: null,
             reason
           })
-        )
-      })
+        );
+      });
 }

@@ -1,6 +1,6 @@
 /* @flow */
 
-import parseBody from './parseBody'
+import parseBody from "./parseBody";
 
 export default function parseError(response: Response): Promise<Error> {
   return parseBody(response).then(body =>
@@ -11,5 +11,5 @@ export default function parseError(response: Response): Promise<Error> {
         )}`
       )
     )
-  )
+  );
 }

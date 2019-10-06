@@ -1,6 +1,6 @@
 /* @flow */
 
-require('core-js/stable')
-require('regenerator-runtime/runtime')
+require("core-js/stable");
+require("regenerator-runtime/runtime");
 
-global.fetch = require('jest-fetch-mock')
+global.fetch = require("jest-fetch-mock");
