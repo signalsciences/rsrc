@@ -1,49 +1,115 @@
 {
-  "name": "rsrc-monorepo",
-  "private": true,
-  "engines": {
-    "node": ">=8.0.0",
-    "yarn": ">=1.5.0"
+  "name": "rsrc",
+  "author": "Signal Sciences",
+  "description": "React components for managing async fetch state",
+  "version": "0.0.5",
+  "publishConfig": {
+    "access": "public"
   },
+  "browserslist": [
+    "extends browserslist-config-signalsciences"
+  ],
+  "keywords": [
+    "react",
+    "resource",
+    "fetch",
+    "cache"
+  ],
+  "homepage": "https://github.com/signalsciences/rsrc",
+  "bugs": {
+    "url": "https://github.com/signalsciences/rsrc/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/signalsciences/rsrc.git"
+  },
+  "license": "MIT",
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "main": "dist/cjs.js",
+  "module": "dist/esm.js",
+  "browser": "dist/rsrc.min.js",
   "scripts": {
-    "build": "lerna run build",
-    "prebuild": "yarn test",
-    "dev": "lerna run dev --parallel --stream",
-    "lint": "lerna run lint",
-    "jest": "lerna run jest",
-    "publish": "lerna publish",
-    "publish:dev": "lerna publish --npm-tag next",
-    "publish:docs": "lerna run export && git subtree push --prefix packages/website/out origin gh-pages",
-    "prepublishOnly": "yarn build",
-    "test": "lerna run test",
+    "build": "yarn clean && rollup -c",
+    "clean": "rm -rf dist",
+    "dev": "yarn build --watch",
+    "flow": "flow",
+    "format": "prettier --write 'src/**/*' 'test/**/*' 'README.md' '/docs/**/*.md'",
+    "lint": "eslint src test",
+    "lint-staged": "lint-staged",
+    "jest": "jest src",
+    "test": "yarn flow && yarn lint && yarn jest",
     "up": "yarn upgrade-interactive --latest"
   },
   "husky": {
     "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "lerna run lint-staged"
+      "pre-commit": "lint-staged"
     }
   },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional",
-      "@commitlint/config-lerna-scopes"
+  "lint-staged": {
+    "src/**/*.js": [
+      "prettier --write 'src/**/*' 'test/**/*' 'README.md' '/docs/**/*.md'",
+      "git add"
     ]
+  },
+  "babel": {
+    "presets": [
+      "babel-preset-signalsciences"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "eslint-config-signalsciences"
+    ],
+    "rules": {
+      "react/static-property-placement": "off"
+    },
+    "settings": {
+      "polyfills": [
+        "fetch",
+        "Promise"
+      ]
+    }
+  },
+  "jest": {
+    "preset": "jest-preset-signalsciences",
+    "setupFiles": [
+      "./test/setupJest.js"
+    ]
+  },
+  "peerDependencies": {
+    "react": "^16.8",
+    "react-dom": "^16.8"
   },
   "devDependencies": {
-    "@commitlint/cli": "^8.1.0",
-    "@commitlint/config-conventional": "^8.1.0",
-    "@commitlint/config-lerna-scopes": "^8.1.0",
+    "@babel/core": "^7.6.2",
+    "@testing-library/react": "^9.1.4",
+    "babel-preset-signalsciences": "^1.0.1",
+    "browserslist-config-signalsciences": "^1.0.1",
+    "core-js": "^3.1.4",
+    "eslint": "^6.4.0",
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-config-signalsciences": "^1.0.1",
+    "eslint-plugin-compat": "^3.3.0",
+    "eslint-plugin-flowtype": "^4.2.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react-hooks": "^2.0.1",
     "husky": "^3.0.0",
-    "lerna": "^3.15.0",
-    "lerna-changelog": "^0.8.2",
+    "flow-bin": "^0.108.0",
+    "jest": "^24.8.0",
+    "jest-fetch-mock": "^2.1.2",
+    "jest-preset-signalsciences": "^2.0.1",
+    "lint-staged": "^9.3.0",
     "pre-commit": "^1.2.2",
-    "react": "^16.3",
-    "react-dom": "^16.3"
-  },
-  "workspaces": {
-    "packages": [
-      "packages/*"
-    ]
+    "prettier": "1.18.2",
+    "regenerator-runtime": "^0.13.2",
+    "rollup": "^1.21.4",
+    "rollup-config-signalsciences": "^1.0.1"
   }
 }
