@@ -1,0 +1,54 @@
+{
+  "name": "website",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "export": "yarn run build && next export",
+    "publish": "yarn export && touch out/.nojekyll && gh-pages -t -d out",
+    "flow": "flow",
+    "format": "prettier --write '{components,pages,theme}/**/*.js' '*.config.js' 'pages/**/*.md'",
+    "lint": "eslint ."
+  },
+  "eslintConfig": {
+    "extends": [
+      "eslint-config-signalsciences"
+    ],
+    "rules": {
+      "react/static-property-placement": "off"
+    }
+  },
+  "dependencies": {
+    "@emotion/core": "^10.0.20",
+    "@mdx-js/loader": "1.5.0",
+    "@mdx-js/react": "1.5.0",
+    "@next/mdx": "9.0.6",
+    "@theme-ui/prism": "^0.2.40",
+    "@theme-ui/style-guide": "^0.2.43",
+    "eslint-plugin-jest": "^22.17.0",
+    "gh-pages": "^2.0.1",
+    "isomorphic-unfetch": "3.0.0",
+    "next": "9.0.6",
+    "react": "16.10.2",
+    "react-dom": "16.10.2",
+    "rebass": "^4.0.6",
+    "remark-slug": "^5.1.2",
+    "theme-ui": "^0.2.43"
+  },
+  "devDependencies": {
+    "eslint": "^6.4.0",
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-config-signalsciences": "^1.0.1",
+    "eslint-plugin-compat": "^3.3.0",
+    "eslint-plugin-flowtype": "^4.2.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react-hooks": "^2.1.2",
+    "flow-bin": "^0.109.0",
+    "prettier": "1.18.2"
+  }
+}
