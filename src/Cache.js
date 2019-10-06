@@ -7,13 +7,11 @@ import type { CacheProps, CacheState } from "./types";
 const CacheContext = React.createContext<*>(null);
 
 class Cache extends React.Component<CacheProps, CacheState> {
-  static Consumer = CacheContext.Consumer;
+  static displayName = "Cache";
 
   static defaultProps = {
     map: new Map<*, *>()
   };
-
-  static displayName = "Cache";
 
   constructor(props: CacheProps) {
     super(props);
@@ -32,6 +30,8 @@ class Cache extends React.Component<CacheProps, CacheState> {
       clear: this.clear.bind(this)
     };
   }
+
+  static Consumer = CacheContext.Consumer;
 
   get(key: string): * {
     const { map } = this.props;

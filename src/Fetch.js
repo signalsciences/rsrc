@@ -5,6 +5,10 @@ import createFetcher from "./createFetcher";
 import type { FetchProps, FetchState, FetcherState } from "./types";
 
 class Fetch extends React.Component<FetchProps, FetchState> {
+  promise: ?Promise<FetcherState>;
+
+  static displayName = "Fetch";
+
   static defaultProps = {
     url: "",
     options: {},
@@ -12,10 +16,6 @@ class Fetch extends React.Component<FetchProps, FetchState> {
     cache: new Map<*, *>(),
     fetcher: createFetcher()
   };
-
-  static displayName = "Fetch";
-
-  promise: ?Promise<FetcherState>;
 
   constructor(props: FetchProps) {
     super(props);
