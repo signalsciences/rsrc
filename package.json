@@ -37,7 +37,7 @@
     "clean": "rm -rf dist",
     "dev": "yarn build --watch",
     "flow": "flow",
-    "format": "prettier --write 'src/**/*' 'test/**/*' 'examples/**/*' 'website/**/*' 'docs/**/*.md' 'README.md'",
+    "format": "prettier --write '{docs,examples,src,test,website}/**/*.{js,md}' './*.{js,md}'",
     "lint": "eslint src test examples website",
     "lint-staged": "lint-staged",
     "jest": "jest src",
@@ -57,8 +57,8 @@
   },
   "lint-staged": {
     "src/**/*.js": [
-      "eslint src test examples website",
-      "prettier --write 'src/**/*' 'test/**/*' 'examples/**/*' 'website/**/*' 'docs/**/*.md' 'README.md'",
+      "eslint examples src test website",
+      "prettier --write '{docs,examples,src,test,website}/**/*.{js,md}' './*.{js,md}'",
       "git add"
     ]
   },

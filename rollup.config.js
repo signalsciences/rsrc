@@ -1,1 +1,1 @@
-module.exports = require('rollup-config-signalsciences')
+module.exports = require("rollup-config-signalsciences");
