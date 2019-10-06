@@ -58,7 +58,9 @@ typings/
 .env
 
 # next.js build output
-.next
+website/.next
+website/out
+website/rsrc
 
 # dist
 dist

@@ -1,3 +1,5 @@
 {
-  "extends": "signalsciences"
+  "rules": {
+    "import/no-extraneous-dependencies": "off"
+  }
 }

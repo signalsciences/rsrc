@@ -1,8 +1,10 @@
 [ignore]
+<PROJECT_ROOT>/dist/.*
 <PROJECT_ROOT>/docs/.*
-<PROJECT_ROOT>/site/.*
-<PROJECT_ROOT>/test/.*
-<PROJECT_ROOT>/website/.*
+<PROJECT_ROOT>/examples/.*
+<PROJECT_ROOT>/website/.next
+<PROJECT_ROOT>/website/out
+<PROJECT_ROOT>/website/rsrc
 
 [include]
 
@@ -11,5 +13,6 @@
 [lints]
 
 [options]
+module.file_ext=.md
 
 [strict]
