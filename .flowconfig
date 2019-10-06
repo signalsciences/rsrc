@@ -1,0 +1,15 @@
+[ignore]
+<PROJECT_ROOT>/docs/.*
+<PROJECT_ROOT>/site/.*
+<PROJECT_ROOT>/test/.*
+<PROJECT_ROOT>/website/.*
+
+[include]
+
+[libs]
+
+[lints]
+
+[options]
+
+[strict]
