@@ -1,3 +1,6 @@
-/website/.next
-/website/out
-/website/rsrc
+dist
+flow-typed
+node_modules
+website/.next
+website/out
+website/rsrc
