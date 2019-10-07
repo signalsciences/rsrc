@@ -1,4 +1,4 @@
-name: Node CI
+name: CI
 
 on: [push]
 
@@ -19,7 +19,6 @@ jobs:
     - name: Install deps and build package
       run: yarn install --frozen-lockfile
     - name: Run tests
-      run: |
-        yarn jest --coverage
+      run: yarn test
       env:
         CI: true
