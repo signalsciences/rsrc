@@ -6,7 +6,7 @@ import { Cache, Resource } from "rsrc";
 
 const GithubOrg = ({ org, children }) => {
   return (
-    <Resource path={`https://api.github.com/orgs/${org}`}>{children}</Resource>
+    <Resource url={`https://api.github.com/orgs/${org}`}>{children}</Resource>
   );
 };
 

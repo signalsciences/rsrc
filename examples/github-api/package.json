@@ -6,7 +6,7 @@
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-scripts": "^3.2.0",
-    "rsrc": "^0.0.5"
+    "rsrc": "^1.0.0"
   },
   "scripts": {
     "start": "react-scripts start"
