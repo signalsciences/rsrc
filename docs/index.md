@@ -8,4 +8,3 @@
 - [Cache](/docs/api/cache)
 - [Fetch](/docs/api/fetch)
 - [Resource](/docs/api/resource)
-- [createFetcher](/docs/api/create-fetcher)

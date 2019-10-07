@@ -1,7 +1,5 @@
 # createFetcher()
 
-## Props
+[TODO]
 
-### `fetchFn`
-
-The maximum **number of seconds** since last resolved for a cached result to be
+Advanced feature to customize fetch behavior
