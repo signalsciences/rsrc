@@ -49,7 +49,7 @@
     "docs:clean": "npx rimraf website/{.next,out,rsrc}",
     "docs:export": "yarn run docs:build && next export website",
     "docs:preview": "yarn docs:export && cd website && ln -sf out rsrc && npx serve && open http://localhost:5000/rsrc",
-    "docs:publish": "yarn export && touch website/out/.nojekyll && gh-pages -t -d website/out"
+    "docs:publish": "yarn docs:export && touch website/out/.nojekyll && gh-pages -t -d website/out"
   },
   "husky": {
     "hooks": {
