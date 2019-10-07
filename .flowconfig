@@ -1,10 +1,11 @@
 [ignore]
-<PROJECT_ROOT>/dist/.*
-<PROJECT_ROOT>/docs/.*
-<PROJECT_ROOT>/examples/.*
-<PROJECT_ROOT>/website/.next
-<PROJECT_ROOT>/website/out
-<PROJECT_ROOT>/website/rsrc
+coverage
+dist
+flow-typed
+node_modules
+.next
+out
+website/rsrc
 
 [include]
 

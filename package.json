@@ -38,9 +38,10 @@
     "dev": "yarn build --watch",
     "flow": "flow",
     "format": "prettier --write '{docs,examples,src,test,website}/**/*.{js,md}' './*.{js,md}'",
-    "lint": "eslint src test examples website",
+    "lint": "eslint .",
     "lint-staged": "lint-staged",
     "jest": "jest src",
+    "jest:coverage": "jest --coverage src",
     "test": "yarn flow && yarn lint && yarn jest",
     "up": "yarn upgrade-interactive --latest",
     "docs:dev": "next dev website",
@@ -56,9 +57,13 @@
     }
   },
   "lint-staged": {
-    "src/**/*.js": [
-      "eslint examples src test website",
-      "prettier --write '{docs,examples,src,test,website}/**/*.{js,md}' './*.{js,md}'",
+    "*.js": [
+      "prettier --write",
+      "eslint",
+      "git add"
+    ],
+    "*.md": [
+      "prettier --write",
       "git add"
     ]
   },
