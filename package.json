@@ -44,9 +44,9 @@
     "postversion": "git push --tags && yarn publish . --tag $npm_package_version && git push && echo \"Successfully released version $npm_package_version!\"",
     "up": "yarn upgrade-interactive --latest",
     "docs:dev": "next dev website",
-    "docs:build": "next build website",
     "docs:clean": "npx rimraf website/{.next,out,rsrc}",
-    "docs:export": "NODE_ENV=production yarn run docs:build && next export website",
+    "docs:build": "yarn docs:clean && next build website",
+    "docs:export": "yarn docs:build && next export website",
     "docs:preview": "yarn docs:export && cd website && ln -sf out rsrc && npx serve",
     "docs:publish": "yarn docs:export && touch website/out/.nojekyll && gh-pages -t -d website/out"
   },

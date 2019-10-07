@@ -9,10 +9,12 @@ const withMDX = require("@next/mdx")({
   }
 });
 
-const BASE_URL = process.env.NODE_ENV === "production" ? "/rsrc" : "";
+const isProd = process.env.NODE_ENV === "production";
+const BASE_URL = isProd ? "/rsrc" : "";
 const GA_TRACKING_ID = "UA-46986803-7";
 
 module.exports = withMDX({
+  exportTrailingSlash: true,
   pageExtensions: ["js", "md"],
   assetPrefix: BASE_URL,
   publicRuntimeConfig: {

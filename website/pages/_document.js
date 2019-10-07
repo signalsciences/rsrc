@@ -5,7 +5,7 @@ import Document, { Head, Main, NextScript } from "next/document";
 import getConfig from "next/config";
 
 const { publicRuntimeConfig } = getConfig();
-const { GA_TRACKING_ID } = publicRuntimeConfig;
+const { BASE_URL, GA_TRACKING_ID } = publicRuntimeConfig;
 
 /* eslint-disable react/no-danger */
 
@@ -31,7 +31,7 @@ export default class extends Document {
             `
             }}
           />
-          <link rel="shortcut icon" href="/static/favicon.png" />
+          <link rel="shortcut icon" href={`${BASE_URL}/static/favicon.png`} />
         </Head>
         <body>
           <Main />
