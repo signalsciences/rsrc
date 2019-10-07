@@ -5,7 +5,6 @@ const heading = {
   fontFamily: "heading",
   lineHeight: "heading",
   fontWeight: "heading",
-  mt: [5, 6],
   mb: 0,
   pb: [2, 3],
   pt: 0,
@@ -74,27 +73,33 @@ export default {
     },
     h1: {
       ...heading,
+      mt: [5, 5, 6],
       fontSize: [5, 5, 6],
       fontWeight: "bold"
     },
     h2: {
       ...heading,
+      mt: [4, 4, 5],
       fontSize: [4, 4, 5]
     },
     h3: {
       ...heading,
+      mt: 3,
       fontSize: 3
     },
     h4: {
       ...heading,
+      mt: 2,
       fontSize: 2
     },
     h5: {
       ...heading,
+      mt: 1,
       fontSize: 1
     },
     h6: {
       ...heading,
+      mt: 0,
       fontSize: 0
     },
     p: {
@@ -143,7 +148,7 @@ export default {
         borderWidth: 0,
         borderBottomWidth: 1,
         borderStyle: "solid",
-        borderColor: "background-muted"
+        borderColor: "muted"
       },
       "& td": {
         p: 3,
@@ -152,7 +157,7 @@ export default {
         borderWidth: 0,
         borderBottomWidth: 1,
         borderStyle: "solid",
-        borderColor: "background-muted"
+        borderColor: "muted"
       },
       "& th:empty": {
         display: "none"
