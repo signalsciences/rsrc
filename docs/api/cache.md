@@ -13,12 +13,12 @@ React.Component<CacheProps, CacheState>
 
 ```js
 type CacheProps = {
-  cache: Map<*, *>,
+  map: Map<*, *>,
   children?: React.Node
 };
 ```
 
-> The `cache` prop can be any map-like interface which gets wrapped to allow for state
+> The `map` prop can be any map-like interface which gets wrapped to allow for state
 > updates on change.
 
 ## State

@@ -104,6 +104,7 @@ const TodoList = ({ todos, onClick }) => (
 
 ```jsx
 // src/App.js
+
 import React from "react";
 
 const App = () => (
