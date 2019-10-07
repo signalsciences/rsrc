@@ -2,9 +2,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
 import * as React from "react";
-import { Flex, Box } from "rebass";
+import { Global } from "@emotion/core";
 import { ThemeProvider, Styled } from "theme-ui";
 import Prism from "@theme-ui/prism";
+import { Flex, Box, Image } from "rebass";
 
 import Link from "./Link";
 import Footer from "./Footer";
@@ -31,12 +32,25 @@ const components = {
   code: Prism,
   inlineCode: ({ children }: Props) => <Styled.code>{children}</Styled.code>,
   a: Link,
+  img: Image,
   h2: withLink("h2"),
   h3: withLink("h3")
 };
 
 const Layout = ({ children }: Props) => (
   <ThemeProvider theme={theme} components={components}>
+    <Global
+      styles={({ colors }) => ({
+        body: {
+          margin: 0,
+          padding: 0,
+          color: colors.text,
+          backgroundColor: colors.background,
+          WebkitFontSmoothing: "antialiased",
+          MozOsxFontSmoothing: "grayscale"
+        }
+      })}
+    />
     <Styled.root>
       <Flex
         flexDirection="column"

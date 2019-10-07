@@ -1,5 +1,5 @@
 #### Previews
 
-- [Style guide](/themes/style-guide)
-- [Colors](/themes/palette)
-- [Markdown](/themes/markdown)
+- [Styleguide](/theme/styles)
+- [Markdown](/theme/markdown)
+- [README](/theme/readme)

@@ -32,14 +32,8 @@ export default class extends Document {
             }}
           />
           <link rel="shortcut icon" href="/static/favicon.png" />
-          {/*
-          <link
-            rel='stylesheet'
-            href='/static/styles.css'
-          />
-          */}
         </Head>
-        <body style={{ margin: 0, padding: 0 }}>
+        <body>
           <Main />
           <NextScript />
         </body>

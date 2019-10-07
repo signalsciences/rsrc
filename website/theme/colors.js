@@ -38,7 +38,7 @@ export default {
 
     secondary: pink,
     accent: blue,
-    "text-muted": "rgba(255,255,255,.8)",
+    "text-muted": "rgba(0,0,0,.35)",
     "background-muted": "rgba(200,200,200,.2)",
     modes: {
       dark: {
@@ -48,7 +48,7 @@ export default {
         background: black,
         primary: violet,
         "text-muted": "rgba(255,255,255,.8)",
-        "background-muted": "rgba(255,255,255,.1)"
+        "background-muted": "rgba(255,255,255,.05)"
       },
       primary: {
         text: smoke,

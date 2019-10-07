@@ -29,7 +29,11 @@ type Props = {
 const Link = ({ children, href, ...rest }: Props) => {
   // External links
   if (/^https?:/.test(href)) {
-    return <RebassLink {...rest}>{children}</RebassLink>;
+    return (
+      <RebassLink href={href} {...rest}>
+        {children}
+      </RebassLink>
+    );
   }
 
   // Internal links

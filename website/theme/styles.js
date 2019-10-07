@@ -8,7 +8,25 @@ const heading = {
   mt: [5, 6],
   mb: 0,
   pb: [2, 3],
-  pt: 0
+  pt: 0,
+  a: {
+    color: "heading",
+    textDecoration: "none"
+  },
+  "a:hover": {
+    color: "body"
+  },
+  "a:before": {
+    m: 0,
+    pb: 3,
+    width: "32px",
+    content: '""',
+    display: "block",
+    borderWidth: 0,
+    borderTopWidth: 4,
+    borderStyle: "solid",
+    borderColor: "primary"
+  }
 };
 
 export default {
@@ -31,11 +49,11 @@ export default {
     },
     code: {
       fontFamily: "monospace",
+      backgroundColor: "background-muted",
       fontSize: 1
     },
     pre: {
       p: 4,
-      backgroundColor: "background-muted",
       color: "body",
       overflowX: "auto",
       ".comment,.prolog,.doctype,.cdata,.punctuation,.operator,.entity,.url": {
@@ -61,25 +79,7 @@ export default {
     },
     h2: {
       ...heading,
-      fontSize: [4, 4, 5],
-      a: {
-        color: "heading",
-        textDecoration: "none"
-      },
-      "a:hover": {
-        color: "body"
-      },
-      "a:before": {
-        m: 0,
-        pb: 3,
-        width: "32px",
-        content: '""',
-        display: "block",
-        borderWidth: 0,
-        borderTopWidth: 4,
-        borderStyle: "solid",
-        borderColor: "primary"
-      }
+      fontSize: [4, 4, 5]
     },
     h3: {
       ...heading,
@@ -139,18 +139,20 @@ export default {
       emptyCells: "hide",
       "& th": {
         p: 3,
+        textAlign: "left",
         borderWidth: 0,
         borderBottomWidth: 1,
         borderStyle: "solid",
-        borderColor: "gray"
+        borderColor: "background-muted"
       },
       "& td": {
         p: 3,
+        textAlign: "left",
         verticalAlign: "top",
         borderWidth: 0,
         borderBottomWidth: 1,
         borderStyle: "solid",
-        borderColor: "gray"
+        borderColor: "background-muted"
       },
       "& th:empty": {
         display: "none"
@@ -158,16 +160,16 @@ export default {
       "& tr:last-child td": {
         border: 0
       },
-      "& th:first-of-child": {
+      "& th:first-of-type": {
         pl: 0
       },
-      "& td:first-of-child": {
+      "& td:first-of-type": {
         pl: 0
       },
-      "& th:last-child": {
+      "& th:last-of-type": {
         pr: 0
       },
-      "& td:last-child": {
+      "& td:last-of-type": {
         pr: 0
       }
     }

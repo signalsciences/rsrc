@@ -40,18 +40,22 @@ const Pager = ({ children, pathname }: Props) => {
 
   return (
     <Flex alignItems="center" justifyContent="space-between" mt={5} py={4}>
-      {hasPagination && previous && (
-        <Box textAlign="left">
-          <Box color="muted">Previous</Box>
-          <Link variant="buttons.floating" {...previous.props} />
-        </Box>
-      )}
-      {hasPagination && next && (
-        <Box textAlign="right">
-          <Box color="muted">Next</Box>
-          <Link variant="buttons.floating" {...next.props} />
-        </Box>
-      )}
+      <Box textAlign="left">
+        {hasPagination && previous && (
+          <>
+            <Box color="muted">Previous</Box>
+            <Link variant="buttons.floating" {...previous.props} />
+          </>
+        )}
+      </Box>
+      <Box textAlign="right">
+        {hasPagination && next && (
+          <>
+            <Box color="muted">Next</Box>
+            <Link variant="buttons.floating" {...next.props} />
+          </>
+        )}
+      </Box>
     </Flex>
   );
 };

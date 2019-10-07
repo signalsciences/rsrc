@@ -17,10 +17,12 @@ type Props = {
 
 const Content = ({ children }: Props) => (
   <Box
-    maxWidth="48em"
     sx={{
-      h1: {
-        mt: 0
+      p: {
+        maxWidth: 720
+      },
+      "& h1:first-of-type ": {
+        mt: 5
       }
     }}
   >

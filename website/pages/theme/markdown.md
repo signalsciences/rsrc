@@ -1,4 +1,6 @@
-# <a name="top"></a>Markdown Test Page
+# Markdown
+
+<a name="top"></a>
 
 - [Headings](#Headings)
 - [Paragraphs](#Paragraphs)
@@ -11,26 +13,9 @@
 
 ---
 
-```js
-const puppeteer = require("puppeteer");
+<a name="Headings"></a>
 
-puppeteer.launch().then(async browser => {
-  const page = await browser.newPage();
-  await page.setRequestInterception(true);
-  page.on("request", interceptedRequest => {
-    if (
-      interceptedRequest.url().endsWith(".png") ||
-      interceptedRequest.url().endsWith(".jpg")
-    )
-      interceptedRequest.abort();
-    else interceptedRequest.continue();
-  });
-  await page.goto("https://example.com");
-  await browser.close();
-});
-```
-
-# <a name="Headings"></a>Headings
+# Headings
 
 # Heading one
 
@@ -97,7 +82,9 @@ culpa qui officia deserunt mollit anim id est laborum.
 
 [[Top]](#top)
 
-# <a name="Paragraphs"></a>Paragraphs
+<a name="Paragraphs"></a>
+
+# Paragraphs
 
 Incididunt ex adipisicing ea ullamco consectetur in voluptate proident fugiat
 tempor deserunt reprehenderit ullamco id dolore laborum. Do laboris laboris
@@ -122,7 +109,9 @@ commodo quis quis enim.
 
 [[Top]](#top)
 
-# <a name="Blockquotes"></a>Blockquotes
+<a name="Blockquotes"></a>
+
+# Blockquotes
 
 Ad nisi laborum aute cupidatat magna deserunt eu id laboris id. Aliquip nulla
 cupidatat sint ex Lorem mollit laborum dolor amet est ut esse aute. Nostrud ex
@@ -163,7 +152,9 @@ quis tempor in eu id id irure ea nostrud dolor esse.
 
 [[Top]](#top)
 
-# <a name="Lists"></a>Lists
+<a name="Lists"></a>
+
+# Lists
 
 ### Ordered List
 
@@ -194,7 +185,9 @@ quis tempor in eu id id irure ea nostrud dolor esse.
 
 [[Top]](#top)
 
-# <a name="Horizontal"></a>Horizontal rule
+<a name="Horizontal"></a>
+
+# Horizontal rule
 
 In dolore velit aliquip labore mollit minim tempor veniam eu veniam ad in sint
 aliquip mollit mollit. Ex occaecat non deserunt elit laborum sunt tempor sint
@@ -209,7 +202,9 @@ cillum excepteur consequat sint non sint.
 
 [[Top]](#top)
 
-# <a name="Table"></a>Table
+<a name="Table"></a>
+
+# Table
 
 Duis sunt ut pariatur reprehenderit mollit mollit magna dolore in pariatur nulla
 commodo sit dolor ad fugiat. Laboris amet ea occaecat duis eu enim exercitation
@@ -219,11 +214,11 @@ ea ex magna minim ipsum ipsum do.
 
 | Table Heading 1 | Center align | Right align |
 | :-------------- | :----------: | ----------: |
-| Item 1          |    Item 3    |      Item 4 |
-| Item 1          |    Item 3    |      Item 4 |
-| Item 1          |    Item 3    |      Item 4 |
-| Item 1          |    Item 3    |      Item 4 |
-| Item 1          |    Item 3    |      Item 4 |
+| Item 1          |    Item 2    |      Item 3 |
+| Item 1          |    Item 2    |      Item 3 |
+| Item 1          |    Item 2    |      Item 3 |
+| Item 1          |    Item 2    |      Item 3 |
+| Item 1          |    Item 2    |      Item 3 |
 
 Minim id consequat adipisicing cupidatat laborum culpa veniam non consectetur et
 duis pariatur reprehenderit eu ex consectetur. Sunt nisi qui eiusmod ut cillum
@@ -232,7 +227,9 @@ Cillum dolore labore Lorem deserunt mollit voluptate esse incididunt ex dolor.
 
 [[Top]](#top)
 
-# <a name="Code"></a>Code
+<a name="Code"></a>
+
+# Code
 
 ## Inline code
 
@@ -250,6 +247,25 @@ Et fugiat ad nisi amet magna labore do cillum fugiat occaecat cillum Lorem
 proident. In sint dolor ullamco ad do adipisicing amet id excepteur Lorem
 aliquip sit irure veniam laborum duis cillum. Aliqua occaecat minim cillum
 deserunt magna sunt laboris do do irure ea nostrud consequat ut voluptate ex.
+
+```js
+const puppeteer = require("puppeteer");
+
+puppeteer.launch().then(async browser => {
+  const page = await browser.newPage();
+  await page.setRequestInterception(true);
+  page.on("request", interceptedRequest => {
+    if (
+      interceptedRequest.url().endsWith(".png") ||
+      interceptedRequest.url().endsWith(".jpg")
+    )
+      interceptedRequest.abort();
+    else interceptedRequest.continue();
+  });
+  await page.goto("https://example.com");
+  await browser.close();
+});
+```
 
 ```go package main
 import (
@@ -273,7 +289,9 @@ consequat commodo et ex id ad.
 
 [[Top]](#top)
 
-# <a name="Inline"></a>Inline elements
+<a name="Inline"></a>
+
+# Inline elements
 
 Sint ea anim ipsum ad commodo cupidatat do **exercitation** incididunt et minim
 ad labore sunt. Minim deserunt labore laboris velit nulla incididunt ipsum
