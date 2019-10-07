@@ -2,7 +2,7 @@
   "name": "rsrc",
   "author": "Signal Sciences",
   "description": "React components for managing async fetch state",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "publishConfig": {
     "access": "public"
   },
