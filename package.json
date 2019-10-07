@@ -46,8 +46,8 @@
     "docs:dev": "next dev website",
     "docs:build": "next build website",
     "docs:clean": "npx rimraf website/{.next,out,rsrc}",
-    "docs:export": "yarn run docs:build && next export website",
-    "docs:preview": "yarn docs:export && cd website && ln -sf out rsrc && npx serve && open http://localhost:5000/rsrc",
+    "docs:export": "NODE_ENV=production yarn run docs:build && next export website",
+    "docs:preview": "yarn docs:export && cd website && ln -sf out rsrc && npx serve",
     "docs:publish": "yarn docs:export && touch website/out/.nojekyll && gh-pages -t -d website/out"
   },
   "husky": {
