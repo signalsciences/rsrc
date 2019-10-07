@@ -2,7 +2,7 @@
   "name": "rsrc",
   "author": "Signal Sciences",
   "description": "React components for managing async fetch state",
-  "version": "0.0.5",
+  "version": "1.0.0",
   "publishConfig": {
     "access": "public"
   },
@@ -87,7 +87,9 @@
   },
   "jest": {
     "collectCoverage": true,
-    "collectCoverageFrom": ["src/**/*.js"],
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
     "preset": "jest-preset-signalsciences",
     "setupFiles": [
       "./test/setupJest.js"
