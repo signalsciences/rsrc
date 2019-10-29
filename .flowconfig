@@ -1,11 +1,9 @@
 [ignore]
-coverage
-dist
-flow-typed
-node_modules
-.next
-out
-website/rsrc
+<PROJECT_ROOT>/coverage
+<PROJECT_ROOT>/dist
+<PROJECT_ROOT>/docs
+<PROJECT_ROOT>/examples
+<PROJECT_ROOT>/website
 
 [include]
 
@@ -14,6 +12,7 @@ website/rsrc
 [lints]
 
 [options]
+module.file_ext=.js
 module.file_ext=.md
 
 [strict]
