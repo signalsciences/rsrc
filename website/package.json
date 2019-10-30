@@ -1,0 +1,36 @@
+{
+  "name": "rsrc-website",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "dev": "next dev",
+    "clean": "rimraf website/{.next,out,rsrc}",
+    "build": "yarn clean && next build website",
+    "export": "yarn build && next export website",
+    "preview": "yarn export && ln -sf out rsrc && npx serve",
+    "publish": "yarn export && touch out/.nojekyll && gh-pages -t -d out"
+  },
+  "devDependencies": {
+    "@babel/core": "7.6.4",
+    "@emotion/core": "10.0.21",
+    "@mdx-js/loader": "1.5.1",
+    "@mdx-js/react": "1.5.1",
+    "@next/mdx": "9.0.6",
+    "@theme-ui/prism": "0.2.40",
+    "@theme-ui/style-guide": "0.2.44",
+    "core-js": "3.3.2",
+    "gh-pages": "2.1.1",
+    "isomorphic-unfetch": "3.0.0",
+    "next": "9.0.6",
+    "react": "16.10.2",
+    "react-dom": "16.10.2",
+    "rebass": "4.0.6",
+    "regenerator-runtime": "0.13.3",
+    "remark-slug": "5.1.2",
+    "rimraf": "3.0.0",
+    "theme-ui": "0.2.44"
+  },
+  "dependencies": {
+    "rsrc": "^1.0.3"
+  }
+}

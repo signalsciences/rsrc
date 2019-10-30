@@ -18,5 +18,14 @@ module.exports = withMDX({
   publicRuntimeConfig: {
     BASE_URL,
     GA_TRACKING_ID
+  },
+  webpack: config => {
+    return {
+      ...config,
+      resolve: {
+        ...config.resolve,
+        symlinks: false
+      }
+    };
   }
 });
