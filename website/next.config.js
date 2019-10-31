@@ -19,13 +19,11 @@ module.exports = withMDX({
     BASE_URL,
     GA_TRACKING_ID
   },
-  webpack: config => {
-    return {
-      ...config,
-      resolve: {
-        ...config.resolve,
-        symlinks: false
-      }
-    };
-  }
+  webpack: config => ({
+    ...config,
+    resolve: {
+      ...config.resolve,
+      symlinks: false
+    }
+  })
 });
