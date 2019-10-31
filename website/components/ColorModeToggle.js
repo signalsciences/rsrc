@@ -8,7 +8,7 @@ const ColorModeToggle = () => {
   const [colorMode, setColorMode] = useColorMode();
 
   const toggleMode = () => {
-    const modes = ["light", "violet", "dark"];
+    const modes = ["dark", "light"];
     const currentIndex = modes.indexOf(colorMode);
     let i = currentIndex + 1;
     if (currentIndex === modes.length - 1) {

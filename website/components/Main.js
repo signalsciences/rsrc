@@ -3,32 +3,15 @@
 import * as React from "react";
 import { useRouter } from "next/router";
 import { Flex, Box } from "rebass";
-
 import Container from "./Container";
 import Sidebar from "./Sidebar";
 import Pager from "./Pager";
-
 import Docs from "../pages/docs/index.md";
 import Theme from "../pages/theme/index.md";
 
 type Props = {
   children: React.Node
 };
-
-const Content = ({ children }: Props) => (
-  <Box
-    sx={{
-      p: {
-        maxWidth: 720
-      },
-      "& h1:first-of-type ": {
-        mt: 5
-      }
-    }}
-  >
-    {children}
-  </Box>
-);
 
 const Main = ({ children }: Props) => {
   const router = useRouter();
@@ -39,7 +22,7 @@ const Main = ({ children }: Props) => {
     <Container as="main">
       {isDocs || isTheme ? (
         <Flex>
-          <Box flex={[0, 1]}>
+          <Box flex={[0, 1]} mt={84}>
             {isDocs ? (
               <Docs
                 pathname={router.pathname}
@@ -56,8 +39,8 @@ const Main = ({ children }: Props) => {
               />
             )}
           </Box>
-          <Box flex={[1, 2, 3]}>
-            <Content>{children}</Content>
+          <Box flex={[1, 2, 3]} mt={84}>
+            {children}
             {isDocs && (
               <Box mt={4}>
                 <Docs

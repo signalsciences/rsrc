@@ -1,15 +1,15 @@
 /* @flow */
-/* eslint-disable react/jsx-props-no-spreading */
 
 import * as React from "react";
 import { Box } from "rebass";
 
 type Props = {
-  children: React.Node
+  children: React.Node,
+  as: string
 };
 
-const Container = ({ children, ...rest }: Props) => (
-  <Box mx="auto" p="1em" maxWidth="72em" {...rest}>
+const Container = ({ children, as = "div" }: Props) => (
+  <Box mx="auto" p="16px" maxWidth="1152px" as={as}>
     {children}
   </Box>
 );

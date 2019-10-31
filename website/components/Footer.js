@@ -10,7 +10,7 @@ const Footer = () => {
   return (
     <Container as="footer">
       <Flex alignItems="center" justifyContent="space-between" mt={4} py={4}>
-        <Box textAlign="left" color="muted">
+        <Box textAlign="left" color="foreground-muted" fontSize={0}>
           {`© ${new Date().getFullYear()} Signal Sciences`}
         </Box>
         <Box textAlign="right">

@@ -43,7 +43,7 @@ const Pager = ({ children, pathname }: Props) => {
       <Box textAlign="left">
         {hasPagination && previous && (
           <>
-            <Box color="muted">Previous</Box>
+            <Box color="foreground-muted">Previous</Box>
             <Link variant="buttons.floating" {...previous.props} />
           </>
         )}
@@ -51,7 +51,7 @@ const Pager = ({ children, pathname }: Props) => {
       <Box textAlign="right">
         {hasPagination && next && (
           <>
-            <Box color="muted">Next</Box>
+            <Box color="foreground-muted">Next</Box>
             <Link variant="buttons.floating" {...next.props} />
           </>
         )}

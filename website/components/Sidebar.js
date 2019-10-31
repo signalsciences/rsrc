@@ -11,21 +11,29 @@ type Props = {
 
 const Nav = ({ children }: Props) => (
   <Box
-    mt={6}
     sx={{
       h4: {
         mt: 3,
-        mb: 1
+        mb: 3,
+        fontWeight: 300,
+        fontSize: 0,
+        letterSpacing: 0,
+        lineHeight: 0
       },
       ul: {
         listStyleType: "none",
         px: 0,
-        pb: 4,
+        pb: 3,
         mx: 0,
-        my: 1
+        mt: 2,
+        mb: 0
+      },
+      li: {
+        my: 2
       },
       "li a": {
-        variant: "links.nav"
+        variant: "links.nav",
+        fontWeight: "body"
       }
     }}
   >
@@ -44,13 +52,18 @@ const Sidebar = ({ children }: Props) => {
     <Box variant="sidebar">
       {/* Sidebar as static nav on page */}
       <Box onClick={toggleOpen} display={["none", "block"]}>
-        <Nav>{children}</Nav>
+        <Nav>
+          <Box pt={3} pb={0}>
+            {children}
+          </Box>
+        </Nav>
       </Box>
       {/* Sidebar as toggled overlay menu */}
       <Box display={["block", "none"]}>
         <Box
           onClick={toggleOpen}
-          p={[4, 0]}
+          px={4}
+          py={84}
           sx={{
             position: "fixed",
             top: "0",
@@ -58,7 +71,7 @@ const Sidebar = ({ children }: Props) => {
             width: "100vw",
             height: "100vh",
             bg: "background",
-            transform: isOpen ? "none" : "translateX(-100%)",
+            transform: isOpen ? "none" : "translateX(100%)",
             overflowY: "auto",
             transitionProperty: "transform",
             transitionDuration: ".2s",
@@ -68,14 +81,14 @@ const Sidebar = ({ children }: Props) => {
           <Nav>{children}</Nav>
         </Box>
         <Button
-          variant="circle"
+          variant="square"
           onClick={toggleOpen}
           m={3}
           sx={{
             zIndex: 1000,
             position: "fixed",
             bottom: 0,
-            left: 0
+            right: 0
           }}
         >
           <Box

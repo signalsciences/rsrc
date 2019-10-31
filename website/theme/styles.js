@@ -1,19 +1,15 @@
 /* @flow */
 
 const heading = {
-  color: "heading",
+  color: "foreground",
   fontFamily: "heading",
-  lineHeight: "heading",
   fontWeight: "heading",
-  mb: 0,
-  pb: [2, 3],
-  pt: 0,
   a: {
-    color: "heading",
+    color: "foreground",
     textDecoration: "none"
   },
-  "a:hover": {
-    color: "body"
+  "a:hover:before": {
+    borderColor: "foreground-muted"
   },
   "a:before": {
     m: 0,
@@ -32,84 +28,99 @@ export default {
   styles: {
     root: {
       backgroundColor: "background",
-      color: "body",
+      color: "foreground",
       fontFamily: "body",
       fontWeight: "body",
-      lineHeight: "body"
-    },
-    a: {
-      cursor: "pointer",
-      color: "body",
-      transition: "all .3s ease-out",
-      textDecoration: "underline",
-      "&:hover": {
-        color: "primary"
-      }
+      fontSize: 3,
+      lineHeight: 3,
+      letterSpacing: 3
     },
     code: {
       fontFamily: "monospace",
       backgroundColor: "background-muted",
-      fontSize: 1
+      fontSize: 1,
+      lineHeight: 1
     },
     pre: {
-      p: 4,
-      color: "body",
+      p: 24,
+      my: 40,
+      color: "foreground",
       overflowX: "auto",
       ".comment,.prolog,.doctype,.cdata,.punctuation,.operator,.entity,.url": {
-        color: "text-muted"
-      },
-      ".comment": {
-        fontStyle: "italic"
+        color: "foreground"
       },
       ".property, .tag, .boolean, .number, .constant, .symbol, .deleted, .function, .class-name, .regex, .important, .variable": {
-        color: "accent"
+        color: "tertiary"
       },
       ".atrule, .attr-value, .keyword": {
-        color: "primary"
+        color: "accent"
       },
       ".selector, .attr-name, .string, .char, .builtin, .inserted": {
+        color: "secondary"
+      },
+      // overrides
+      ".comment": {
+        fontStyle: "italic",
+        color: "foreground-muted"
+      },
+      ".string, .number": {
         color: "secondary"
       }
     },
     h1: {
       ...heading,
-      mt: [5, 5, 6],
-      fontSize: [5, 5, 6],
-      fontWeight: "bold"
+      mt: 0,
+      fontWeight: "bold",
+      fontSize: [6, 6, 7],
+      letterSpacing: [6, 6, 7],
+      lineHeight: [6, 6, 7]
     },
     h2: {
       ...heading,
-      mt: [4, 4, 5],
-      fontSize: [4, 4, 5]
+      mt: 88,
+      fontSize: [4, 4, 5],
+      letterSpacing: [5, 5, 6],
+      lineHeight: [5, 5, 6]
     },
     h3: {
       ...heading,
-      mt: 3,
-      fontSize: 3
+      mt: 24,
+      fontSize: 4,
+      letterSpacing: 4,
+      lineHeight: 4
     },
     h4: {
       ...heading,
-      mt: 2,
-      fontSize: 2
+      mt: 24,
+      fontSize: 3,
+      letterSpacing: 3,
+      lineHeight: 3
     },
     h5: {
       ...heading,
-      mt: 1,
-      fontSize: 1
+      mt: 24,
+      fontSize: 2,
+      letterSpacing: 2,
+      lineHeight: 2
     },
     h6: {
       ...heading,
-      mt: 0,
-      fontSize: 0
+      mt: 24,
+      fontSize: 1,
+      letterSpacing: 1,
+      lineHeight: 1
     },
     p: {
-      my: 4
+      maxWidth: "720px",
+      my: 24
     },
     ul: {
+      maxWidth: "640px",
       my: 4,
       px: 4
     },
     ol: {
+      maxWidth: "640px",
       my: 4,
       px: 4
     },
@@ -124,16 +135,16 @@ export default {
       }
     },
     blockquote: {
+      borderColor: "darken",
+      backgroundColor: "background-muted",
       borderWidth: 0,
       borderLeftWidth: 8,
       borderStyle: "solid",
-      borderColor: "background-muted",
-      backgroundColor: "background-muted",
-      color: "body",
       px: 4,
       py: 1,
-      my: 4,
       mx: 0,
+      my: 4,
+      color: "foreground",
       fontStyle: "italic"
     },
     table: {
@@ -143,21 +154,25 @@ export default {
       borderSpacing: "0",
       emptyCells: "hide",
       "& th": {
+        maxWidth: "640px",
+        minWidth: "120px",
         p: 3,
         textAlign: "left",
         borderWidth: 0,
         borderBottomWidth: 1,
         borderStyle: "solid",
-        borderColor: "muted"
+        borderColor: "foreground-muted"
       },
       "& td": {
+        maxWidth: "640px",
+        minWidth: "120px",
         p: 3,
         textAlign: "left",
         verticalAlign: "top",
         borderWidth: 0,
         borderBottomWidth: 1,
         borderStyle: "solid",
-        borderColor: "muted"
+        borderColor: "foreground-muted"
       },
       "& th:empty": {
         display: "none"
@@ -177,16 +192,26 @@ export default {
       "& td:last-of-type": {
         pr: 0
       }
+    },
+    a: {
+      cursor: "pointer",
+      color: "foreground",
+      textDecoration: "underline",
+      transition: "all 0.2s ease-out",
+      ":hover": {
+        color: "foreground-muted"
+      }
     }
   },
 
   links: {
     nav: {
-      color: "inherit",
-      fontWeight: "inherit",
+      cursor: "pointer",
+      color: "foreground",
       textDecoration: "none",
-      ":hover,:focus": {
-        color: "accent"
+      transition: "all 0.2s ease-out",
+      ":hover": {
+        color: "foreground-muted"
       }
     }
   },
@@ -197,9 +222,10 @@ export default {
       px: 4,
       textDecoration: "none",
       cursor: "pointer",
-      fontSize: 2,
-      fontWeight: "bold",
-      transition: "all .3s ease-out",
+      fontSize: 3,
+      lineHeight: 3,
+      letterSpacing: 3,
+      fontWeight: "body",
       outline: "none",
       borderRadius: "default",
       borderWidth: 1,
@@ -208,9 +234,7 @@ export default {
       borderColor: "primary",
       bg: "primary",
       ":hover": {
-        color: "background",
-        borderColor: "background",
-        bg: "accent"
+        opacity: 0.8
       }
     },
     outline: {
@@ -219,33 +243,36 @@ export default {
       borderColor: "primary",
       bg: "background",
       ":hover": {
-        color: "accent",
-        borderColor: "accent",
-        bg: "background"
+        opacity: 0.8
       }
     },
     floating: {
       variant: "buttons.primary",
       px: 0,
-      fontWeight: "bold",
       fontSize: 3,
       color: "heading",
       borderColor: "transparent",
       bg: "transparent",
+      fontWeight: "bold",
       ":hover": {
-        color: "accent",
-        borderColor: "transparent",
-        bg: "transparent"
+        opacity: 0.8
       }
     },
     circle: {
       variant: "buttons.outline",
-      color: "body",
-      borderColor: "body",
+      color: "foreground",
+      borderColor: "foreground",
       bg: "background",
       borderRadius: "circle",
-      lineHeight: 0,
+      lineHeight: "0px",
       p: 1
+    },
+    square: {
+      variant: "buttons.circle",
+      borderRadius: "default",
+      color: "background",
+      borderColor: "foreground",
+      bg: "foreground"
     }
   }
 };

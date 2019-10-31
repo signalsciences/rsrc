@@ -44,7 +44,7 @@ const Layout = ({ children }: Props) => (
         body: {
           margin: 0,
           padding: 0,
-          color: colors.text,
+          color: colors.foreground,
           backgroundColor: colors.background,
           WebkitFontSmoothing: "antialiased",
           MozOsxFontSmoothing: "grayscale"

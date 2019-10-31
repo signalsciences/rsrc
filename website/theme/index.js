@@ -26,6 +26,8 @@ import colors from "./colors";
 import styles from "./styles";
 
 export default {
+  useCustomProperties: false,
+  // useColorSchemeMediaQuery: true,
   ...colors,
   ...styles,
   borders: {},
@@ -36,25 +38,22 @@ export default {
     heading: "inherit",
     monospace: "Menlo, monospace"
   },
-  fontSizes: [12, 14, 18, 24, 32, 40, 80],
   fontWeights: {
     light: 200,
     body: 400,
     heading: 700,
     bold: 900
   },
-  letterSpacings: {},
-  lineHeights: {
-    body: 1.5,
-    heading: 1.25
-  },
+  fontSizes: ["12px", "14px", "16px", "18px", "24px", "32px", "48px", "64px"],
+  lineHeights: ["16px", "24px", "26px", "28px", "32px", "44px", "56px", "72px"],
+  letterSpacings: [0, "-0.4px", "-0.6px", 0, 0, 0, 0, 0],
+  space: [0, 4, 8, 16, 32, 48, 64, 128, 256, 512],
   radii: {
     default: 0,
     circle: 99999
   },
   sizes: {},
   shadows: {},
-  space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
   transitions: {},
   zIndices: {}
 };

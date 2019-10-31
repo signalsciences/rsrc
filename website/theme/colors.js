@@ -1,54 +1,37 @@
 /* @flow */
 
-const black = "#000";
-const charcoal = "#242424";
-const gray = "#ccc";
-const smoke = "#eee";
-const white = "#fff";
-const violet = "#583af0";
-
-// const red = 'rgb(255,  59,  48)'
-const orange = "rgb(240, 84, 36)";
-// const yellow = 'rgb(255, 204,   0)'
-// const green = 'rgb( 52, 199,  89)'
-const teal = "rgb(100, 210, 255)";
-const blue = "rgb(  0, 122, 255)";
-const pink = "rgb(255,  45,  85)";
+const teal = "rgb(0,174,233)";
+const magenta = "rgb(243,25,120)";
+const violet = "rgb(145,128,255)";
+const indigo = "rgb(77,46,229)";
 
 export default {
-  initialColorModeName: "light",
+  initialColorModeName: "dark",
   colors: {
-    text: charcoal,
-    body: charcoal,
-    heading: black,
-    background: white,
-    primary: violet,
-    muted: gray,
-    secondary: pink,
-    accent: blue,
-    "text-muted": "rgba(0,0,0,.35)",
-    "background-muted": "rgba(200,200,200,.2)",
+    foreground: "rgb(255,255,255)",
+    background: indigo,
+    "foreground-muted": "rgba(255,255,255,0.40)",
+    // "background-muted": "rgba(39,43,51,0.64)",
+    "background-muted": "rgba(0,0,0,0.5)",
+    darken: "rgba(0,0,0,0.3)",
+    primary: "rgb(255,255,255)",
+
+    secondary: magenta,
+    tertiary: violet,
+    accent: teal,
+
     modes: {
-      dark: {
-        text: gray,
-        body: gray,
-        heading: white,
-        background: black,
-        primary: violet,
-        "text-muted": "rgba(255,255,255,.8)",
-        "background-muted": "rgba(255,255,255,.05)"
-      },
-      violet: {
-        text: smoke,
-        body: smoke,
-        heading: white,
-        background: violet,
-        primary: white,
-        secondary: orange,
-        accent: teal,
-        muted: gray,
-        "text-muted": "rgba(255,255,255,.8)",
-        "background-muted": "rgba(0,0,0,.6)"
+      light: {
+        foreground: "rgb(39,43,51)",
+        background: "rgb(255,255,255)",
+        "foreground-muted": "rgb(39,43,51,0.40)",
+        "background-muted": "rgb(39,43,51,0.04)",
+        darken: "rgba(0,0,0,0.05)",
+        primary: indigo,
+
+        secondary: magenta,
+        tertiary: violet,
+        accent: teal
       }
     }
   }

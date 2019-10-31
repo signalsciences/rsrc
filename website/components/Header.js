@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { Flex, Box } from "rebass";
-
 import Container from "./Container";
 import RsrcLogo from "./RsrcLogo";
 import Link from "./Link";
@@ -12,7 +11,7 @@ const Header = () => {
   return (
     <Container as="header">
       <Flex
-        py="1em"
+        pt="1em"
         as="nav"
         alignItems="center"
         justifyContent="space-between"
