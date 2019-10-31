@@ -9,7 +9,7 @@ into composable components that are as flexible and expressive as the underlying
 technologies they expose.
 
 For more on the backstory, please check out the
-[announcement](https://building.signalsciences.com/introducing-rsrc) on the
+[announcement](https://building.signalsciences.com/rsrc) on the
 [Signal Sciences blog](https://building.signalsciences.com/).
 
 ## Motivation
