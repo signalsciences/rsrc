@@ -8,7 +8,7 @@
     "build": "yarn clean && next build",
     "export": "yarn build && next export",
     "preview": "yarn export && ln -sf out rsrc && npx serve",
-    "publish": "yarn export && touch out/.nojekyll && gh-pages -t -d out"
+    "publish-docs": "yarn export && touch out/.nojekyll && gh-pages -t -d out"
   },
   "devDependencies": {
     "@babel/core": "7.6.4",

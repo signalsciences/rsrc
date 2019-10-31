@@ -4,6 +4,7 @@
 <PROJECT_ROOT>/docs
 <PROJECT_ROOT>/examples
 <PROJECT_ROOT>/website
+<PROJECT_ROOT>/.tmp
 
 [include]
 

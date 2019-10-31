@@ -18,6 +18,8 @@ jobs:
       run: npm i -g yarn
     - name: Install deps and build package
       run: yarn install --frozen-lockfile
+    - name: Install docs deps
+      run: cd website && yarn install --frozen-lockfile
     - name: Run lint
       run: yarn lint
       env:
