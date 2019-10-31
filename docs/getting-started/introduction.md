@@ -1,8 +1,8 @@
 # Introduction
 
-There are a number of great solutions for mananging async fetch state in the
-React ecosystem but many of these often require a non-trivial amount of
-boilerplate or framework knowledge to implement and maintain.
+There are a number of great solutions for managing async fetch state in the
+React ecosystem but many of these require a non-trivial amount of boilerplate
+or framework knowledge to implement and maintain.
 
 This project attempts to identify and abstract generic fetch state utilities
 into composable components that are as flexible and expressive as the underlying
@@ -15,9 +15,8 @@ For more on the backstory, please check out the
 ## Motivation
 
 - reduce dependence on common boilerplate for managing fetch state
-- encourage a declarative approach to resource operations
-- facilitate the collocation of resource descriptors with the components that
-  depend on them
+- facilitate the collocation of data fetching alongside the components that
+  rely on it
 - simplify cache management and invalidation
 
 ## What does this do?

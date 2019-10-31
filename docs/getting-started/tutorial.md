@@ -1,6 +1,6 @@
 # Tutorial
 
-```bash
+```
 yarn add rsrc
 ```
 
@@ -12,155 +12,166 @@ yarn add rsrc
 
 ## Configure a cache provider
 
-The cache provider accepts a single, optional prop called `map`, which
-defaults to `new Map()`. The value is expected to expose a
-[map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) or map-like
-interface. For larger applications, you might want to consider a
-[least recently used
+The cache provider accepts a single, optional prop called `map`, which defaults
+to `new Map()`. The value is expected to expose a
+[map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map)
+or map-like interface — meaning it is iterable and provides methods for
+`get()`, `set()`, and `delete()`.
+
+For larger applications, you might want to consider a [least recently used
 (LRU)](<https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_recently_used_(LRU)>)
 implementation like [quick-lru](https://www.npmjs.com/package/quick-lru) which
-will help limit memory usage.
+can help limit memory usage.
 
 ```jsx
-// src/App.js
+// index.js
 
-import * as React from "react";
+import React from "react";
+import { render } from "react-dom";
+import { Router } from "@reach/router";
 import { Cache } from "rsrc";
-import lru from "quick-lru";
+import LRU from "quick-lru";
+import Todos from "./pages/Todos";
 
-const App = () => {
-  return <Cache map={lru(50)}>{/* additional providers, router, etc */}</Cache>;
-};
+const lru = new LRU({ maxSize: 100 });
 
-export default App;
+const App = () => (
+  <Cache map={lru}>
+    <Router>
+      <Todos path="/todos" />
+    </Router>
+  </Cache>
+);
+
+render(<App />, document.getElementById("root"));
 ```
 
 ## Define a resource
 
 A resource can be thought of as a component-level description of an API endpoint
 and its available methods. In most cases this will mirror the interface provided
-by the endpoint itself along with any related operations that may be useful when
+by the endpoint itself along with any related operations that might be useful when
 dealing with the resource.
 
 In the example below, we have an endpoint at `/todos`. While a `GET` request to
-this endpoint might return a collection of todos, it's likely designed to
-accomodate additional operations (`POST`, `PATCH`, etc). We can define and
-expose these methods as seen in the `actions` prop below.
+this endpoint could return a collection of "todos", it's likely designed to
+accommodate additional operations (`POST`, `PATCH`, etc). We can define these
+methods as seen in the `actions` prop below.
+
+For actions that modify a resource, you can provide an additional argument to
+automatically invalidate related resources when the action resolves
+successfully.
 
 ```jsx
-// resources/Todos/Resource.js
+// resources/todos/Resource.js
 
-import * as React from "react";
+import React from "react";
 import { Resource } from "rsrc";
 
-const Todos = props => {
-  const url = `https://api.example.com/todos`;
+export default ({ children }) => {
+  const url = "https://api.example.com/todos";
+  const options = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+  const actions = {
+    create: data => ({
+      options: {
+        ...options,
+        method: "POST",
+        body: JSON.stringify(data)
+      },
+      invalidates: [url]
+    }),
+    markComplete: id => ({
+      url: `${url}/{id}`,
+      options: {
+        ...options,
+        method: "PATCH",
+        body: JSON.stringify({ completed: true })
+      },
+      invalidates: [url, `${url}/${id}`]
+    })
+  };
 
   return (
-    <Resource
-      url={url}
-      actions={{
-        create: data => ({
-          options: {
-            method: "POST",
-            body: JSON.stringify(data)
-          },
-          invalidates: [url]
-        }),
-        markComplete: id => ({
-          url: `${url}/{id}`,
-          options: {
-            method: "PATCH",
-            body: JSON.stringify({ completed: true })
-          }
-        })
-      }}
-      {...props}
-    />
+    <Resource url={url} options={options} actions={actions}>
+      {children}
+    </Resource>
   );
 };
-
-export default Todos;
 ```
 
 ## Build out your views
 
 A resource view is a component that has been tailored to consume a particular
-resource.
+resource value.
 
 ```jsx
-// resources/Todos/List.js
+// resources/todos/List.js
 
-import * as React from "react";
+import React from "react";
 
-const TodosList = props => {
-  const { resource } = props;
+export default props => {
+  const { onSuccess, onFail, resource } = props;
+  const { state, actions } = resource;
 
-  if (resource.state.pending) {
-    return "Loading...";
-  }
+  if (state.pending) return "Loading...";
 
-  if (resource.state.rejected) {
-    return `Error: ${resource.state.reason.message}`;
-  }
+  if (state.rejected) return `Error: ${state.reason.message}`;
 
-  const todos = resource.state.value.filter(todo => !todo.completed);
+  const todos = state.value.filter(todo => !todo.completed);
+
+  const handleClick = id => {
+    actions
+      .markcomplete(id)
+      .then(value => {
+        state.refresh();
+        onSuccess(value);
+      })
+      .catch(error => {
+        onFail(error);
+      });
+  };
 
   return (
     <ul>
       {todos.map(todo => (
         <li key={todo.id}>
-          <button
-            onClick={() => {
-              resource.actions
-                .markComplete(todo.id)
-                .then(() => {
-                  resource.state.refresh();
-                })
-                .catch(error => {
-                  console.log(error);
-                });
-            }}
-          >
-            ✔
-          </button>
+          <button onClick={handleClick}>✔</button>
           {todo.title}
         </li>
       ))}
     </ul>
   );
 };
-
-export default TodosList;
 ```
 
 ```jsx
-// resources/Todos/Create.js
+// resources/todos/Create.js
 
-import * as React from "react";
-import Form from "./Form";
+import React from "react";
+import TodosForm from "./Form";
 
-const TodosCreate = props => {
+export default props => {
   const { onSuccess, onFail, resource } = props;
+  const { state, actions } = resource;
 
-  return (
-    <Form
-      initialValues={{ title: "" }}
-      onSubmit={formValues => {
-        resource.actions
-          .create(formValues)
-          .then(fetchState => {
-            onSuccess(fetchState);
-          })
-          .catch(error => {
-            onFail(error);
-          });
-      }}
-    />
-  );
+  const handleSubmit = formValues => {
+    actions
+      .create(formValues)
+      .then(value => {
+        state.refresh();
+        onSuccess(value);
+      })
+      .catch(error => {
+        onFail(error);
+      });
+  };
+
+  return <TodosForm onSubmit={handleSubmit} />;
 };
-
-export default TodosCreate;
 ```
 
 ## Use it on a page
@@ -168,26 +179,36 @@ export default TodosCreate;
 ```jsx
 // pages/Todos.js
 
-import * as React from "react";
-import { Todos, TodosList, TodosCreate } from "../resources/Todos";
+import React from "react";
+import { notify } from "../utils";
+import { Todos, TodosList, TodosCreate } from "../resources/todos";
 
-const TodosPage = props => {
+export default props => {
+  const handleSuccess = value => {
+    notify({ purpose: "success", message: `Success: ${value.id}` });
+  };
+
+  const handleFail = error => {
+    notify({ purpose: "error", message: `Fail: ${error.message}` });
+  };
+
   return (
     <Todos>
       {resource => (
-        <div>
+        <>
           <TodosCreate
+            resource={resource}
             onSuccess={handleSuccess}
             onFail={handleFail}
-            resource={resource}
           />
-          <hr />
-          <TodosList resource={resource} />
-        </div>
+          <TodosList
+            resource={resource}
+            onSuccess={handleSuccess}
+            onFail={handleFail}
+          />
+        </>
       )}
     </Todos>
   );
 };
-
-export default TodosPage;
 ```

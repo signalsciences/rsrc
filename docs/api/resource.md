@@ -1,17 +1,24 @@
 # Resource
 
 Resource glues together the functionality of Cache and Fetch with a more
-expressive interface. If Fetch represents an individual request state, a
-Resource can be thought of as a more generic description that defines
-additional actions for a given endpoint.
+expressive interface. Since Fetch is limited to handle only the `GET` method
+for a particular endpoint, Resource expands on this to allow additional or
+related operations to be declared and exposed to children via `actions`.
 
-```js
+```jsx
 React.Component<ResourceProps, ResourceState>
 ```
 
 ## Props
 
-```js
+```jsx
+type Action = any => {
+  url?: string,
+  options?: RequestOptions,
+  maxAge?: number,
+  invalidates?: Array<string>
+};
+
 type ResourceProps = {
   url: string,
   options: RequestOptions,
@@ -22,27 +29,17 @@ type ResourceProps = {
   /* advanced options */
   fetcher: Fetcher
 };
-
-type Action = any => {
-  url?: string,
-  options?: RequestOptions,
-  maxAge?: number,
-  invalidates?: Array<string>
-};
 ```
 
-## ResourceState
+## State
 
-```js
-type PromiseState = {
+```jsx
+type FetchState = {
   pending: boolean,
   rejected: boolean,
   fulfilled: boolean,
   value: ?any,
   reason: ?Error
-};
-
-type FetchState = PromiseState & {
   invalidate: () => void,
   read: () => void,
   refresh: () => void
@@ -51,7 +48,7 @@ type FetchState = PromiseState & {
 type ResourceState = {
   state: FetchState,
   actions: {
-    [key: string]: (*) => Promise<PromiseState>
+    [key: string]: (*) => Promise<*>
   },
   meta: ResourceProps
 };
@@ -60,73 +57,53 @@ type ResourceState = {
 ## Example
 
 ```jsx
-// src/resources/todos/Todos.js
+// resources/users/User.js
 
 import React from "react";
+import { Resource } from "rsrc";
+import Form from "./Form";
 
-const url = "https://jsonplaceholder.typicode.com/todos";
+export default ({ id }) => {
+  const url = `https://api.example.com/users/${id}`;
+  const options = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json; charset=UTF-8"
+    }
+  };
+  const maxAge = 60 * 60; // 1 hour
 
-const Todos = ({ children }) => (
-  <Resource
-    url={url}
-    actions={{
-      markComplete: id => ({
-        url: `${url}/${id}`,
-        invalidates: [url],
-        options: {
-          method: "PUT",
-          body: JSON.stringify({ completed: true })
-        }
-      })
-    }}
-  >
-    {children}
-  </Resource>
-);
-```
+  const update = data => ({
+    url,
+    options: {
+      ...options,
+      method: "PATCH",
+      body: JSON.stringify(data)
+    },
+    invalidates: [url]
+  });
 
-```jsx
-// src/resources/todos/List.js
+  return (
+    <Resource url={url} options={options} maxAge={maxAge} actions={{ update }}>
+      {resource => {
+        const { state, actions } = resource;
 
-import React from "react";
+        if (state.pending) return "Loading...";
 
-const TodoList = ({ todos, onClick }) => (
-  <ul>
-    {todos.map(todo => (
-      <li key={todo.id}>
-        <button onClick={() => onClick(todo.id)}>×</button>
-        {todo.title}
-      </li>
-    ))}
-  </ul>
-);
-```
+        if (state.rejected) return "Error";
 
-```jsx
-// src/App.js
+        const handleSubmit = formValues => {
+          actions
+            .update(formValues)
+            .then(value => console.log("Success", value))
+            .catch(error => console.log("Fail", error.message));
+        };
 
-import React from "react";
+        const { name, email } = state.value;
 
-const App = () => (
-  <Todos>
-    {({ state, action }) => {
-      if (state.rejected) return <Error error={state.reason} />;
-
-      if (state.pending) return <Loading />;
-
-      const handleClick = id => {
-        actions
-          .markComplete(id)
-          .then(fetchState => {
-            console.log("woot");
-          })
-          .catch(error => {
-            console.warn("boo");
-          });
-      };
-
-      return <TodosList todos={state.value} onClick={handleClick} />;
-    }}
-  </Todos>
-);
+        return <Form initialState={{ name, email }} onSubmit={handleSubmit} />;
+      }}
+    </Resource>
+  );
+};
 ```
