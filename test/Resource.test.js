@@ -1,11 +1,11 @@
 /* @flow */
 
 import React from "react";
-import { render, wait } from "@testing-library/react";
+import { render, cleanup } from "@testing-library/react";
 import fetch from "jest-fetch-mock";
 import { Cache, Resource } from "../src";
 
-// afterEach(cleanup)
+afterEach(cleanup);
 
 test("<Resource />", async () => {
   fetch.mockResponses([
@@ -25,7 +25,7 @@ test("<Resource />", async () => {
 
   const url = "https://foo.bar.com/baz/quux";
 
-  render(
+  await render(
     <Cache>
       <Resource
         url={url}
@@ -57,9 +57,12 @@ test("<Resource />", async () => {
   renderProps.state.refresh();
   expect(fetch).toHaveBeenCalledTimes(3);
 
-  renderProps.actions.create({ foo: "bar" });
+  await renderProps.actions
+    .create({ foo: "bar" })
+    .then(() => {})
+    .catch(() => {});
 
-  await wait(expect(fetch).toHaveBeenCalledTimes(4));
+  expect(fetch).toHaveBeenCalledTimes(5);
 
   renderProps.state.read();
   expect(fetch).toHaveBeenCalledTimes(5);

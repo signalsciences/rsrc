@@ -7,10 +7,6 @@ import { Fetch } from "../src";
 
 afterEach(cleanup);
 
-// beforeEach(() => {
-//   fetch.resetMocks()
-// })
-
 test("<Fetch /> Fulfilled", async () => {
   fetch.mockResponses([
     JSON.stringify({ data: "ok" }),
@@ -26,7 +22,7 @@ test("<Fetch /> Fulfilled", async () => {
     renderProps = { ...renderProps, ...arg };
     return null;
   };
-  const { rerender } = render(<Fetch url="foo">{children}</Fetch>);
+  const { rerender } = await render(<Fetch url="foo">{children}</Fetch>);
 
   expect(fetch).toHaveBeenCalledTimes(1);
 

@@ -16,13 +16,14 @@ test("#createFetcher returns a fetcher that updates state on successful fetches"
       }
     }
   ]);
-  const fetchState = await createFetcher()("/foo");
-  expect(fetchState.pending).toBe(false);
-  expect(fetchState.fulfilled).toBe(true);
-  expect(fetchState.value).toEqual({ data: "ok" });
+  const value = await createFetcher()("/foo");
+  expect(value).toEqual({ data: "ok" });
 });
 
 test("#createFetcher returns a fetcher that updates state on unsuccessful fetches", async () => {
+  const error = new Error(
+    'HTTP 500 Internal Server Error: "{\\"message\\":\\"Whoops\\"}"'
+  );
   fetch.mockResponses([
     JSON.stringify({ message: "Whoops" }),
     {
@@ -32,7 +33,5 @@ test("#createFetcher returns a fetcher that updates state on unsuccessful fetche
       }
     }
   ]);
-  const fetchState = await createFetcher()("/foo");
-  expect(fetchState.pending).toBe(false);
-  expect(fetchState.rejected).toBe(true);
+  expect(createFetcher()("/foo")).rejects.toEqual(error);
 });
