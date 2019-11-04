@@ -8,6 +8,7 @@
 
 import * as React from "react";
 import { Box, Flex } from "rebass";
+import { Styled } from "theme-ui";
 import Link from "./Link";
 
 const removeSlash = str => (str.length > 1 ? str.replace(/\/$/, "") : str);
@@ -39,24 +40,38 @@ const Pager = ({ children, pathname }: Props) => {
   const next = links[index + 1];
 
   return (
-    <Flex alignItems="center" justifyContent="space-between" mt={5} py={4}>
-      <Box textAlign="left">
-        {hasPagination && previous && (
-          <>
-            <Box color="foreground-muted">Previous</Box>
-            <Link variant="buttons.floating" {...previous.props} />
-          </>
-        )}
-      </Box>
-      <Box textAlign="right">
-        {hasPagination && next && (
-          <>
-            <Box color="foreground-muted">Next</Box>
-            <Link variant="buttons.floating" {...next.props} />
-          </>
-        )}
-      </Box>
-    </Flex>
+    <Styled.div as={Box} sx={{ mt: 5, py: 4 }}>
+      <Flex alignItems="center" justifyContent="space-between">
+        <Box textAlign="left">
+          {hasPagination && previous && (
+            <>
+              <Styled.div as={Box} sx={{ color: "foreground-muted" }}>
+                Previous
+              </Styled.div>
+              <Styled.div
+                as={Link}
+                sx={{ variant: "buttons.floating" }}
+                {...previous.props}
+              />
+            </>
+          )}
+        </Box>
+        <Box textAlign="right">
+          {hasPagination && next && (
+            <>
+              <Styled.div as={Box} sx={{ color: "foreground-muted" }}>
+                Next
+              </Styled.div>
+              <Styled.div
+                as={Link}
+                sx={{ variant: "buttons.floating" }}
+                {...next.props}
+              />
+            </>
+          )}
+        </Box>
+      </Flex>
+    </Styled.div>
   );
 };
 

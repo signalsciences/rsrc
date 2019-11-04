@@ -1,8 +1,8 @@
 /* @flow */
 
 import * as React from "react";
-import { useColorMode } from "theme-ui";
-import { Button } from "rebass";
+import { Styled, useColorMode } from "theme-ui";
+import { Box } from "rebass";
 
 const ColorModeToggle = () => {
   const [colorMode, setColorMode] = useColorMode();
@@ -18,7 +18,11 @@ const ColorModeToggle = () => {
   };
 
   return (
-    <Button variant="circle" onClick={toggleMode}>
+    <Styled.div
+      as={Box}
+      sx={{ variant: "buttons.circle" }}
+      onClick={toggleMode}
+    >
       <svg viewBox="0 0 32 32" width={16} height={16} fill="currentcolor">
         <circle
           cx="16"
@@ -36,7 +40,7 @@ const ColorModeToggle = () => {
           `}
         />
       </svg>
-    </Button>
+    </Styled.div>
   );
 };
 

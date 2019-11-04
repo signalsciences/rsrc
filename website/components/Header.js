@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { Flex, Box } from "rebass";
+import { Styled } from "theme-ui";
 import Container from "./Container";
 import RsrcLogo from "./RsrcLogo";
 import Link from "./Link";
@@ -11,33 +12,45 @@ const Header = () => {
   return (
     <Container as="header">
       <Flex
-        pt="1em"
         as="nav"
+        pt="1em"
         alignItems="center"
         justifyContent="space-between"
       >
         <Box>
-          <Link variant="links.nav" href="/">
+          <Styled.div
+            as={Link}
+            sx={{
+              variant: "links.nav"
+            }}
+            href="/"
+          >
             <RsrcLogo width={80} />
-          </Link>
+          </Styled.div>
         </Box>
         <Box>
           <Flex alignItems="center" justifyContent="flex-end">
             <Box>
-              <Link
-                variant="links.nav"
+              <Styled.div
+                as={Link}
+                sx={{
+                  variant: "links.nav"
+                }}
                 href="/docs/getting-started/introduction"
               >
                 Docs
-              </Link>
+              </Styled.div>
             </Box>
             <Box ml="3em">
-              <Link
-                variant="links.nav"
+              <Styled.div
+                as={Link}
+                sx={{
+                  variant: "links.nav"
+                }}
                 href="https://github.com/signalsciences/rsrc"
               >
                 Github
-              </Link>
+              </Styled.div>
             </Box>
             <Box ml="3em">
               <ColorModeToggle />

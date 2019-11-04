@@ -1,7 +1,8 @@
 /* @flow */
 
 import * as React from "react";
-import { Box, Button } from "rebass";
+import { Styled } from "theme-ui";
+import { Box } from "rebass";
 
 const { useState } = React;
 
@@ -10,9 +11,10 @@ type Props = {
 };
 
 const Nav = ({ children }: Props) => (
-  <Box
+  <Styled.div
+    as={Box}
     sx={{
-      h4: {
+      "& h4": {
         mt: 3,
         mb: 3,
         fontWeight: 300,
@@ -20,7 +22,7 @@ const Nav = ({ children }: Props) => (
         letterSpacing: 0,
         lineHeight: 0
       },
-      ul: {
+      "& ul": {
         listStyleType: "none",
         px: 0,
         pb: 3,
@@ -28,17 +30,17 @@ const Nav = ({ children }: Props) => (
         mt: 2,
         mb: 0
       },
-      li: {
+      "& li": {
         my: 2
       },
-      "li a": {
+      "& li a": {
         variant: "links.nav",
         fontWeight: "body"
       }
     }}
   >
     {children}
-  </Box>
+  </Styled.div>
 );
 
 const Sidebar = ({ children }: Props) => {
@@ -60,11 +62,12 @@ const Sidebar = ({ children }: Props) => {
       </Box>
       {/* Sidebar as toggled overlay menu */}
       <Box display={["block", "none"]}>
-        <Box
+        <Styled.div
+          as={Box}
           onClick={toggleOpen}
-          px={4}
-          py={84}
           sx={{
+            px: 4,
+            py: 84,
             position: "fixed",
             top: "0",
             left: "0",
@@ -79,12 +82,13 @@ const Sidebar = ({ children }: Props) => {
           }}
         >
           <Nav>{children}</Nav>
-        </Box>
-        <Button
-          variant="square"
+        </Styled.div>
+        <Styled.div
+          as={Box}
           onClick={toggleOpen}
-          m={3}
           sx={{
+            m: 3,
+            variant: "buttons.square",
             zIndex: 1000,
             position: "fixed",
             bottom: 0,
@@ -101,7 +105,7 @@ const Sidebar = ({ children }: Props) => {
           >
             <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
           </Box>
-        </Button>
+        </Styled.div>
       </Box>
     </Box>
   );
