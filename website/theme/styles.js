@@ -39,13 +39,15 @@ export default {
       fontFamily: "monospace",
       backgroundColor: "background-muted",
       fontSize: 1,
-      lineHeight: 1
+      lineHeight: 1,
+      letterSpacing: 1
     },
     pre: {
       p: 24,
       my: 40,
       color: "foreground",
       overflowX: "auto",
+      whiteSpace: "pre",
       ".comment,.prolog,.doctype,.cdata,.punctuation,.operator,.entity,.url": {
         color: "foreground"
       },
@@ -65,6 +67,9 @@ export default {
       },
       ".string, .number": {
         color: "secondary"
+      },
+      ".token-line": {
+        height: "24px"
       }
     },
     h1: {

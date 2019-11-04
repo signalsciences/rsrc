@@ -16,9 +16,7 @@ React.Component<FetchProps, FetchState>
 >    [cacheable](https://developer.mozilla.org/en-US/docs/Glossary/cacheable).
 > 2. `POST`, `PUT`, `PATCH`, and `DELETE` methods are typically reserved for
 >    operations that modify state on the server. In UI terms, these actions
->    usually require user interaction, e.g. `onClick`, `onSubmit`. More on
->    HTTP methods
->    [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods).
+>    usually require user interaction, e.g. `onClick`, `onSubmit`.
 >
 > To make additional operations for a particular endpoint available to
 > children, consider using a Resource component.

@@ -37,8 +37,8 @@ export default () => (
         </Link>
       </Box>
     </Box>
-    <Flex mx={-4} flexWrap="wrap">
-      <Box px={4} width={[1, 1, 1 / 3]}>
+    <Flex mx={[0, 0, -4]} flexWrap="wrap">
+      <Box px={[0, 0, 4]} width={[1, 1, 1 / 3]}>
         <Styled.h3>Zero dependencies</Styled.h3>
         <Box fontSize={2} lineHeight={2} letterSpacing={2}>
           {`
@@ -50,7 +50,7 @@ export default () => (
           `}
         </Box>
       </Box>
-      <Box px={4} width={[1, 1, 1 / 3]}>
+      <Box px={[0, 0, 4]} width={[1, 1, 1 / 3]}>
         <Styled.h3>Minimal API</Styled.h3>
         <Box fontSize={2} lineHeight={2} letterSpacing={2}>
           {`
@@ -62,7 +62,7 @@ export default () => (
           `}
         </Box>
       </Box>
-      <Box px={4} width={[1, 1, 1 / 3]}>
+      <Box px={[0, 0, 4]} width={[1, 1, 1 / 3]}>
         <Styled.h3>Incremental adoption</Styled.h3>
         <Box fontSize={2} lineHeight={2} letterSpacing={2}>
           {`
