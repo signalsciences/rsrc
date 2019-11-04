@@ -89,7 +89,7 @@ export type FetchProps = {
 export type ResourceState = {
   state: FetchState,
   actions: {
-    [key: string]: (*) => Promise<FetcherState>
+    [key: string]: (*) => Promise<*>
   },
   meta: ResourceProps
 };

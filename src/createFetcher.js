@@ -32,37 +32,15 @@ export default function createFetcher(overrides: FetcherConfig = {}): Fetcher {
       })
       .then(response => {
         const { parseBody } = config;
-        return parseBody(response).then(value =>
-          Promise.resolve({
-            pending: false,
-            fulfilled: true,
-            rejected: false,
-            value,
-            reason: null
-          })
-        );
+        return parseBody(response).then(value => Promise.resolve(value));
       })
       .catch(error => {
         if (error instanceof Error) {
-          return Promise.resolve({
-            pending: false,
-            fulfilled: false,
-            rejected: true,
-            value: null,
-            reason: error
-          });
+          return Promise.reject(error);
         }
 
         const { parseError } = config;
 
-        return parseError(error).then(reason =>
-          Promise.resolve({
-            pending: false,
-            fulfilled: false,
-            rejected: true,
-            value: null,
-            reason
-          })
-        );
+        return parseError(error).then(reason => Promise.reject(reason));
       });
 }

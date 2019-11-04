@@ -2,10 +2,18 @@
 
 import * as React from "react";
 import createFetcher from "./createFetcher";
-import type { FetchProps, FetchState, FetcherState } from "./types";
+import type { FetchProps, FetchState } from "./types";
+
+const defaultState = {
+  pending: false,
+  rejected: false,
+  fulfilled: false,
+  value: null,
+  reason: null
+};
 
 class Fetch extends React.Component<FetchProps, FetchState> {
-  promise: ?Promise<FetcherState>;
+  promise: ?Promise<*>;
 
   static displayName = "Fetch";
 
@@ -21,13 +29,8 @@ class Fetch extends React.Component<FetchProps, FetchState> {
     super(props);
     this.state = {
       // promiseState
-      pending: false,
-      rejected: false,
-      fulfilled: false,
-      request: null,
-      response: null,
-      value: null,
-      reason: null,
+      ...defaultState,
+      pending: true,
       // actions
       read: this.read.bind(this),
       refresh: this.refresh.bind(this),
@@ -41,19 +44,13 @@ class Fetch extends React.Component<FetchProps, FetchState> {
   }
 
   componentDidUpdate(prevProps: FetchProps) {
-    const {
-      url,
-      options,
-      maxAge
-      // cache,
-    } = this.props;
+    const { url, options, maxAge, cache } = this.props;
 
     if (
+      !cache.get(url) ||
       url !== prevProps.url ||
       options !== prevProps.options ||
       maxAge !== prevProps.maxAge
-      // does this effectively turn invalidate into refresh?
-      // || !cache.get(url)
     ) {
       this.read();
     }
@@ -65,12 +62,28 @@ class Fetch extends React.Component<FetchProps, FetchState> {
     this.promise = undefined;
   }
 
-  onResolved(fetcherState: ?FetcherState, promise: ?Promise<FetcherState>) {
+  onFulfill(value: *, promise: ?Promise<*>) {
     // Highlander rule applies: there can be only one promise that sets state
     // Only set state if still mounted and this.promise is known.
     // The reference is removed in componentWillUnmount so it won't attempt to setState.
     if (promise === this.promise) {
-      this.setState(prevState => ({ ...prevState, ...fetcherState }));
+      this.setState(() => ({
+        // promiseState
+        ...defaultState,
+        fulfilled: true,
+        value
+      }));
+    }
+  }
+
+  onReject(reason: Error, promise: ?Promise<*>) {
+    if (promise === this.promise) {
+      this.setState(() => ({
+        // promiseState
+        ...defaultState,
+        rejected: true,
+        reason
+      }));
     }
   }
 
@@ -125,7 +138,7 @@ class Fetch extends React.Component<FetchProps, FetchState> {
             });
           }
         },
-        error => {
+        () => {
           const r = cache.get(url);
           if (r && r.value === promise) {
             cache.set(url, {
@@ -133,21 +146,19 @@ class Fetch extends React.Component<FetchProps, FetchState> {
               lastResolved: +new Date()
             });
           }
-          throw error;
         }
       );
     }
 
     this.promise = promise;
 
-    promise.then(
-      fetcherState => {
-        this.onResolved(fetcherState, promise);
-      },
-      fetcherState => {
-        this.onResolved(fetcherState, promise);
-      }
-    );
+    promise
+      .then(value => {
+        this.onFulfill(value, promise);
+      })
+      .catch(error => {
+        this.onReject(error, promise);
+      });
   }
 
   invalidate() {

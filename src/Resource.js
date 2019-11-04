@@ -29,14 +29,14 @@ function mapFetchersToActions(props: ResourceProps, invalidate: Function) {
         const invalidates = actionProps.invalidates || [];
 
         const promise = fetcher(url, options)
-          .then(fulfilledState => {
+          .then(value => {
             if (invalidates && invalidate.length > 0) {
               invalidate(invalidates);
             }
-            return fulfilledState;
+            return value;
           })
-          .catch(rejectedState => {
-            throw rejectedState;
+          .catch(error => {
+            throw error;
           });
 
         return promise;
@@ -78,9 +78,8 @@ const Resource = (props: ResourceProps): React.Node => {
           const cacheKeys = [...cache.keys()];
           const keysToInvalidate = [];
           matchers.forEach(matcher => {
-            keysToInvalidate.push(
-              ...cacheKeys.filter(cacheKey => !!cacheKey.match(matcher))
-            );
+            const matches = cacheKeys.filter(cacheKey => cacheKey === matcher);
+            keysToInvalidate.push(...matches);
           });
           keysToInvalidate.forEach(keyToInvalidate => {
             cache.delete(keyToInvalidate);

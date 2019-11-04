@@ -7,6 +7,8 @@ import type { CacheProps, CacheState } from "./types";
 const CacheContext = React.createContext<*>(null);
 
 class Cache extends React.Component<CacheProps, CacheState> {
+  mounted: boolean;
+
   static displayName = "Cache";
 
   static defaultProps = {
@@ -16,6 +18,7 @@ class Cache extends React.Component<CacheProps, CacheState> {
   constructor(props: CacheProps) {
     super(props);
     /* eslint-disable react/no-unused-state */
+    this.mounted = false;
     this.state = {
       has: this.has.bind(this),
       entries: this.entries.bind(this),
@@ -29,6 +32,14 @@ class Cache extends React.Component<CacheProps, CacheState> {
       delete: this.delete.bind(this),
       clear: this.clear.bind(this)
     };
+  }
+
+  componentDidMount() {
+    this.mounted = true;
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   static Consumer = CacheContext.Consumer;
@@ -91,7 +102,9 @@ class Cache extends React.Component<CacheProps, CacheState> {
   }
 
   touchState(): void {
-    this.setState(prevState => prevState);
+    if (this.mounted) {
+      this.setState(prevState => prevState);
+    }
   }
 
   render() {
