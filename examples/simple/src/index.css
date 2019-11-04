@@ -1,0 +1,40 @@
+body {
+  background-color: rgb(77, 46, 229);
+  color: white;
+  font-family: system-ui, sans-serif;
+  font-size: 18px;
+  line-height: 2rem;
+}
+input {
+  border: 1px solid white;
+  padding: 8px 16px;
+  margin: 2px;
+  font-size: 18px;
+}
+button {
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+  padding: 8px 16px;
+  margin: 2px;
+  cursor: pointer;
+  font-size: 18px;
+}
+button.link {
+  padding: 0;
+  margin: 0;
+}
+button:disabled {
+  opacity: 0.6;
+}
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+li {
+  margin: 4px;
+}
+li button {
+  border: 0;
+}
