@@ -12,25 +12,25 @@
   },
   "devDependencies": {
     "@babel/core": "7.6.4",
-    "@emotion/core": "10.0.21",
+    "@emotion/core": "10.0.22",
     "@mdx-js/loader": "1.5.1",
     "@mdx-js/react": "1.5.1",
-    "@next/mdx": "9.0.6",
-    "@theme-ui/prism": "0.2.40",
-    "@theme-ui/style-guide": "0.2.44",
-    "core-js": "3.3.2",
+    "@next/mdx": "9.1.2",
+    "@theme-ui/prism": "0.2.46",
+    "@theme-ui/style-guide": "0.2.46",
+    "core-js": "3.3.6",
     "gh-pages": "2.1.1",
     "isomorphic-unfetch": "3.0.0",
-    "next": "9.0.6",
-    "react": "16.10.2",
-    "react-dom": "16.10.2",
-    "rebass": "4.0.6",
+    "next": "9.1.2",
+    "react": "16.11.0",
+    "react-dom": "16.11.0",
+    "rebass": "4.0.7",
     "regenerator-runtime": "0.13.3",
     "remark-slug": "5.1.2",
     "rimraf": "3.0.0",
-    "theme-ui": "0.2.44"
+    "theme-ui": "0.2.46"
   },
   "dependencies": {
-    "rsrc": "^1.0.3"
+    "rsrc": "^1.1.0"
   }
 }
