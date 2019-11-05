@@ -2,15 +2,18 @@
 
 ![Rsrc](https://signalsciences.github.io/rsrc/static/rsrc-type.svg)
 
+[![ci][ci-badge]][ci]
 [![version][version-badge]][npm]
 [![license][license-badge]](LICENSE.md)
-[![gzip Size][gzip-badge]][gzip]
+[![gzip size][gzip-badge]][gzip]
 
-[version-badge]: https://flat.badgen.net/npm/v/rsrc
+[ci-badge]: https://github.com/signalsciences/rsrc/workflows/CI/badge.svg
+[ci]: https://github.com/signalsciences/rsrc/actions
+[version-badge]: https://badgen.net/npm/v/rsrc
 [npm]: https://npmjs.com/package/rsrc
-[gzip-badge]: http://flat.badgen.net/bundlephobia/minzip/rsrc
+[gzip-badge]: http://badgen.net/bundlephobia/minzip/rsrc
 [gzip]: https://bundlephobia.com/result?p=rsrc
-[license-badge]: https://flat.badgen.net/badge/license/MIT/blue
+[license-badge]: https://badgen.net/badge/license/MIT/blue
 
 A collection of components designed to simplify fetch state in React.
 
