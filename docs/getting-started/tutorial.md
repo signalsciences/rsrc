@@ -127,7 +127,6 @@ export default props => {
     actions
       .markcomplete(id)
       .then(value => {
-        state.refresh();
         onSuccess(value);
       })
       .catch(error => {
@@ -162,7 +161,6 @@ export default props => {
     actions
       .create(formValues)
       .then(value => {
-        state.refresh();
         onSuccess(value);
       })
       .catch(error => {
