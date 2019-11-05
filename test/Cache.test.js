@@ -9,7 +9,7 @@ afterEach(cleanup);
 function setup(increment) {
   let renderProps = {};
   const children = arg => {
-    renderProps = { ...renderProps, ...arg };
+    renderProps = { ...arg };
     increment();
     return null;
   };

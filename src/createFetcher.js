@@ -7,16 +7,11 @@ import _parseError from "./parseError";
 import type { FetcherConfig, Fetcher } from "./types";
 
 export default function createFetcher(overrides: FetcherConfig = {}): Fetcher {
-  const defaultConfig = {
-    fetchFunction: fetch,
-    checkStatus: _checkStatus,
-    parseBody: _parseBody,
-    parseError: _parseError
-  };
-
   const config = {
-    ...defaultConfig,
-    ...overrides
+    fetchFunction: overrides.fetchFunction || fetch,
+    checkStatus: overrides.checkStatus || _checkStatus,
+    parseBody: overrides.parseBody || _parseBody,
+    parseError: overrides.parseError || _parseError
   };
 
   const { fetchFunction } = config;

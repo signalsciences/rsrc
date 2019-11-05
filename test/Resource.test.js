@@ -19,7 +19,7 @@ test("<Resource />", async () => {
   ]);
   let renderProps = {};
   const children = arg => {
-    renderProps = { ...renderProps, ...arg };
+    renderProps = { ...arg };
     return null;
   };
 

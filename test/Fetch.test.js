@@ -19,7 +19,7 @@ test("<Fetch /> Fulfilled", async () => {
   ]);
   let renderProps = {};
   const children = arg => {
-    renderProps = { ...renderProps, ...arg };
+    renderProps = { ...arg };
     return null;
   };
   const { rerender } = await render(<Fetch url="foo">{children}</Fetch>);
@@ -54,7 +54,7 @@ test("<Fetch /> Rejected", async () => {
 
   let renderProps = {};
   const children = arg => {
-    renderProps = { ...renderProps, ...arg };
+    renderProps = { ...arg };
     return null;
   };
   const { rerender } = await render(<Fetch url="baz">{children}</Fetch>);

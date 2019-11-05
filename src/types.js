@@ -49,7 +49,7 @@ export type FetcherState = {
 };
 
 export type FetcherConfig = {
-  fetch?: typeof fetch,
+  fetchFunction?: typeof fetch,
   checkStatus?: (response: Response) => Promise<Response>,
   parseBody?: (response: Response) => Promise<any>,
   parseError?: (response: Response, value: any) => Promise<Error>
