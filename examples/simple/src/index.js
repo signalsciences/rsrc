@@ -135,8 +135,8 @@ const Root = () => {
   const [postId, setPostId] = useState(1);
   return (
     <Cache>
-      <div style={{ display: "flex" }}>
-        <div style={{ flex: 1, padding: "24px" }}>
+      <div style={{ display: "flex", flexWrap: "wrap" }}>
+        <div style={{ flex: 1, minWidth: "300px", padding: "24px" }}>
           <PostsList activePostId={postId} onItemClick={id => setPostId(id)} />
         </div>
         <div style={{ flex: 1, padding: "24px" }}>
