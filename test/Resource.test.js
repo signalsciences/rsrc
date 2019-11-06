@@ -1,11 +1,33 @@
 /* @flow */
 
 import React from "react";
-import { render, cleanup } from "@testing-library/react";
+import { render, cleanup, wait } from "@testing-library/react";
 import fetch from "jest-fetch-mock";
 import { Cache, Resource } from "../src";
 
+import { getInvalidKeys } from "../src/Resource";
+
 afterEach(cleanup);
+
+test("#getInvalidKeys", async () => {
+  const keys = [
+    "/foo",
+    "/foo?q=1",
+    "/foo/quux",
+    "/bar",
+    "/bar?q=1",
+    "/bar/quux"
+  ];
+
+  expect(getInvalidKeys(keys, key => ["/foo"].includes(key))).toEqual(["/foo"]);
+  expect(getInvalidKeys(keys, "/bar")).toEqual(["/bar", "/bar?q=1"]);
+  expect(getInvalidKeys(keys, ["/foo", "/bar"])).toEqual([
+    "/foo",
+    "/foo?q=1",
+    "/bar",
+    "/bar?q=1"
+  ]);
+});
 
 test("<Resource />", async () => {
   fetch.mockResponses([
@@ -57,10 +79,12 @@ test("<Resource />", async () => {
   renderProps.state.refresh();
   expect(fetch).toHaveBeenCalledTimes(3);
 
-  await renderProps.actions
-    .create({ foo: "bar" })
-    .then(() => {})
-    .catch(() => {});
+  await wait(() =>
+    renderProps.actions
+      .create({ foo: "bar" })
+      .then(() => {})
+      .catch(() => {})
+  );
 
   expect(fetch).toHaveBeenCalledTimes(5);
 

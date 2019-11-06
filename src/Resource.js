@@ -9,6 +9,23 @@ import createFetcher from "./createFetcher";
 
 import type { ResourceProps } from "./types";
 
+export const getInvalidKeys = (
+  cacheKeys: Array<string>,
+  keysOrFilterFn: string | Array<string> | (string => boolean)
+): Array<string> => {
+  if (typeof keysOrFilterFn === "function") {
+    return cacheKeys.filter(keysOrFilterFn);
+  }
+
+  // force string to array
+  const matchers = [].concat(keysOrFilterFn);
+
+  // Ignore search string
+  return cacheKeys.filter(cacheKey =>
+    matchers.includes(cacheKey.split("?")[0])
+  );
+};
+
 function mapFetchersToActions(props: ResourceProps, invalidate: Function) {
   const mappedActions = {};
 
@@ -74,15 +91,10 @@ const Resource = (props: ResourceProps): React.Node => {
 
         const cache = context || defaultCache;
 
-        const invalidate = matchers => {
-          const cacheKeys = [...cache.keys()];
-          const keysToInvalidate = [];
-          matchers.forEach(matcher => {
-            const matches = cacheKeys.filter(cacheKey => cacheKey === matcher);
-            keysToInvalidate.push(...matches);
-          });
-          keysToInvalidate.forEach(keyToInvalidate => {
-            cache.delete(keyToInvalidate);
+        const invalidate = keysOrFilterFn => {
+          const keys = getInvalidKeys([...cache.keys()], keysOrFilterFn);
+          keys.forEach(key => {
+            cache.delete(key);
           });
         };
 
