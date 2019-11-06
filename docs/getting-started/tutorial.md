@@ -138,7 +138,7 @@ export default props => {
     <ul>
       {todos.map(todo => (
         <li key={todo.id}>
-          <button onClick={handleClick}>✔</button>
+          <button onClick={() => handleClick(todo.id)}>✔</button>
           {todo.title}
         </li>
       ))}
