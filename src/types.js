@@ -28,7 +28,6 @@ export type CacheProps = {
         entries: () => Iterator<*> | Array<*>,
         values: () => Iterator<*> | Array<*>,
         keys: () => Iterator<*> | Array<*>,
-        forEach: (Function, any) => void,
         set: (key: *, value: *) => any,
         delete: (key: *) => any,
         clear: () => void
