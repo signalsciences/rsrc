@@ -25,7 +25,6 @@ function setup(increment) {
 
 test("cache provider only updates on mutations", async () => {
   let counter = 0;
-  const mockCallback = jest.fn();
 
   const increment = () => {
     counter += 1;
@@ -53,12 +52,11 @@ test("cache provider only updates on mutations", async () => {
   expect([...renderProps.keys()]).toEqual(["foo"]);
   expect(counter).toBe(2);
 
-  renderProps.forEach(mockCallback);
-  expect(mockCallback.mock.calls.length).toBe(1);
-  expect(counter).toBe(2);
-
   expect(renderProps.set("baz", "qux")).toEqual(
-    new Map([["foo", "bar"], ["baz", "qux"]])
+    new Map([
+      ["foo", "bar"],
+      ["baz", "qux"]
+    ])
   );
   expect(counter).toEqual(3);
 

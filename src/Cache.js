@@ -24,7 +24,6 @@ class Cache extends React.Component<CacheProps, CacheState> {
       entries: this.entries.bind(this),
       values: this.values.bind(this),
       keys: this.keys.bind(this),
-      forEach: this.forEach.bind(this),
       get: this.get.bind(this),
 
       // NOTE: these methods trigger setState
@@ -44,12 +43,12 @@ class Cache extends React.Component<CacheProps, CacheState> {
 
   static Consumer = CacheContext.Consumer;
 
-  get(key: string): * {
+  get(key: *) {
     const { map } = this.props;
     return map.get(key);
   }
 
-  has(key: string): boolean {
+  has(key: *) {
     const { map } = this.props;
     return map.has(key);
   }
@@ -67,11 +66,6 @@ class Cache extends React.Component<CacheProps, CacheState> {
   keys(): Array<*> {
     const { map } = this.props;
     return [...map.keys()];
-  }
-
-  forEach(callbackFn: () => void, thisArg: any): void {
-    const { map } = this.props;
-    return map.forEach(callbackFn, thisArg);
   }
 
   // ---------
@@ -95,13 +89,13 @@ class Cache extends React.Component<CacheProps, CacheState> {
     return result;
   }
 
-  clear(): void {
+  clear() {
     const { map } = this.props;
     map.clear();
     this.touchState();
   }
 
-  touchState(): void {
+  touchState() {
     if (this.mounted) {
       this.setState(prevState => prevState);
     }
