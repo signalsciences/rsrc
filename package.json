@@ -75,6 +75,7 @@
     "settings": {
       "polyfills": [
         "fetch",
+        "Map",
         "Promise"
       ]
     }
@@ -96,12 +97,12 @@
   "devDependencies": {
     "@babel/core": "7.7.5",
     "@testing-library/react": "9.3.3",
-    "babel-preset-signalsciences": "2.0.3",
+    "babel-preset-signalsciences": "4.0.1",
     "browserslist-config-signalsciences": "1.0.3",
     "core-js": "^3.5.0",
     "cross-env": "6.0.3",
     "eslint": "6.7.2",
-    "eslint-config-signalsciences": "2.0.4",
+    "eslint-config-signalsciences": "4.0.1",
     "eslint-plugin-compat": "3.3.0",
     "eslint-plugin-flowtype": "4.5.2",
     "eslint-plugin-import": "2.19.1",
@@ -115,7 +116,7 @@
     "isomorphic-unfetch": "3.0.0",
     "jest": "24.9.0",
     "jest-fetch-mock": "2.1.2",
-    "jest-preset-signalsciences": "3.0.3",
+    "jest-preset-signalsciences": "4.0.1",
     "lint-staged": "9.5.0",
     "pre-commit": "1.2.2",
     "prettier": "1.19.1",
@@ -124,6 +125,6 @@
     "regenerator-runtime": "^0.13.3",
     "rimraf": "^3.0.0",
     "rollup": "1.27.11",
-    "rollup-config-signalsciences": "2.0.5"
+    "rollup-config-signalsciences": "4.0.1"
   }
 }
