@@ -56,7 +56,7 @@ export default props => {
         const handleClick = () => {
           actions
             .remove()
-            .then(fetchState => {
+            .then(value => {
               /* */
             })
             .catch(error => {
