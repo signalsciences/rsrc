@@ -1,7 +1,7 @@
 /* @flow */
 
 import React from "react";
-import { render, cleanup, wait } from "@testing-library/react";
+import { render, cleanup, waitFor } from "@testing-library/react";
 import fetch from "jest-fetch-mock";
 import { Fetch } from "../src";
 
@@ -59,7 +59,7 @@ test("<Fetch /> Rejected", async () => {
   };
   const { rerender } = await render(<Fetch url="baz">{children}</Fetch>);
 
-  await wait(expect(renderProps.pending).toBe(true));
+  await waitFor(() => expect(renderProps.pending).toBe(true));
 
   rerender(<Fetch url="bar">{children}</Fetch>);
 

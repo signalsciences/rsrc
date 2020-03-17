@@ -1,7 +1,7 @@
 /* @flow */
 
 import React from "react";
-import { render, cleanup, wait } from "@testing-library/react";
+import { render, cleanup, waitFor } from "@testing-library/react";
 import fetch from "jest-fetch-mock";
 import { Cache, Resource } from "../src";
 
@@ -79,7 +79,7 @@ test("<Resource />", async () => {
   renderProps.state.refresh();
   expect(fetch).toHaveBeenCalledTimes(3);
 
-  await wait(() =>
+  await waitFor(() =>
     renderProps.actions
       .create({ foo: "bar" })
       .then(() => {})

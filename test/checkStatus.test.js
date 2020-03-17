@@ -2,7 +2,7 @@
 
 /* eslint-disable compat/compat */
 
-import { cleanup, wait } from "@testing-library/react";
+import { cleanup, waitFor } from "@testing-library/react";
 import checkStatus from "../src/checkStatus";
 
 afterEach(cleanup);
@@ -15,7 +15,7 @@ test("#checkStatus ok", async () => {
     statusText: "OK"
   };
   const res = new Response(body, init);
-  await wait(() => expect(checkStatus(res)).resolves.toEqual(res));
+  await waitFor(() => expect(checkStatus(res)).resolves.toEqual(res));
 });
 
 /*
@@ -27,6 +27,6 @@ test('#checkStatus !ok', async () => {
     statusText: 'NOT FOUND',
   }
   const res = new Response(body, init)
-  await wait(() => expect(checkStatus(res)).rejects.toEqual(new Error(res.statusText)))
+  await waitFor(() => expect(checkStatus(res)).rejects.toEqual(new Error(res.statusText)))
 })
 */
