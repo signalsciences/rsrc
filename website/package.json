@@ -11,24 +11,23 @@
     "publish-docs": "yarn export && touch out/.nojekyll && gh-pages -t -d out"
   },
   "devDependencies": {
-    "@babel/core": "7.7.5",
-    "@emotion/core": "10.0.22",
-    "@mdx-js/loader": "1.5.1",
-    "@mdx-js/react": "1.5.1",
-    "@next/mdx": "9.1.5",
-    "@theme-ui/prism": "0.2.50",
-    "@theme-ui/style-guide": "0.2.49",
-    "core-js": "3.5.0",
-    "gh-pages": "2.1.1",
+    "@babel/core": "7.8.7",
+    "@emotion/core": "10.0.28",
+    "@mdx-js/loader": "1.5.7",
+    "@mdx-js/react": "1.5.7",
+    "@next/mdx": "9.3.1",
+    "@theme-ui/prism": "0.3.0",
+    "core-js": "3.6.4",
+    "gh-pages": "2.2.0",
     "isomorphic-unfetch": "3.0.0",
-    "next": "9.1.5",
-    "react": "16.12.0",
-    "react-dom": "16.12.0",
+    "next": "9.3.1",
+    "react": "16.13.0",
+    "react-dom": "16.13.0",
     "rebass": "4.0.7",
-    "regenerator-runtime": "0.13.3",
+    "regenerator-runtime": "0.13.5",
     "remark-slug": "5.1.2",
-    "rimraf": "3.0.0",
-    "theme-ui": "0.2.49"
+    "rimraf": "3.0.2",
+    "theme-ui": "0.3.1"
   },
   "dependencies": {
     "rsrc": "^1.1.2"
