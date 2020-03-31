@@ -16,16 +16,18 @@ test("#getInvalidKeys", async () => {
     "/foo/quux",
     "/bar",
     "/bar?q=1",
-    "/bar/quux"
+    "/bar/quux",
   ];
 
-  expect(getInvalidKeys(keys, key => ["/foo"].includes(key))).toEqual(["/foo"]);
+  expect(getInvalidKeys(keys, (key) => ["/foo"].includes(key))).toEqual([
+    "/foo",
+  ]);
   expect(getInvalidKeys(keys, "/bar")).toEqual(["/bar", "/bar?q=1"]);
   expect(getInvalidKeys(keys, ["/foo", "/bar"])).toEqual([
     "/foo",
     "/foo?q=1",
     "/bar",
-    "/bar?q=1"
+    "/bar?q=1",
   ]);
 });
 
@@ -35,12 +37,12 @@ test("<Resource />", async () => {
     {
       status: 200,
       headers: {
-        "Content-Type": "application/json"
-      }
-    }
+        "Content-Type": "application/json",
+      },
+    },
   ]);
   let renderProps = {};
-  const children = arg => {
+  const children = (arg) => {
     renderProps = { ...arg };
     return null;
   };
@@ -53,13 +55,13 @@ test("<Resource />", async () => {
         url={url}
         options={{}}
         actions={{
-          create: data => ({
+          create: (data) => ({
             options: {
               body: JSON.stringify(data),
-              method: "POST"
+              method: "POST",
             },
-            invalidates: [url]
-          })
+            invalidates: [url],
+          }),
         }}
       >
         {children}

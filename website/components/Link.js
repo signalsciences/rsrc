@@ -23,7 +23,7 @@ const { BASE_URL } = publicRuntimeConfig;
 
 type Props = {
   children: React.Node,
-  href: string
+  href: string,
 };
 
 const Link = ({ children, href, ...rest }: Props) => {

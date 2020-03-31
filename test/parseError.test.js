@@ -12,8 +12,8 @@ test("#parseError", async () => {
   const init = {
     status: 404,
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
   const res = new Response(body, init);
   const error = await parseError(res);

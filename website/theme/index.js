@@ -28,21 +28,19 @@ import styles from "./styles";
 export default {
   useCustomProperties: false,
   // useColorSchemeMediaQuery: true,
-  ...colors,
-  ...styles,
   borders: {},
   borderWidths: {},
   borderStyles: {},
   fonts: {
     body: "system-ui, sans-serif",
     heading: "inherit",
-    monospace: "Menlo, monospace"
+    monospace: "Menlo, monospace",
   },
   fontWeights: {
     light: 200,
     body: 400,
     heading: 700,
-    bold: 900
+    bold: 900,
   },
   fontSizes: ["12px", "14px", "16px", "18px", "24px", "32px", "48px", "64px"],
   lineHeights: ["16px", "24px", "26px", "28px", "32px", "44px", "56px", "72px"],
@@ -50,10 +48,12 @@ export default {
   space: [0, 4, 8, 16, 32, 48, 64, 128, 256, 512],
   radii: {
     default: 0,
-    circle: 99999
+    circle: 99999,
   },
   sizes: {},
   shadows: {},
   transitions: {},
-  zIndices: {}
+  zIndices: {},
+  ...styles,
+  ...colors,
 };

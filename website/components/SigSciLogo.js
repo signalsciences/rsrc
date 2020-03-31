@@ -3,7 +3,7 @@
 import * as React from "react";
 
 type Props = {
-  width: number
+  width: number,
 };
 
 export default ({ width = 120 }: Props) => (

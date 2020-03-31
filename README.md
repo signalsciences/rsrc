@@ -31,7 +31,7 @@ yarn add rsrc
 import React from "react";
 import { Resource } from "rsrc";
 
-export default props => {
+export default (props) => {
   const { id } = props;
   const url = `/todos/${id}`;
 
@@ -42,10 +42,10 @@ export default props => {
       actions={{
         remove: () => ({
           options: {
-            method: "DELETE"
+            method: "DELETE",
           },
-          invalidates: ["/todos"]
-        })
+          invalidates: ["/todos"],
+        }),
       }}
     >
       {({ state, actions }) => {
@@ -56,10 +56,10 @@ export default props => {
         const handleClick = () => {
           actions
             .remove()
-            .then(value => {
+            .then((value) => {
               /* */
             })
-            .catch(error => {
+            .catch((error) => {
               /* */
             });
         };

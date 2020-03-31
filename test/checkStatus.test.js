@@ -12,7 +12,7 @@ test("#checkStatus ok", async () => {
   const init = {
     ok: true,
     status: 200,
-    statusText: "OK"
+    statusText: "OK",
   };
   const res = new Response(body, init);
   await waitFor(() => expect(checkStatus(res)).resolves.toEqual(res));

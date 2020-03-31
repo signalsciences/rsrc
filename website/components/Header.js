@@ -21,7 +21,7 @@ const Header = () => {
           <Styled.div
             as={Link}
             sx={{
-              variant: "links.nav"
+              variant: "links.nav",
             }}
             href="/"
           >
@@ -34,7 +34,7 @@ const Header = () => {
               <Styled.div
                 as={Link}
                 sx={{
-                  variant: "links.nav"
+                  variant: "links.nav",
                 }}
                 href="/docs/getting-started/introduction"
               >
@@ -45,7 +45,7 @@ const Header = () => {
               <Styled.div
                 as={Link}
                 sx={{
-                  variant: "links.nav"
+                  variant: "links.nav",
                 }}
                 href="https://github.com/signalsciences/rsrc"
               >

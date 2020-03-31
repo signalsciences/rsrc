@@ -12,9 +12,9 @@ test("#createFetcher returns a fetcher that updates state on successful fetches"
     {
       status: 200,
       headers: {
-        "Content-Type": "application/json"
-      }
-    }
+        "Content-Type": "application/json",
+      },
+    },
   ]);
   const value = await createFetcher()("/foo");
   expect(value).toEqual({ data: "ok" });
@@ -29,9 +29,9 @@ test("#createFetcher returns a fetcher that updates state on unsuccessful fetche
     {
       status: 500,
       headers: {
-        "Content-Type": "text/plain"
-      }
-    }
+        "Content-Type": "text/plain",
+      },
+    },
   ]);
   expect(createFetcher()("/foo")).rejects.toEqual(error);
 });

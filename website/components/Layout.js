@@ -14,10 +14,10 @@ import Main from "./Main";
 import theme from "../theme";
 
 type Props = {
-  children: React.Node
+  children: React.Node,
 };
 
-const withLink = Tag => (props: Props & { id?: string }) => {
+const withLink = (Tag) => (props: Props & { id?: string }) => {
   if (!props.id) return <Tag {...props} />;
   const { children } = props;
   return (
@@ -34,7 +34,7 @@ const components = {
   a: Link,
   img: Image,
   h2: withLink("h2"),
-  h3: withLink("h3")
+  h3: withLink("h3"),
 };
 
 const Layout = ({ children }: Props) => (
@@ -47,8 +47,8 @@ const Layout = ({ children }: Props) => (
           color: colors.foreground,
           backgroundColor: colors.background,
           WebkitFontSmoothing: "antialiased",
-          MozOsxFontSmoothing: "grayscale"
-        }
+          MozOsxFontSmoothing: "grayscale",
+        },
       })}
     />
     <Styled.root>
@@ -56,7 +56,7 @@ const Layout = ({ children }: Props) => (
         flexDirection="column"
         justifyContent="space-between"
         sx={{
-          minHeight: "100vh"
+          minHeight: "100vh",
         }}
       >
         <Box flex={1}>

@@ -8,7 +8,7 @@ afterEach(cleanup);
 
 function setup(increment) {
   let renderProps = {};
-  const children = arg => {
+  const children = (arg) => {
     renderProps = { ...arg };
     increment();
     return null;
@@ -19,7 +19,7 @@ function setup(increment) {
     </Cache>
   );
   return {
-    renderProps
+    renderProps,
   };
 }
 
@@ -55,7 +55,7 @@ test("cache provider only updates on mutations", async () => {
   expect(renderProps.set("baz", "qux")).toEqual(
     new Map([
       ["foo", "bar"],
-      ["baz", "qux"]
+      ["baz", "qux"],
     ])
   );
   expect(counter).toEqual(3);

@@ -11,7 +11,7 @@ export default function createFetcher(overrides: FetcherConfig = {}): Fetcher {
     fetchFunction: overrides.fetchFunction || fetch,
     checkStatus: overrides.checkStatus || _checkStatus,
     parseBody: overrides.parseBody || _parseBody,
-    parseError: overrides.parseError || _parseError
+    parseError: overrides.parseError || _parseError,
   };
 
   const { fetchFunction } = config;
@@ -21,21 +21,21 @@ export default function createFetcher(overrides: FetcherConfig = {}): Fetcher {
       // First we check the status of the response and either resolve or reject it
       // based on the function's criteria. The default is to only resolve when
       // `response.ok` is true (status in the range 200-299).
-      .then(response => {
+      .then((response) => {
         const { checkStatus } = config;
         return checkStatus(response);
       })
-      .then(response => {
+      .then((response) => {
         const { parseBody } = config;
-        return parseBody(response).then(value => Promise.resolve(value));
+        return parseBody(response).then((value) => Promise.resolve(value));
       })
-      .catch(error => {
+      .catch((error) => {
         if (error instanceof Error) {
           return Promise.reject(error);
         }
 
         const { parseError } = config;
 
-        return parseError(error).then(reason => Promise.reject(reason));
+        return parseError(error).then((reason) => Promise.reject(reason));
       });
 }

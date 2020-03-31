@@ -5,7 +5,7 @@ import { Box } from "rebass";
 
 type Props = {
   children: React.Node,
-  as: string
+  as: string,
 };
 
 const Container = ({ children, as = "div" }: Props) => (

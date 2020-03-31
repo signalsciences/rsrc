@@ -11,7 +11,7 @@ import type { ResourceProps } from "./types";
 
 export const getInvalidKeys = (
   cacheKeys: Array<string>,
-  keysOrFilterFn: string | Array<string> | (string => boolean)
+  keysOrFilterFn: string | Array<string> | ((string) => boolean)
 ): Array<string> => {
   if (typeof keysOrFilterFn === "function") {
     return cacheKeys.filter(keysOrFilterFn);
@@ -21,7 +21,7 @@ export const getInvalidKeys = (
   const matchers = [].concat(keysOrFilterFn);
 
   // Ignore search string
-  return cacheKeys.filter(cacheKey =>
+  return cacheKeys.filter((cacheKey) =>
     matchers.includes(cacheKey.split("?")[0])
   );
 };
@@ -31,7 +31,7 @@ function mapFetchersToActions(props: ResourceProps, invalidate: Function) {
 
   const { actions, fetcher } = props;
 
-  Object.keys(actions).forEach(key => {
+  Object.keys(actions).forEach((key) => {
     const action = key ? actions[key] : null;
 
     if (action && typeof action === "function") {
@@ -46,13 +46,13 @@ function mapFetchersToActions(props: ResourceProps, invalidate: Function) {
         const invalidates = actionProps.invalidates || [];
 
         const promise = fetcher(url, options)
-          .then(value => {
+          .then((value) => {
             if (invalidates && invalidate.length > 0) {
               invalidate(invalidates);
             }
             return value;
           })
-          .catch(error => {
+          .catch((error) => {
             throw error;
           });
 
@@ -71,14 +71,14 @@ const Resource = (props: ResourceProps): React.Node => {
     maxAge,
 
     children,
-    fetcher
+    fetcher,
   } = props;
 
   const defaultCache = new Map<*, *>();
 
   return (
     <Cache.Consumer>
-      {context => {
+      {(context) => {
         // If no Cache provider is found, the default `undefined` will be returned
         // Warn user on dev, this may be desired in some cases
         if (context === undefined) {
@@ -91,9 +91,9 @@ const Resource = (props: ResourceProps): React.Node => {
 
         const cache = context || defaultCache;
 
-        const invalidate = keysOrFilterFn => {
+        const invalidate = (keysOrFilterFn) => {
           const keys = getInvalidKeys([...cache.keys()], keysOrFilterFn);
-          keys.forEach(key => {
+          keys.forEach((key) => {
             cache.delete(key);
           });
         };
@@ -108,11 +108,11 @@ const Resource = (props: ResourceProps): React.Node => {
             fetcher={fetcher}
             cache={cache}
           >
-            {state => {
+            {(state) => {
               const childProps = {
                 meta: props,
                 actions,
-                state
+                state,
               };
 
               return (
@@ -135,7 +135,7 @@ Resource.defaultProps = {
   options: {},
   maxAge: 60, // 1 minute
   actions: {},
-  fetcher: createFetcher()
+  fetcher: createFetcher(),
 };
 
 export default Resource;

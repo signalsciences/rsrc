@@ -9,7 +9,7 @@ import Pager from "./Pager";
 import Docs from "../pages/docs/index.md";
 
 type Props = {
-  children: React.Node
+  children: React.Node,
 };
 
 const Main = ({ children }: Props) => {
@@ -24,7 +24,7 @@ const Main = ({ children }: Props) => {
             <Docs
               pathname={router.pathname}
               components={{
-                wrapper: Sidebar
+                wrapper: Sidebar,
               }}
             />
           </Box>
@@ -35,7 +35,7 @@ const Main = ({ children }: Props) => {
                 <Docs
                   pathname={router.pathname}
                   components={{
-                    wrapper: Pager
+                    wrapper: Pager,
                   }}
                 />
               </Box>

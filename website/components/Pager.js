@@ -11,9 +11,9 @@ import { Box, Flex } from "rebass";
 import { Styled } from "theme-ui";
 import Link from "./Link";
 
-const removeSlash = str => (str.length > 1 ? str.replace(/\/$/, "") : str);
+const removeSlash = (str) => (str.length > 1 ? str.replace(/\/$/, "") : str);
 
-const flattenLinks = children =>
+const flattenLinks = (children) =>
   React.Children.toArray(children).reduce((acc, child) => {
     if (child.props && child.props.mdxType === "a") {
       return [...acc, child];
@@ -21,19 +21,19 @@ const flattenLinks = children =>
     if (!child.props || !child.props.children) return acc;
     return React.Children.toArray([
       ...acc,
-      ...flattenLinks(child.props.children)
+      ...flattenLinks(child.props.children),
     ]);
   }, []);
 
 type Props = {
   children: React.Node,
-  pathname: string
+  pathname: string,
 };
 
 const Pager = ({ children, pathname }: Props) => {
   const links = flattenLinks(children);
   const index = links.findIndex(
-    link => link.props.href === removeSlash(pathname)
+    (link) => link.props.href === removeSlash(pathname)
   );
   const hasPagination = index > -1;
   const previous = links[index - 1];

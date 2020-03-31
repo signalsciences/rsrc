@@ -16,7 +16,7 @@ export type CacheState = {
   keys: () => Array<*>,
   set: (key: *, value: *) => Map<*, *>,
   delete: (key: *) => any,
-  clear: () => void
+  clear: () => void,
 };
 
 export type CacheProps = {
@@ -30,9 +30,9 @@ export type CacheProps = {
         keys: () => Iterator<*> | Array<*>,
         set: (key: *, value: *) => any,
         delete: (key: *) => any,
-        clear: () => void
+        clear: () => void,
       },
-  children: React.Node
+  children: React.Node,
 };
 
 /*
@@ -44,14 +44,14 @@ export type FetcherState = {
   rejected: boolean,
   fulfilled: boolean,
   value: ?any,
-  reason: ?Error
+  reason: ?Error,
 };
 
 export type FetcherConfig = {
   fetchFunction?: typeof fetch,
   checkStatus?: (response: Response) => Promise<Response>,
   parseBody?: (response: Response) => Promise<any>,
-  parseError?: (response: Response, value: any) => Promise<Error>
+  parseError?: (response: Response, value: any) => Promise<Error>,
 };
 
 export type Fetcher = (
@@ -66,7 +66,7 @@ export type Fetcher = (
 export type FetchState = FetcherState & {
   invalidate: () => void,
   read: () => void,
-  refresh: () => void
+  refresh: () => void,
 };
 
 export type FetchProps = {
@@ -74,11 +74,11 @@ export type FetchProps = {
   options: RequestOptions,
   maxAge: number,
 
-  children: FetchState => React.Node,
+  children: (FetchState) => React.Node,
 
   /* Optional configuration overrides */
   cache: Map<*, *> | CacheState,
-  fetcher: Fetcher
+  fetcher: Fetcher,
 };
 
 /*
@@ -88,9 +88,9 @@ export type FetchProps = {
 export type ResourceState = {
   state: FetchState,
   actions: {
-    [key: string]: (*) => Promise<*>
+    [key: string]: (*) => Promise<*>,
   },
-  meta: ResourceProps
+  meta: ResourceProps,
 };
 
 export type ResourceProps = {
@@ -104,10 +104,10 @@ export type ResourceProps = {
       url?: string,
       options?: RequestOptions,
       maxAge?: number,
-      invalidates?: Array<string | RegExp>
-    }
+      invalidates?: Array<string | RegExp>,
+    },
   },
 
-  children: ResourceState => React.Node,
-  fetcher: Fetcher
+  children: (ResourceState) => React.Node,
+  fetcher: Fetcher,
 };

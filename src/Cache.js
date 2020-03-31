@@ -10,7 +10,7 @@ class Cache extends React.Component<CacheProps, CacheState> {
   static displayName = "Cache";
 
   static defaultProps = {
-    map: new Map<*, *>()
+    map: new Map<*, *>(),
   };
 
   static Consumer = CacheContext.Consumer;
@@ -31,7 +31,7 @@ class Cache extends React.Component<CacheProps, CacheState> {
       // NOTE: these methods trigger setState
       set: this.set.bind(this),
       delete: this.delete.bind(this),
-      clear: this.clear.bind(this)
+      clear: this.clear.bind(this),
     };
   }
 
@@ -97,7 +97,7 @@ class Cache extends React.Component<CacheProps, CacheState> {
 
   touchState() {
     if (this.mounted) {
-      this.setState(prevState => prevState);
+      this.setState((prevState) => prevState);
     }
   }
 

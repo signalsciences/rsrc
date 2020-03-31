@@ -12,11 +12,11 @@ React.Component<ResourceProps, ResourceState>
 ## Props
 
 ```jsx
-type Action = any => {
+type Action = (any) => {
   url?: string,
   options?: RequestOptions,
   maxAge?: number,
-  invalidates?: Array<string>
+  invalidates?: Array<string>,
 };
 
 type ResourceProps = {
@@ -24,10 +24,10 @@ type ResourceProps = {
   options: RequestOptions,
   maxAge: number,
   actions: { [key: string]: Action },
-  children?: ResourceState => React.Node,
+  children?: (ResourceState) => React.Node,
 
   /* advanced options */
-  fetcher: Fetcher
+  fetcher: Fetcher,
 };
 ```
 
@@ -68,35 +68,35 @@ export default ({ id }) => {
   const options = {
     method: "GET",
     headers: {
-      "Content-Type": "application/json; charset=UTF-8"
-    }
+      "Content-Type": "application/json; charset=UTF-8",
+    },
   };
   const maxAge = 60 * 60; // 1 hour
 
-  const update = data => ({
+  const update = (data) => ({
     url,
     options: {
       ...options,
       method: "PATCH",
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     },
-    invalidates: [url]
+    invalidates: [url],
   });
 
   return (
     <Resource url={url} options={options} maxAge={maxAge} actions={{ update }}>
-      {resource => {
+      {(resource) => {
         const { state, actions } = resource;
 
         if (state.pending) return "Loading...";
 
         if (state.rejected) return "Error";
 
-        const handleSubmit = formValues => {
+        const handleSubmit = (formValues) => {
           actions
             .update(formValues)
-            .then(value => console.log("Success", value))
-            .catch(error => console.log("Fail", error.message));
+            .then((value) => console.log("Success", value))
+            .catch((error) => console.log("Fail", error.message));
         };
 
         const { name, email } = state.value;

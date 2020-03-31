@@ -9,7 +9,7 @@ const defaultState = {
   rejected: false,
   fulfilled: false,
   value: null,
-  reason: null
+  reason: null,
 };
 
 class Fetch extends React.Component<FetchProps, FetchState> {
@@ -22,7 +22,7 @@ class Fetch extends React.Component<FetchProps, FetchState> {
     options: {},
     maxAge: 60, // 1 minute
     cache: new Map<*, *>(),
-    fetcher: createFetcher()
+    fetcher: createFetcher(),
   };
 
   constructor(props: FetchProps) {
@@ -34,7 +34,7 @@ class Fetch extends React.Component<FetchProps, FetchState> {
       // actions
       read: this.read.bind(this),
       refresh: this.refresh.bind(this),
-      invalidate: this.invalidate.bind(this)
+      invalidate: this.invalidate.bind(this),
     };
     this.promise = undefined;
   }
@@ -71,7 +71,7 @@ class Fetch extends React.Component<FetchProps, FetchState> {
         // promiseState
         ...defaultState,
         fulfilled: true,
-        value
+        value,
       }));
     }
   }
@@ -82,15 +82,15 @@ class Fetch extends React.Component<FetchProps, FetchState> {
         // promiseState
         ...defaultState,
         rejected: true,
-        reason
+        reason,
       }));
     }
   }
 
   read() {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       ...prevState,
-      pending: true
+      pending: true,
     }));
 
     const { url, options, maxAge, fetcher, cache } = this.props;
@@ -126,7 +126,7 @@ class Fetch extends React.Component<FetchProps, FetchState> {
       promise = fetcher(url, options);
 
       cache.set(url, {
-        value: promise
+        value: promise,
       });
       promise.then(
         () => {
@@ -134,7 +134,7 @@ class Fetch extends React.Component<FetchProps, FetchState> {
           if (r && r.value === promise) {
             cache.set(url, {
               ...r,
-              lastResolved: +new Date()
+              lastResolved: +new Date(),
             });
           }
         },
@@ -143,7 +143,7 @@ class Fetch extends React.Component<FetchProps, FetchState> {
           if (r && r.value === promise) {
             cache.set(url, {
               ...r,
-              lastResolved: +new Date()
+              lastResolved: +new Date(),
             });
           }
         }
@@ -153,10 +153,10 @@ class Fetch extends React.Component<FetchProps, FetchState> {
     this.promise = promise;
 
     promise
-      .then(value => {
+      .then((value) => {
         this.onFulfill(value, promise);
       })
-      .catch(error => {
+      .catch((error) => {
         this.onReject(error, promise);
       });
   }

@@ -28,11 +28,11 @@ type FetchProps = {
   url: string,
   options: RequestOptions,
   maxAge: number,
-  children?: FetchState => React.Node,
+  children?: (FetchState) => React.Node,
 
   /* advanced options */
   cache: CacheState,
-  fetcher: Fetcher
+  fetcher: Fetcher,
 };
 ```
 
@@ -66,14 +66,14 @@ export default () => {
   const options = {
     method: "GET",
     headers: {
-      "Content-Type": "application/json; charset=UTF-8"
-    }
+      "Content-Type": "application/json; charset=UTF-8",
+    },
   };
   const maxAge = 60 * 60; // 1 hour
 
   return (
     <Fetch url={url} options={options} maxAge={maxAge}>
-      {fetchState => {
+      {(fetchState) => {
         if (fetchState.pending) return "Loading...";
 
         if (fetchState.rejected) return "Error";
@@ -86,7 +86,7 @@ export default () => {
             <button onClick={fetchState.invalidate}>Invalidate</button>
             <button onClick={fetchState.refresh}>Refresh</button>
             <ul>
-              {users.map(user => (
+              {users.map((user) => (
                 <li key={user.id}>{user.name}</li>
               ))}
             </ul>

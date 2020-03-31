@@ -15,7 +15,7 @@ React.Component<CacheProps, CacheState>
 ```jsx
 type CacheProps = {
   map: Map<*, *>,
-  children?: React.Node
+  children?: React.Node,
 };
 ```
 
@@ -31,7 +31,7 @@ type CacheState = {
   delete: (key: *) => boolean,
   entries: () => Iterator<*>,
   values: () => Iterator<*>,
-  keys: () => Iterator<*>
+  keys: () => Iterator<*>,
 };
 ```
 
@@ -50,11 +50,11 @@ import { Cache } from "rsrc";
 export default () => (
   <Cache>
     <Cache.Consumer>
-      {cache => {
+      {(cache) => {
         const addRandomEntry = () => {
           cache.set(+new Date(), Math.random());
         };
-        const removeEntry = key => {
+        const removeEntry = (key) => {
           cache.delete(key);
         };
         return (

@@ -7,7 +7,7 @@ import { Box } from "rebass";
 const { useState } = React;
 
 type Props = {
-  children: React.Node
+  children: React.Node,
 };
 
 const Nav = ({ children }: Props) => (
@@ -20,7 +20,7 @@ const Nav = ({ children }: Props) => (
         fontWeight: 300,
         fontSize: 0,
         letterSpacing: 0,
-        lineHeight: 0
+        lineHeight: 0,
       },
       "& ul": {
         listStyleType: "none",
@@ -28,15 +28,15 @@ const Nav = ({ children }: Props) => (
         pb: 3,
         mx: 0,
         mt: 2,
-        mb: 0
+        mb: 0,
       },
       "& li": {
-        my: 2
+        my: 2,
       },
       "& li a": {
         variant: "links.nav",
-        fontWeight: "body"
-      }
+        fontWeight: "body",
+      },
     }}
   >
     {children}
@@ -78,7 +78,7 @@ const Sidebar = ({ children }: Props) => {
             overflowY: "auto",
             transitionProperty: "transform",
             transitionDuration: ".2s",
-            transitionTimingFunction: "ease-out"
+            transitionTimingFunction: "ease-out",
           }}
         >
           <Nav>{children}</Nav>
@@ -92,7 +92,7 @@ const Sidebar = ({ children }: Props) => {
             zIndex: 1000,
             position: "fixed",
             bottom: 0,
-            right: 0
+            right: 0,
           }}
         >
           <Box

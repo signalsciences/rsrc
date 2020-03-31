@@ -13,12 +13,12 @@ test("<Fetch /> Fulfilled", async () => {
     {
       status: 200,
       headers: {
-        "Content-Type": "application/json"
-      }
-    }
+        "Content-Type": "application/json",
+      },
+    },
   ]);
   let renderProps = {};
-  const children = arg => {
+  const children = (arg) => {
     renderProps = { ...arg };
     return null;
   };
@@ -47,13 +47,13 @@ test("<Fetch /> Rejected", async () => {
     {
       status: 500,
       headers: {
-        "Content-Type": "text/plain"
-      }
-    }
+        "Content-Type": "text/plain",
+      },
+    },
   ]);
 
   let renderProps = {};
-  const children = arg => {
+  const children = (arg) => {
     renderProps = { ...arg };
     return null;
   };

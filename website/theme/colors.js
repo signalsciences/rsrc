@@ -31,8 +31,8 @@ export default {
 
         secondary: magenta,
         tertiary: violet,
-        accent: teal
-      }
-    }
-  }
+        accent: teal,
+      },
+    },
+  },
 };

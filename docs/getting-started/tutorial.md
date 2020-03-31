@@ -72,27 +72,27 @@ export default ({ children }) => {
   const url = "https://api.example.com/todos";
   const options = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
   const actions = {
-    create: data => ({
+    create: (data) => ({
       options: {
         ...options,
         method: "POST",
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
       },
-      invalidates: [url]
+      invalidates: [url],
     }),
-    markComplete: id => ({
+    markComplete: (id) => ({
       url: `${url}/{id}`,
       options: {
         ...options,
         method: "PATCH",
-        body: JSON.stringify({ completed: true })
+        body: JSON.stringify({ completed: true }),
       },
-      invalidates: [url, `${url}/${id}`]
-    })
+      invalidates: [url, `${url}/${id}`],
+    }),
   };
 
   return (
@@ -113,7 +113,7 @@ resource value.
 
 import React from "react";
 
-export default props => {
+export default (props) => {
   const { onSuccess, onFail, resource } = props;
   const { state, actions } = resource;
 
@@ -121,22 +121,22 @@ export default props => {
 
   if (state.rejected) return `Error: ${state.reason.message}`;
 
-  const todos = state.value.filter(todo => !todo.completed);
+  const todos = state.value.filter((todo) => !todo.completed);
 
-  const handleClick = id => {
+  const handleClick = (id) => {
     actions
       .markcomplete(id)
-      .then(value => {
+      .then((value) => {
         onSuccess(value);
       })
-      .catch(error => {
+      .catch((error) => {
         onFail(error);
       });
   };
 
   return (
     <ul>
-      {todos.map(todo => (
+      {todos.map((todo) => (
         <li key={todo.id}>
           <button onClick={() => handleClick(todo.id)}>✔</button>
           {todo.title}
@@ -153,17 +153,17 @@ export default props => {
 import React from "react";
 import TodosForm from "./Form";
 
-export default props => {
+export default (props) => {
   const { onSuccess, onFail, resource } = props;
   const { state, actions } = resource;
 
-  const handleSubmit = formValues => {
+  const handleSubmit = (formValues) => {
     actions
       .create(formValues)
-      .then(value => {
+      .then((value) => {
         onSuccess(value);
       })
-      .catch(error => {
+      .catch((error) => {
         onFail(error);
       });
   };
@@ -181,18 +181,18 @@ import React from "react";
 import { notify } from "../utils";
 import { Todos, TodosList, TodosCreate } from "../resources/todos";
 
-export default props => {
-  const handleSuccess = value => {
+export default (props) => {
+  const handleSuccess = (value) => {
     notify({ purpose: "success", message: `Success: ${value.id}` });
   };
 
-  const handleFail = error => {
+  const handleFail = (error) => {
     notify({ purpose: "error", message: `Fail: ${error.message}` });
   };
 
   return (
     <Todos>
-      {resource => (
+      {(resource) => (
         <>
           <TodosCreate
             resource={resource}

@@ -14,9 +14,9 @@ const { publicRuntimeConfig } = getConfig();
 const { GA_TRACKING_ID } = publicRuntimeConfig;
 
 // https://developers.google.com/analytics/devguides/collection/gtagjs/pages
-Router.events.on("routeChangeComplete", url => {
+Router.events.on("routeChangeComplete", (url) => {
   window.gtag("config", GA_TRACKING_ID, {
-    page_path: url
+    page_path: url,
   });
 });
 

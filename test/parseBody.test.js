@@ -10,7 +10,7 @@ afterEach(cleanup);
 test("#parseBody 204 empty", async () => {
   const body = "Yeehaw";
   const init = {
-    status: 204
+    status: 204,
   };
   const res = new Response(body, init);
   await waitFor(() => expect(parseBody(res)).resolves.toBe(null));
@@ -20,8 +20,8 @@ test("#parseBody no content-type", async () => {
   const body = "Yeehaw";
   const init = {
     headers: {
-      "Content-Type": ""
-    }
+      "Content-Type": "",
+    },
   };
   const res = new Response(body, init);
   await waitFor(() => expect(parseBody(res)).resolves.toBe(null));
@@ -31,8 +31,8 @@ test("#parseBody text", async () => {
   const body = "Yeehaw";
   const init = {
     headers: {
-      "Content-Type": "text/plain"
-    }
+      "Content-Type": "text/plain",
+    },
   };
   const res = new Response(body, init);
   await waitFor(() => expect(parseBody(res)).resolves.toEqual(body));
@@ -42,8 +42,8 @@ test("#parseBody json", async () => {
   const body = '{ "foo": "giddyup" }';
   const init = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
   const res = new Response(body, init);
   await waitFor(() =>
@@ -55,8 +55,8 @@ test("#parseBody other -> arraybuffer", async () => {
   const body = "<html><body></body></html>";
   const init = {
     headers: {
-      "Content-Type": "something/else"
-    }
+      "Content-Type": "something/else",
+    },
   };
   const res = new Response(body, init);
 
@@ -75,7 +75,7 @@ test("#parseBody other -> arraybuffer", async () => {
   // Received constructor: ArrayBuffer
 
   await waitFor(() =>
-    expect(parseBody(res).then(p => p.toString())).resolves.toBe(
+    expect(parseBody(res).then((p) => p.toString())).resolves.toBe(
       "[object ArrayBuffer]"
     )
   );

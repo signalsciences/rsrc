@@ -15,7 +15,7 @@ export default () => (
           maxWidth: "600px",
           fontSize: "32px",
           lineHeight: "44px",
-          fontWeight: "200"
+          fontWeight: "200",
         }}
       >
         A collection of components designed to simplify fetch state in React
@@ -24,7 +24,7 @@ export default () => (
         <Styled.div
           as={Link}
           sx={{
-            variant: "buttons.primary"
+            variant: "buttons.primary",
           }}
           href="/docs/getting-started/introduction"
         >
@@ -34,7 +34,7 @@ export default () => (
           as={Link}
           sx={{
             variant: "buttons.outline",
-            ml: "16px"
+            ml: "16px",
           }}
           href="https://github.com/signalsciences/rsrc"
         >
@@ -50,7 +50,7 @@ export default () => (
             fontSize: "16px",
             lineHeight: "26px",
             fontWeight: "400",
-            letterSpacing: "-0.6px"
+            letterSpacing: "-0.6px",
           }}
         >
           {`
@@ -69,7 +69,7 @@ export default () => (
             fontSize: "16px",
             lineHeight: "26px",
             fontWeight: "400",
-            letterSpacing: "-0.6px"
+            letterSpacing: "-0.6px",
           }}
         >
           {`
@@ -88,7 +88,7 @@ export default () => (
             fontSize: "16px",
             lineHeight: "26px",
             fontWeight: "400",
-            letterSpacing: "-0.6px"
+            letterSpacing: "-0.6px",
           }}
         >
           {`
