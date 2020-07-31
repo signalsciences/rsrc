@@ -3,7 +3,7 @@
 import React from "react";
 import { Box, Text } from "rebass";
 
-export default () => (
+const Custom404 = () => (
   <Box pt={5} textAlign="center">
     <Text as="h1" mt={84} fontSize={6} fontWeight={900}>
       404
@@ -13,3 +13,5 @@ export default () => (
     </Text>
   </Box>
 );
+
+export default Custom404;

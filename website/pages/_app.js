@@ -20,7 +20,7 @@ Router.events.on("routeChangeComplete", (url) => {
   });
 });
 
-export default class extends App {
+class CustomApp extends App {
   render() {
     const { Component, pageProps } = this.props;
 
@@ -28,6 +28,7 @@ export default class extends App {
       <>
         <Head>
           <title>rsrc - simply fetching</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
         </Head>
         <Layout>
           <Component {...pageProps} />
@@ -36,3 +37,5 @@ export default class extends App {
     );
   }
 }
+
+export default CustomApp;

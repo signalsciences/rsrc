@@ -9,14 +9,13 @@ const { GA_TRACKING_ID } = publicRuntimeConfig;
 
 /* eslint-disable react/no-danger */
 
-export default class extends Document {
+class CustomDocument extends Document {
   render() {
     return (
       <html lang="en">
         <Head>
           <meta charSet="utf-8" />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta
             name="description"
             content="A collection of components designed to simplify fetch state in React"
@@ -67,3 +66,5 @@ export default class extends Document {
     );
   }
 }
+
+export default CustomDocument;

@@ -5,7 +5,7 @@ import { Styled } from "theme-ui";
 import Link from "../components/Link";
 import Rsrc from "../components/RsrcType";
 
-export default () => (
+const Home = () => (
   <>
     <Box mt={4} mb={5}>
       <Rsrc width={244} />
@@ -103,3 +103,5 @@ export default () => (
     </Flex>
   </>
 );
+
+export default Home;
