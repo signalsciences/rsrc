@@ -17,12 +17,13 @@ type Props = {
   children: React.Node,
 };
 
-const withLink = (Tag) => (props: Props & { id?: string }) => {
-  if (!props.id) return <Tag {...props} />;
+const withLink = (Tag) => (props: Props & { id: string }) => {
+  const { id } = props;
+  if (!id) return <Tag {...props} />;
   const { children } = props;
   return (
     <Tag {...props}>
-      <a href={`#${props.id}`}>{children}</a>
+      <a href={`#${id}`}>{children}</a>
     </Tag>
   );
 };
