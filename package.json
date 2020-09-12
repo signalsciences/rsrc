@@ -94,29 +94,32 @@
     "react-dom": "^16.8"
   },
   "devDependencies": {
-    "@babel/core": "7.11.1",
-    "@testing-library/react": "10.4.8",
+    "@babel/core": "7.11.6",
+    "@testing-library/react": "11.0.2",
     "babel-preset-signalsciences": "4.0.5",
     "browserslist-config-signalsciences": "1.0.4",
     "core-js": "^3.6.5",
     "cross-env": "7.0.2",
-    "eslint": "7.6.0",
+    "eslint": "7.8.1",
     "eslint-config-signalsciences": "4.0.5",
-    "flow-bin": "0.131.0",
-    "husky": "4.2.5",
+    "flow-bin": "0.133.0",
+    "husky": "4.3.0",
     "isomorphic-unfetch": "3.0.0",
-    "jest": "26.3.0",
+    "jest": "26.4.2",
     "jest-environment-jsdom-sixteen": "^1.0.3",
     "jest-fetch-mock": "3.0.3",
     "jest-preset-signalsciences": "4.0.5",
-    "lint-staged": "10.2.11",
+    "lint-staged": "10.3.0",
     "pre-commit": "1.2.2",
-    "prettier": "2.0.5",
+    "prettier": "2.1.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "regenerator-runtime": "^0.13.7",
     "rimraf": "^3.0.2",
-    "rollup": "^2.23.1",
+    "rollup": "^2.26.11",
     "rollup-config-signalsciences": "4.0.6"
-  }
+  },
+  "resolutions": {
+    "node-fetch": ">=2.6.1"
+   }
 }
