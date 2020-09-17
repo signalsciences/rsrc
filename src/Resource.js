@@ -18,12 +18,16 @@ export const getInvalidKeys = (
   }
 
   // force string to array
-  const matchers = [].concat(keysOrFilterFn);
+  const matchers = []
+    .concat(keysOrFilterFn)
+    // ignore search string in matchers
+    .map((m) => m.split("?")[0]);
 
-  // Ignore search string
-  return cacheKeys.filter((cacheKey) =>
-    matchers.includes(cacheKey.split("?")[0])
-  );
+  return cacheKeys.filter((cacheKey) => {
+    // ignore search string in cacheKey
+    const key = cacheKey.split("?")[0];
+    return matchers.includes(key);
+  });
 };
 
 function mapFetchersToActions(props: ResourceProps, invalidate: Function) {

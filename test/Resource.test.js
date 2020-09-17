@@ -23,7 +23,8 @@ test("#getInvalidKeys", async () => {
     "/foo",
   ]);
   expect(getInvalidKeys(keys, "/bar")).toEqual(["/bar", "/bar?q=1"]);
-  expect(getInvalidKeys(keys, ["/foo", "/bar"])).toEqual([
+  expect(getInvalidKeys(keys, "/bar?q=3")).toEqual(["/bar", "/bar?q=1"]);
+  expect(getInvalidKeys(keys, ["/foo?q=2", "/bar"])).toEqual([
     "/foo",
     "/foo?q=1",
     "/bar",

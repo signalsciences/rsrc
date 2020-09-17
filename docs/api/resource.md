@@ -16,9 +16,23 @@ type Action = (any) => {
   url?: string,
   options?: RequestOptions,
   maxAge?: number,
-  invalidates?: Array<string>,
+  invalidates?: string | Array<string>,
 };
+```
 
+> Note: invalidation from actions is a convenience mechanism to automatically
+> invalidate related cache keys any time a given action is successful. The
+> `invalidates` prop is used to create matchers that get compared to cached
+> keys. For RESTful endpoints, the actions defined in a `<Resource />`
+> typically map to modification requests (POST, PUT, PATCH, DELETE). These
+> operations result in changes to the underlying entities and collections.
+> Query strings used to filter collections are usually not relevant in deciding
+> whether it should be invalidated. For simplicity, we invalidate all keys
+> related to the endpoint and ignore search strings. For example:
+> `invalidates={ ["/foos?bar=1", "/foos/1234"] }` is converted to matchers with
+> the search omitted: `["/foos", "/foos/1234"]`.
+
+```jsx
 type ResourceProps = {
   url: string,
   options: RequestOptions,
