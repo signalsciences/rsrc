@@ -1,49 +1,167 @@
 /* @flow */
 
 import React from "react";
-import { render, cleanup, waitFor } from "@testing-library/react";
+import {
+  cleanup,
+  find,
+  findByText,
+  getByText,
+  render,
+  waitFor,
+} from "@testing-library/react";
 import fetch from "jest-fetch-mock";
-import { Fetch } from "../src";
+import { Cache, Fetch } from "../src";
 
-afterEach(cleanup);
-
-test("<Fetch /> Fulfilled", async () => {
-  fetch.mockResponses([
-    JSON.stringify({ data: "ok" }),
-    {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    },
-  ]);
-  let renderProps = {};
-  const children = (arg) => {
-    renderProps = { ...arg };
-    return null;
-  };
-  const { rerender } = await render(<Fetch url="foo">{children}</Fetch>);
-
-  expect(fetch).toHaveBeenCalledTimes(1);
-
-  renderProps.read();
-  expect(fetch).toHaveBeenCalledTimes(1);
-
-  renderProps.invalidate();
-  renderProps.read();
-  expect(fetch).toHaveBeenCalledTimes(2);
-
-  renderProps.refresh();
-  expect(fetch).toHaveBeenCalledTimes(3);
-
-  rerender(<Fetch url="bar">{children}</Fetch>);
-
-  expect(fetch).toHaveBeenCalledTimes(4);
+beforeEach(cleanup);
+afterEach(() => {
+  fetch.resetMocks();
 });
 
-test("<Fetch /> Rejected", async () => {
+test("<Fetch /> should fulfill requests and stay in sync", async () => {
+  fetch.mockResponses(
+    [
+      JSON.stringify({ data: "alpha" }),
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    ],
+    [
+      JSON.stringify({ data: "bravo" }),
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    ],
+    [
+      JSON.stringify({ data: "charlie" }),
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    ],
+    [
+      JSON.stringify({ data: "delta" }),
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    ],
+    [
+      JSON.stringify({ data: "echo" }),
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    ]
+  );
+
+  let renderProps1 = {};
+  const children1 = (arg) => {
+    renderProps1 = { ...arg };
+    return null;
+  };
+
+  let renderProps2 = {};
+  const children2 = (arg) => {
+    renderProps2 = { ...arg };
+    return null;
+  };
+
+  //
+  // We are using Fetch with Cache in order to test expected use where
+  // `componentDidUpdate` checks allow components relying on the same endpoint
+  // to stay in sync. The default cache used by Fetch (i.e. `new Map`) is
+  // unaware of state and not expected to keep components in sync.
+  //
+  // For example, the below implementation will not trigger a state change at
+  // the cache level and thus never trigger `componentDidUpdate`:
+  //
+  // const Component = ({ url1 = "alpha", url2 = "alpha" }) => (
+  //   <>
+  //     <Fetch url={url1}>{children1}</Fetch>
+  //     <Fetch url={url2}>{children2}</Fetch>
+  //   </>
+  // );
+  //
+  const Component = ({ url1 = "foo", url2 = "foo" }) => (
+    <Cache>
+      <Cache.Consumer>
+        {(cache) => (
+          <>
+            <Fetch url={url1} cache={cache}>
+              {children1}
+            </Fetch>
+            <Fetch url={url2} cache={cache}>
+              {children2}
+            </Fetch>
+          </>
+        )}
+      </Cache.Consumer>
+    </Cache>
+  );
+
+  const { rerender } = await render(<Component />);
+
+  expect(renderProps1.pending).toBe(true);
+  expect(renderProps2.pending).toBe(true);
+  await waitFor(() => expect(renderProps1.value.data).toBe("alpha"));
+  await waitFor(() => expect(renderProps2.value.data).toBe("alpha"));
+  expect(fetch).toHaveBeenCalledTimes(1);
+
+  // read should not trigger a refetch or a state change at the cache level
+  renderProps1.read();
+  expect(renderProps1.pending).toBe(true);
+  expect(renderProps2.pending).toBe(false);
+  await waitFor(() => expect(renderProps1.value.data).toBe("alpha"));
+  await waitFor(() => expect(renderProps2.value.data).toBe("alpha"));
+  expect(fetch).toHaveBeenCalledTimes(1);
+
+  // refresh and invalidate should trigger both fetch states to update even if
+  // the key already exists for the other fetch (see Fetch #componentDidUpdate)
+  renderProps1.refresh();
+  expect(renderProps1.pending).toBe(true);
+  expect(renderProps2.pending).toBe(true);
+  await waitFor(() => expect(renderProps1.value.data).toBe("bravo"));
+  await waitFor(() => expect(renderProps2.value.data).toBe("bravo"));
+  expect(fetch).toHaveBeenCalledTimes(2);
+
+  renderProps2.refresh();
+  expect(renderProps1.pending).toBe(true);
+  expect(renderProps2.pending).toBe(true);
+  await waitFor(() => expect(renderProps1.value.data).toBe("charlie"));
+  await waitFor(() => expect(renderProps2.value.data).toBe("charlie"));
+  expect(fetch).toHaveBeenCalledTimes(3);
+
+  renderProps1.invalidate();
+  expect(renderProps1.pending).toBe(true);
+  expect(renderProps2.pending).toBe(true);
+  await waitFor(() => expect(renderProps1.value.data).toBe("delta"));
+  await waitFor(() => expect(renderProps2.value.data).toBe("delta"));
+  expect(fetch).toHaveBeenCalledTimes(4);
+
+  // changing the url of one fetch should not impact the other
+  rerender(<Component url1="bar" />);
+  expect(renderProps1.pending).toBe(true);
+  expect(renderProps2.pending).toBe(false);
+  await waitFor(() => expect(renderProps1.value.data).toBe("echo"));
+  await waitFor(() => expect(renderProps2.value.data).toBe("delta"));
+  expect(fetch).toHaveBeenCalledTimes(5);
+});
+
+test("<Fetch /> should set state to rejected for no-OK response", async () => {
   fetch.mockResponses([
-    JSON.stringify({ message: "Whoops" }),
+    JSON.stringify("FAIL"),
     {
       status: 500,
       headers: {
@@ -57,11 +175,61 @@ test("<Fetch /> Rejected", async () => {
     renderProps = { ...arg };
     return null;
   };
-  const { rerender } = await render(<Fetch url="baz">{children}</Fetch>);
+  const Component = () => <Fetch url="foo">{children}</Fetch>;
+  const { debug, rerender } = await render(<Component />);
 
-  await waitFor(() => expect(renderProps.pending).toBe(true));
+  expect(renderProps.pending).toBe(true);
+  await waitFor(() => expect(renderProps.rejected).toBe(true));
+});
 
-  rerender(<Fetch url="bar">{children}</Fetch>);
+test("<Fetch /> should refetch on stale cache hit", async () => {
+  fetch.mockResponses(
+    [
+      JSON.stringify({ data: "alpha" }),
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "text/plain",
+        },
+      },
+    ],
+    [
+      JSON.stringify({ data: "bravo" }),
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "text/plain",
+        },
+      },
+    ]
+  );
 
-  expect(fetch).toHaveBeenCalledTimes(5);
+  const sleep = (time) =>
+    new Promise((res, rej) => {
+      setTimeout(res, time);
+    });
+
+  let renderProps = {};
+  const children = (arg) => {
+    renderProps = { ...arg };
+    return null;
+  };
+  const Component = () => (
+    <Fetch url="quux" maxAge={1}>
+      {children}
+    </Fetch>
+  );
+
+  const start = +new Date();
+  const { debug, rerender } = await render(<Component />);
+
+  expect(fetch).toHaveBeenCalledTimes(1);
+
+  await sleep(100);
+  renderProps.read();
+  expect(fetch).toHaveBeenCalledTimes(1);
+
+  await sleep(1000);
+  renderProps.read();
+  expect(fetch).toHaveBeenCalledTimes(2);
 });
