@@ -12,7 +12,7 @@ const BASE_URL = isProd ? "/rsrc" : "";
 const GA_TRACKING_ID = "UA-46986803-7";
 
 module.exports = withMDX({
-  exportTrailingSlash: isProd,
+  trailingSlash: isProd,
   pageExtensions: ["js", "md"],
   assetPrefix: BASE_URL,
   publicRuntimeConfig: {

@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
 import * as React from "react";
-import { Global } from "@emotion/core";
+import { Global } from "@emotion/react";
 import { ThemeProvider, Styled } from "theme-ui";
 import Prism from "@theme-ui/prism";
 import { Flex, Box, Image } from "rebass";
@@ -41,16 +41,16 @@ const components = {
 const Layout = ({ children }: Props) => (
   <ThemeProvider theme={theme} components={components}>
     <Global
-      styles={({ colors }) => ({
+      styles={{
         body: {
           margin: 0,
           padding: 0,
-          color: colors.foreground,
-          backgroundColor: colors.background,
+          color: theme.colors.foreground,
+          backgroundColor: theme.colors.background,
           WebkitFontSmoothing: "antialiased",
           MozOsxFontSmoothing: "grayscale",
         },
-      })}
+      }}
     />
     <Styled.root>
       <Flex

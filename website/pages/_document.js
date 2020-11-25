@@ -1,7 +1,7 @@
 /* @flow */
 
 import React from "react";
-import Document, { Head, Main, NextScript } from "next/document";
+import Document, { Html, Head, Main, NextScript } from "next/document";
 import getConfig from "next/config";
 
 const { publicRuntimeConfig } = getConfig();
@@ -12,7 +12,7 @@ const { GA_TRACKING_ID } = publicRuntimeConfig;
 class CustomDocument extends Document {
   render() {
     return (
-      <html lang="en">
+      <Html lang="en">
         <Head>
           <meta charSet="utf-8" />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
@@ -62,7 +62,7 @@ class CustomDocument extends Document {
           <Main />
           <NextScript />
         </body>
-      </html>
+      </Html>
     );
   }
 }
