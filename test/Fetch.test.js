@@ -1,14 +1,7 @@
 /* @flow */
 
 import React from "react";
-import {
-  cleanup,
-  find,
-  findByText,
-  getByText,
-  render,
-  waitFor,
-} from "@testing-library/react";
+import { cleanup, render, waitFor } from "@testing-library/react";
 import fetch from "jest-fetch-mock";
 import { Cache, Fetch } from "../src";
 
@@ -94,14 +87,20 @@ test("<Fetch /> should fulfill requests and stay in sync", async () => {
   //   </>
   // );
   //
-  const Component = ({ url1 = "foo", url2 = "foo" }) => (
+  type Props = {
+    url1?: string,
+    url2?: string,
+  };
+  const Component = ({ url1, url2 }: Props) => (
     <Cache>
       <Cache.Consumer>
         {(cache) => (
           <>
+            {/* $FlowIgnore */}
             <Fetch url={url1} cache={cache}>
               {children1}
             </Fetch>
+            {/* $FlowIgnore */}
             <Fetch url={url2} cache={cache}>
               {children2}
             </Fetch>
@@ -110,12 +109,18 @@ test("<Fetch /> should fulfill requests and stay in sync", async () => {
       </Cache.Consumer>
     </Cache>
   );
+  Component.defaultProps = {
+    url1: "foo",
+    url2: "foo",
+  };
 
   const { rerender } = await render(<Component />);
 
   expect(renderProps1.pending).toBe(true);
   expect(renderProps2.pending).toBe(true);
+  // $FlowIgnore
   await waitFor(() => expect(renderProps1.value.data).toBe("alpha"));
+  // $FlowIgnore
   await waitFor(() => expect(renderProps2.value.data).toBe("alpha"));
   expect(fetch).toHaveBeenCalledTimes(1);
 
@@ -123,7 +128,9 @@ test("<Fetch /> should fulfill requests and stay in sync", async () => {
   renderProps1.read();
   expect(renderProps1.pending).toBe(true);
   expect(renderProps2.pending).toBe(false);
+  // $FlowIgnore
   await waitFor(() => expect(renderProps1.value.data).toBe("alpha"));
+  // $FlowIgnore
   await waitFor(() => expect(renderProps2.value.data).toBe("alpha"));
   expect(fetch).toHaveBeenCalledTimes(1);
 
@@ -132,21 +139,27 @@ test("<Fetch /> should fulfill requests and stay in sync", async () => {
   renderProps1.refresh();
   expect(renderProps1.pending).toBe(true);
   expect(renderProps2.pending).toBe(true);
+  // $FlowIgnore
   await waitFor(() => expect(renderProps1.value.data).toBe("bravo"));
+  // $FlowIgnore
   await waitFor(() => expect(renderProps2.value.data).toBe("bravo"));
   expect(fetch).toHaveBeenCalledTimes(2);
 
   renderProps2.refresh();
   expect(renderProps1.pending).toBe(true);
   expect(renderProps2.pending).toBe(true);
+  // $FlowIgnore
   await waitFor(() => expect(renderProps1.value.data).toBe("charlie"));
+  // $FlowIgnore
   await waitFor(() => expect(renderProps2.value.data).toBe("charlie"));
   expect(fetch).toHaveBeenCalledTimes(3);
 
   renderProps1.invalidate();
   expect(renderProps1.pending).toBe(true);
   expect(renderProps2.pending).toBe(true);
+  // $FlowIgnore
   await waitFor(() => expect(renderProps1.value.data).toBe("delta"));
+  // $FlowIgnore
   await waitFor(() => expect(renderProps2.value.data).toBe("delta"));
   expect(fetch).toHaveBeenCalledTimes(4);
 
@@ -154,7 +167,9 @@ test("<Fetch /> should fulfill requests and stay in sync", async () => {
   rerender(<Component url1="bar" />);
   expect(renderProps1.pending).toBe(true);
   expect(renderProps2.pending).toBe(false);
+  // $FlowIgnore
   await waitFor(() => expect(renderProps1.value.data).toBe("echo"));
+  // $FlowIgnore
   await waitFor(() => expect(renderProps2.value.data).toBe("delta"));
   expect(fetch).toHaveBeenCalledTimes(5);
 });
@@ -176,7 +191,7 @@ test("<Fetch /> should set state to rejected for no-OK response", async () => {
     return null;
   };
   const Component = () => <Fetch url="foo">{children}</Fetch>;
-  const { debug, rerender } = await render(<Component />);
+  await render(<Component />);
 
   expect(renderProps.pending).toBe(true);
   await waitFor(() => expect(renderProps.rejected).toBe(true));
@@ -205,7 +220,7 @@ test("<Fetch /> should refetch on stale cache hit", async () => {
   );
 
   const sleep = (time) =>
-    new Promise((res, rej) => {
+    new Promise((res) => {
       setTimeout(res, time);
     });
 
@@ -220,8 +235,7 @@ test("<Fetch /> should refetch on stale cache hit", async () => {
     </Fetch>
   );
 
-  const start = +new Date();
-  const { debug, rerender } = await render(<Component />);
+  await render(<Component />);
 
   expect(fetch).toHaveBeenCalledTimes(1);
 

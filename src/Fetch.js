@@ -46,15 +46,17 @@ class Fetch extends React.Component<FetchProps, FetchState> {
   componentDidUpdate(prevProps: FetchProps) {
     const { url, options, maxAge, cache } = this.props;
 
-    const hasKey = cache.has(url);
+    const cached = cache.get(url);
 
     if (
-      !hasKey ||
-      (hasKey && cache.get(url).value !== this.promise) ||
+      !cached ||
       url !== prevProps.url ||
       options !== prevProps.options ||
       maxAge !== prevProps.maxAge
     ) {
+      this.read();
+    } else if (cached && cached.value && cached.value !== this.promise) {
+      // handle case where cache needs to be rechecked
       this.read();
     }
   }

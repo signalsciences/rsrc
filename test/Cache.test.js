@@ -2,8 +2,8 @@
 
 import React from "react";
 import { render, cleanup } from "@testing-library/react";
-import { Cache } from "../src";
 import HLRU from "hashlru";
+import { Cache } from "../src";
 
 afterEach(cleanup);
 
