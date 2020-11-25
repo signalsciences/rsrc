@@ -3,6 +3,7 @@
 import React from "react";
 import { render, cleanup } from "@testing-library/react";
 import { Cache } from "../src";
+import HLRU from "hashlru";
 
 afterEach(cleanup);
 
@@ -70,4 +71,27 @@ test("cache provider only updates on mutations", async () => {
   renderProps.clear();
   expect([...renderProps.entries()]).toEqual([]);
   expect(counter).toEqual(5);
+});
+
+test("accommodates custom caches that do not return boolean from delete", async () => {
+  let renderProps = {};
+  const children = (arg) => {
+    renderProps = { ...arg };
+    return null;
+  };
+
+  const lru = HLRU(5);
+  lru.delete = lru.remove;
+
+  await render(
+    <Cache map={lru}>
+      <Cache.Consumer>{children}</Cache.Consumer>
+    </Cache>
+  );
+
+  expect(renderProps.delete("foo")).toEqual(false);
+
+  renderProps.set("foo", "bar");
+  expect(renderProps.get("foo")).toEqual("bar");
+  expect(renderProps.delete("foo")).toEqual(true);
 });

@@ -81,12 +81,14 @@ class Cache extends React.Component<CacheProps, CacheState> {
 
   delete(key: *): boolean {
     const { map } = this.props;
-    const result = map.delete(key);
+    // Accomodate map-like interfaces that do not return boolean from delete.
+    const hasKey = map.has(key);
     // Only update state if the key being removed exists
-    if (result) {
+    if (hasKey) {
+      map.delete(key);
       this.touchState();
     }
-    return result;
+    return hasKey;
   }
 
   clear() {
