@@ -1,7 +1,7 @@
 # Simple Example
 
 Open in [Code
-Sandbox](https://codesandbox.io/s/github/signalsciences/rsrc/tree/master/examples/simple)
+Sandbox](https://codesandbox.io/s/github/signalsciences/rsrc/tree/main/examples/simple)
 or run locally:
 
 ```
