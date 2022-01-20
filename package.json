@@ -90,8 +90,8 @@
     "testEnvironment": "jest-environment-jsdom-sixteen"
   },
   "peerDependencies": {
-    "react": "^16.8",
-    "react-dom": "^16.8"
+    "react": "^16.8 || ^17.0.0",
+    "react-dom": "^16.8 || ^17.0.0"
   },
   "devDependencies": {
     "@babel/core": "7.12.9",
