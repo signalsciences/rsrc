@@ -33,7 +33,6 @@
     "rsrc": "^1.1.3"
   },
   "resolutions": {
-    "@mdx-js/react": "1.6.21",
-    "node-fetch": ">=2.6.1"
+    "@mdx-js/react": "1.6.21"
   }
 }
