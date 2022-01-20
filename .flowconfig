@@ -5,6 +5,7 @@
 <PROJECT_ROOT>/examples
 <PROJECT_ROOT>/website
 <PROJECT_ROOT>/.tmp
+<PROJECT_ROOT>/node_modules/resolve/test
 
 [include]
 
