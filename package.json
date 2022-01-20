@@ -40,7 +40,7 @@
     "build": "cross-env NODE_ENV=production rollup -c",
     "prebuild": "rimraf dist",
     "prepublish": "yarn run build",
-    "format": "prettier --write '{docs,examples,src,test,website}/**/*.{js,md}' './*.{js,md}'",
+    "format": "prettier --write '{docs,examples,src,test,website}/**/*.{js,json,md}' './*.{js,json,md}'",
     "lint-staged": "lint-staged",
     "lint": "flow && eslint ."
   },
@@ -119,8 +119,5 @@
     "rimraf": "^3.0.2",
     "rollup": "^2.33.3",
     "rollup-config-signalsciences": "4.0.6"
-  },
-  "resolutions": {
-    "node-fetch": ">=2.6.1"
   }
 }
