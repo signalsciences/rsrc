@@ -1,7 +1,0 @@
-coverage
-dist
-flow-typed
-node_modules
-.next
-out
-website/rsrc

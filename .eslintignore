@@ -1,9 +1,0 @@
-coverage
-dist
-examples
-flow-typed
-node_modules
-.next
-.tmp
-out
-website/rsrc
