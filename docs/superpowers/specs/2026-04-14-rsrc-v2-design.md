@@ -48,9 +48,11 @@ type ResourceConfig<TParams, TQueries, TData, TActions, TMeta = unknown> = {
   actions?: TActions;
 };
 
+type InvalidateFn<TParams> = (params: TParams, cache: CacheHandle) => void;
+
 type ActionConfig<TParams, TBody, TResponse, TMeta = unknown> = {
   fn: (params: TParams, body: TBody) => Promise<TResponse>;
-  invalidates?: Resource[];
+  invalidates?: (Resource | InvalidateFn<TParams>)[];
   meta?: TMeta;
 };
 ```
@@ -254,6 +256,27 @@ invalidates: [useWorkspaceRules]
 ```
 
 Resource references are just imports. TypeScript catches broken references. No typos, no hidden coupling, no runtime debugging.
+
+### Custom Invalidation Functions
+
+`invalidates` also accepts functions for cases where resource references aren't enough — e.g., invalidating a resource whose params don't overlap, or doing conditional invalidation:
+
+```typescript
+actions: {
+  update: {
+    fn: updateWorkspaceRule,
+    invalidates: [
+      useWorkspaceRules,                                     // resource reference — common case
+      (params, cache) => {                                   // function — escape hatch
+        cache.invalidate(useDashboardCounts, { workspaceId: params.workspaceId });
+        cache.invalidate(useAuditLog, { workspaceId: params.workspaceId });
+      },
+    ],
+  },
+}
+```
+
+The function receives the current resource's params and a cache handle with an `invalidate` method that accepts a resource reference + params. This keeps the escape hatch type-safe — you're still referencing real resources, just providing params explicitly instead of relying on automatic param passthrough.
 
 ### Param Resolution
 
