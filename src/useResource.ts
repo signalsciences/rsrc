@@ -227,24 +227,16 @@ export function useResourceInternal<TData, TActions extends ActionsConfig<any>>(
             for (const target of config.invalidates) {
               // Check if target is a ResourceDefinition (has __brand) vs a custom function
               if (typeof target === "function" && (target as any).__brand === "rsrc_resource") {
-                // Direct resource reference — invalidate all known key bases
-                const targetResource = target as unknown as ResourceDefinition<any, any> & { __keyBases?: Set<string> };
-                if (targetResource.__keyBases) {
-                  for (const keyBase of targetResource.__keyBases) {
-                    cache.invalidateByKeyBase(keyBase);
-                  }
-                }
+                // Direct resource reference — targeted invalidation using current params
+                const targetKey = (target as unknown as ResourceDefinition<any, any>).key(actionParamsRef.current);
+                cache.invalidateByKeyBase(targetKey);
               } else if (typeof target === "function") {
                 // Custom invalidation function
                 (target as (params: any, cache: CacheHandle) => void)(actionParamsRef.current, cacheHandle);
               } else {
                 // Plain resource definition object (non-function)
-                const targetResource = target as ResourceDefinition<any, any> & { __keyBases?: Set<string> };
-                if (targetResource.__keyBases) {
-                  for (const keyBase of targetResource.__keyBases) {
-                    cache.invalidateByKeyBase(keyBase);
-                  }
-                }
+                const targetKey = (target as ResourceDefinition<any, any>).key(actionParamsRef.current);
+                cache.invalidateByKeyBase(targetKey);
               }
             }
           }
