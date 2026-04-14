@@ -47,7 +47,7 @@ export interface UseResourceInternalOptions<TData, TActions extends ActionsConfi
 
 function isStale(lastResolved: number | undefined, maxAge: number | undefined): boolean {
   if (maxAge === undefined || lastResolved === undefined) return false;
-  return Date.now() - lastResolved > maxAge;
+  return Date.now() - lastResolved > maxAge * 1000;
 }
 
 function fetchAndStore<TData>(cache: Cache, key: string, get: () => Promise<TData>): Promise<TData> {
