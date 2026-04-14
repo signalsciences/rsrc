@@ -4,17 +4,13 @@ import type {
   UseResourceReturn,
 } from "./types";
 import { useResourceInternal } from "./useResource";
+import { buildCacheKey } from "./utils";
 
 interface DefineResourceConfig<TParams, TQueries, TData, TActions extends ActionsConfig<TParams>> {
   key: (params: TParams) => string;
   get: (params: TParams, queries?: TQueries) => Promise<TData>;
   maxAge?: number;
   actions?: TActions;
-}
-
-function buildCacheKey(key: string, queries?: Record<string, unknown>): string {
-  if (!queries || Object.keys(queries).length === 0) return key;
-  return `${key}::${JSON.stringify(queries)}`;
 }
 
 export function defineResource<

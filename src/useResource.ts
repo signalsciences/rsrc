@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useCacheContext } from "./context";
 import { createCache } from "./cache";
+import { isStale } from "./utils";
 import type {
   Cache,
   ResourceState,
@@ -44,11 +45,6 @@ export interface UseResourceInternalOptions<TData, TActions extends ActionsConfi
   maxAge?: number;
   actions?: TActions;
   actionParams?: unknown;
-}
-
-function isStale(lastResolved: number | undefined, maxAge: number | undefined): boolean {
-  if (maxAge === undefined || lastResolved === undefined) return false;
-  return Date.now() - lastResolved > maxAge * 1000;
 }
 
 function fetchAndStore<TData>(cache: Cache, key: string, get: () => Promise<TData>): Promise<TData> {
