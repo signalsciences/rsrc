@@ -2,6 +2,7 @@
 export { createCache } from "./cache";
 export { CacheProvider } from "./context";
 export { useResource } from "./useResource";
+export { defineResource } from "./defineResource";
 export type {
   CacheEntry,
   CacheStore,

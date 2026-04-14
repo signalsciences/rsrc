@@ -43,6 +43,7 @@ export interface UseResourceInternalOptions<TData, TActions extends ActionsConfi
   get: () => Promise<TData>;
   maxAge?: number;
   actions?: TActions;
+  actionParams?: unknown;
 }
 
 function isStale(lastResolved: number | undefined, maxAge: number | undefined): boolean {
@@ -74,7 +75,7 @@ function fetchAndStore<TData>(cache: Cache, key: string, get: () => Promise<TDat
 export function useResourceInternal<TData, TActions extends ActionsConfig<any>>(
   options: UseResourceInternalOptions<TData, TActions>,
 ): UseResourceReturn<TData, TActions> {
-  const { key, get, maxAge, actions: actionConfigs } = options;
+  const { key, get, maxAge, actions: actionConfigs, actionParams } = options;
 
   const ctx = useCacheContext();
   const cache: Cache = ctx?.cache ?? getEphemeralCache();
@@ -95,6 +96,8 @@ export function useResourceInternal<TData, TActions extends ActionsConfig<any>>(
   getRef.current = get;
   const keyRef = useRef(key);
   keyRef.current = key;
+  const actionParamsRef = useRef(actionParams);
+  actionParamsRef.current = actionParams;
 
   // Used to suppress subscription-triggered refetch (for invalidate)
   const suppressRefetchRef = useRef(false);
@@ -195,7 +198,7 @@ export function useResourceInternal<TData, TActions extends ActionsConfig<any>>(
     for (const [name, config] of Object.entries(actionConfigs)) {
       mapped[name] = async (body: unknown) => {
         try {
-          const result = await config.fn(undefined, body);
+          const result = await config.fn(actionParamsRef.current, body);
 
           // Call meta channel on success
           if (config.meta && onActionSuccess) {
@@ -204,18 +207,44 @@ export function useResourceInternal<TData, TActions extends ActionsConfig<any>>(
 
           // Run invalidation targets
           if (config.invalidates) {
+            const cacheHandle: CacheHandle = {
+              invalidate: (resource: ResourceDefinition<any, any>, params?: unknown) => {
+                if (params !== undefined) {
+                  const targetKey = resource.key(params);
+                  cache.invalidateByKeyBase(targetKey);
+                } else {
+                  // No params: invalidate ALL known key bases for this resource
+                  const keyBases = (resource as any).__keyBases as Set<string> | undefined;
+                  if (keyBases) {
+                    for (const keyBase of keyBases) {
+                      cache.invalidateByKeyBase(keyBase);
+                    }
+                  }
+                }
+              },
+            };
+
             for (const target of config.invalidates) {
-              if (typeof target === "function") {
-                const cacheHandle: CacheHandle = {
-                  invalidate: (resource: ResourceDefinition<any, any>, params?: Record<string, unknown>) => {
-                    const targetKey = resource.key(params ?? {});
-                    cache.invalidateByKeyBase(targetKey);
-                  },
-                };
-                (target as (params: any, cache: CacheHandle) => void)(undefined, cacheHandle);
+              // Check if target is a ResourceDefinition (has __brand) vs a custom function
+              if (typeof target === "function" && (target as any).__brand === "rsrc_resource") {
+                // Direct resource reference — invalidate all known key bases
+                const targetResource = target as unknown as ResourceDefinition<any, any> & { __keyBases?: Set<string> };
+                if (targetResource.__keyBases) {
+                  for (const keyBase of targetResource.__keyBases) {
+                    cache.invalidateByKeyBase(keyBase);
+                  }
+                }
+              } else if (typeof target === "function") {
+                // Custom invalidation function
+                (target as (params: any, cache: CacheHandle) => void)(actionParamsRef.current, cacheHandle);
               } else {
-                const targetKey = (target as ResourceDefinition<any, any>).key(undefined);
-                cache.invalidateByKeyBase(targetKey);
+                // Plain resource definition object (non-function)
+                const targetResource = target as ResourceDefinition<any, any> & { __keyBases?: Set<string> };
+                if (targetResource.__keyBases) {
+                  for (const keyBase of targetResource.__keyBases) {
+                    cache.invalidateByKeyBase(keyBase);
+                  }
+                }
               }
             }
           }
