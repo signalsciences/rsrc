@@ -41,9 +41,9 @@ Four exports. That's the entire library.
 ## ResourceConfig
 
 ```typescript
-type ResourceConfig<TParams, TData, TActions, TMeta = unknown> = {
+type ResourceConfig<TParams, TQueries, TData, TActions, TMeta = unknown> = {
   key: (params: TParams) => string;
-  get: (params: TParams) => Promise<TData>;
+  get: (params: TParams, queries?: TQueries) => Promise<TData>;
   maxAge?: number; // seconds, default 60
   actions?: TActions;
 };
@@ -55,14 +55,21 @@ type ActionConfig<TParams, TBody, TResponse, TMeta = unknown> = {
 };
 ```
 
-- **`key`** — Returns the cache key for this resource given its params. This is the resource's identity.
-- **`get`** — A function that fetches the resource. `(params) => Promise<TData>`. rsrc doesn't care how it works.
+- **`key`** — Returns the cache key base for this resource given its params. This is the resource's identity. Does not include queries.
+- **`get`** — A function that fetches the resource. `(params, queries?) => Promise<TData>`. rsrc doesn't care how it works.
 - **`maxAge`** — TTL in seconds. Default 60. After this, the cached entry is considered stale and re-fetched on next access.
 - **`actions`** — Named mutation operations. Each has a `fn`, optional `invalidates` (resource references), and optional `meta` (opaque metadata).
 
+### Params vs Queries
+
+- **Params** = resource identity (`workspaceId`, `ruleId`) — *what* the resource is. Used in `key()`.
+- **Queries** = view modifiers (`page`, `limit`, `filter`) — *how* you're looking at the resource. Not part of `key()`.
+
+The full cache key is `key(params)` + serialized queries. But invalidation only matches on `key(params)` — all query variants are invalidated together. This means invalidating a rules list clears every page/filter variant at once.
+
 ### Type Flow
 
-`TParams` is shared between `key`, `get`, and all action `fn`s — the resource's identity params flow everywhere. Each action has its own `TBody` and `TResponse`. TypeScript infers these from the fetcher function signatures — no manual type annotations needed if the fetchers are typed (e.g. from oax).
+`TParams` is shared between `key`, `get`, and all action `fn`s — the resource's identity params flow everywhere. `TQueries` is specific to `get` — queries are a read concern, not an action concern. Each action has its own `TBody` and `TResponse`. TypeScript infers all of these from the fetcher function signatures — no manual type annotations needed if the fetchers are typed (e.g. from oax).
 
 ---
 
@@ -97,7 +104,11 @@ const useWorkspaceRule = defineResource({
 ### Usage
 
 ```typescript
+// Resource with params only
 const { state, actions, refresh, invalidate } = useWorkspaceRule({ workspaceId, ruleId });
+
+// Resource with params and queries
+const { state } = useWorkspaceRules({ workspaceId }, { page: 1, limit: 25 });
 ```
 
 ---
@@ -196,7 +207,9 @@ type CacheEntry = {
 };
 ```
 
-Caches the **promise**, not the resolved value. This gives deduplication for free: multiple components mounting with the same params share one in-flight request.
+The full cache key is `key(params)` + serialized queries. For example, `useWorkspaceRules({ workspaceId: "123" }, { page: 1 })` caches under `/workspaces/123/rules::{"page":1}`. The `::` separator distinguishes the identity portion (before) from the query portion (after).
+
+Caches the **promise**, not the resolved value. This gives deduplication for free: multiple components mounting with the same params and queries share one in-flight request.
 
 ---
 
@@ -225,8 +238,8 @@ actions: {
 When an action succeeds:
 
 1. rsrc iterates the `invalidates` array.
-2. For each referenced resource, calls that resource's `key()` with the current resource's params to compute the cache key.
-3. Deletes that cache entry.
+2. For each referenced resource, calls that resource's `key()` with the current resource's params to compute the cache key base.
+3. Deletes **every** cache entry whose key starts with that base — this means all query variants are invalidated together (e.g. page 1, page 2, filtered, unfiltered).
 4. Any mounted hook watching a deleted key automatically re-fetches.
 5. Then re-fetches this resource's own GET (auto-refetch after mutation).
 
@@ -307,9 +320,12 @@ import { getWorkspaceRules } from '../fetchers';
 
 export const useWorkspaceRules = defineResource({
   key: ({ workspaceId }) => `/workspaces/${workspaceId}/rules`,
-  get: getWorkspaceRules,
+  get: getWorkspaceRules, // (params, queries?: { page?: number; limit?: number }) => ...
   maxAge: 120,
 });
+
+// Usage — params and queries are separate arguments
+const { state } = useWorkspaceRules({ workspaceId }, { page: 1, limit: 25 });
 ```
 
 ```typescript
@@ -383,6 +399,7 @@ oax can generate base resource configs. rsrc doesn't depend on oax — it just c
 
 ```typescript
 // oax generates typed fetchers
+declare function getWorkspaceRules(params: { workspaceId: string }, queries?: { page?: number; limit?: number }): Promise<WorkspaceRule[]>;
 declare function getWorkspaceRule(params: { workspaceId: string; ruleId: string }): Promise<WorkspaceRule>;
 declare function updateWorkspaceRule(params: { workspaceId: string; ruleId: string }, body: UpdateRuleBody): Promise<WorkspaceRule>;
 ```
@@ -405,6 +422,15 @@ const useWorkspaceRule = defineResource({
 // params: { workspaceId: string, ruleId: string }
 // state.value: WorkspaceRule | null
 // actions.update(body): body must be UpdateRuleBody
+
+// For list resources, TypeScript also infers TQueries:
+const useWorkspaceRules = defineResource({
+  key: ({ workspaceId }) => `/workspaces/${workspaceId}/rules`,
+  get: getWorkspaceRules,        // rsrc infers TQueries = { page?: number; limit?: number }
+});
+
+// TypeScript knows the second arg shape:
+// useWorkspaceRules({ workspaceId }, { page: 1, limit: 25 })
 ```
 
 oax could also generate the `defineResource` call itself as a base config, which consumers extend with invalidation rules and meta. rsrc never imports or depends on oax.
